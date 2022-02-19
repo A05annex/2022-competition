@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.NavX;
@@ -105,6 +106,16 @@ public class DriveSubsystem extends SubsystemBase {
         m_rr.setDrivePID();
         m_lf.setDrivePID();
         m_lr.setDrivePID();
+    }
+
+    /**
+     * Print all module angles to SmartDashboard. Should be called in DriveSubsystem periodic if used.
+     */
+    public void printAllAngles() {
+        SmartDashboard.putNumber("RF angle", m_RF_lastRadians.getRadians());
+        SmartDashboard.putNumber("RR angle", m_RR_lastRadians.getRadians());
+        SmartDashboard.putNumber("LF angle", m_LF_lastRadians.getRadians());
+        SmartDashboard.putNumber("LR angle", m_LR_lastRadians.getRadians());
     }
 
     // begin swerve methods
@@ -321,6 +332,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_lastChassisForward = m_thisChassisForward;
         m_lastChassisStrafe = m_thisChassisStrafe;
         m_lastTime = now;
+
+        // telemetry
+        printAllAngles();
     }
 }
 
