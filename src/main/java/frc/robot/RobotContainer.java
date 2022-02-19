@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.LiftTestCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 
 
 /**
@@ -24,9 +26,11 @@ public class RobotContainer
 {
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+    LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
+    LiftTestCommand m_liftTestCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -36,7 +40,11 @@ public class RobotContainer
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
 
     // controller button declarations
+    JoystickButton m_xboxX = new JoystickButton(m_xbox, 0);
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
+    JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
+    JoystickButton m_xboxY = new JoystickButton(m_xbox, 3);
+
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -46,7 +54,8 @@ public class RobotContainer
         m_driveCommand = new DriveCommand(m_xbox);
 
         // set default commands
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_liftSubsystem.setDefaultCommand(m_liftTestCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -63,7 +72,11 @@ public class RobotContainer
     {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
-        m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
+        //m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
+        m_xboxA.whenPressed(new InstantCommand(m_liftSubsystem::incLeftLiftPosition));
+        m_xboxB.whenPressed(new InstantCommand(m_liftSubsystem::incRightLiftPosition));
+        m_xboxX.whenPressed(new InstantCommand(m_liftSubsystem::decLeftLiftPosition));
+        m_xboxY.whenPressed(new InstantCommand(m_liftSubsystem::decRightLiftPosition));
     }
     
 

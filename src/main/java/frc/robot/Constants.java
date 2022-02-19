@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.a05annex.util.Utl;
 
 /**
@@ -78,5 +79,57 @@ public final class Constants {
 
     // kP for keeping drive at the same orientation
     public static double DRIVE_ORIENTATION_kP = 1.2;
+
+    // connect constants to SmartDashboard
+    /**
+     * Initialize value on SmartDashboard for user input, or if already present, return current value.
+     *
+     * @param key (String) The key to associate with the value.
+     * @param initValue (double) The default value to assign if not already on SmartDashboard.
+     *
+     * @return The new value that appears on the dashboard.
+     */
+    public static double updateConstant(String key, double initValue) {
+        // if key already exists, value will be the current value or whatever we just typed in to the dashboard
+        // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
+        double value = SmartDashboard.getNumber(key, initValue);
+
+        // add number if it doesn't exist, or just set it to its current value
+        SmartDashboard.putNumber(key, value);
+        return value;
+    }
+
+    /**
+     * Initialize value on SmartDashboard for user input, or if already present, return current value.
+     * If value is outside (lowerBound, upperBound), it will be set to the previous value.
+     *
+     * @param key (String) The key to associate with the value.
+     * @param initValue (double) The default value to assign if not already on SmartDashboard.
+     * @param lowerBound (double) Lower bound on the value.
+     * @param upperBound (double) Upper bound on the value.
+     *
+     * @return The new value that appears on the dashboard.
+     */
+    public static double updateConstant(String key, double initValue, double lowerBound, double upperBound) {
+        // if key already exists, value will be the current value or whatever we just typed in to the dashboard
+        // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
+        double value = SmartDashboard.getNumber(key, initValue);
+
+        // bounds check
+        if (value < lowerBound || value > upperBound) {
+            value = initValue;
+        }
+
+        // add number if it doesn't exist, or just set it to its current value
+        SmartDashboard.putNumber(key, value);
+        return value;
+    }
+
+    /**
+     * Put all driver-specific constants on SmartDashboard, and update them in Constants if a new number was typed in.
+     */
+    public static void updateAllDriverConstants() {
+
+    }
 
 }
