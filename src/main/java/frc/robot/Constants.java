@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.a05annex.util.Utl;
 
 /**
@@ -59,24 +60,53 @@ public final class Constants {
 
     // drive encoder tics per radian of robot rotation when rotation is controlled by position rather than speed.
     public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
-    public static final double MAX_METERS_PER_SEC = 3.2; //TODO: may have changed for the programmer robot w/o weight
-
-    // DriveCommand constants
-    // maximum change in joystick value per 20ms for speed and rotation
-    public static double DRIVE_MAX_SPEED_INC = 0.075;
-    public static double DRIVE_MAX_ROTATE_INC = 0.075;
-
-    // deadband of drive and rotate joysticks
-    public static double DRIVE_DEADBAND = 0.05;
-    public static double ROTATE_DEADBAND = 0.05;
-
-    // sensitivity and gain
-    public static double DRIVE_SPEED_SENSITIVITY = 3.0;
-    public static double DRIVE_SPEED_GAIN = 1.0;
-    public static double ROTATE_SENSITIVITY = 2.0;
-    public static double ROTATE_GAIN = 0.8;
+    public static final double MAX_METERS_PER_SEC = 3.2;
 
     // kP for keeping drive at the same orientation
     public static double DRIVE_ORIENTATION_kP = 1.2;
 
+    // connect constants to SmartDashboard
+    /**
+     * Initialize value on SmartDashboard for user input, or if already present, return current value.
+     *
+     * @param key (String) The key to associate with the value.
+     * @param initValue (double) The default value to assign if not already on SmartDashboard.
+     *
+     * @return The new value that appears on the dashboard.
+     */
+    public static double updateConstant(String key, double initValue) {
+        // if key already exists, value will be the current value or whatever we just typed in to the dashboard
+        // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
+        double value = SmartDashboard.getNumber(key, initValue);
+
+        // add number if it doesn't exist, or just set it to its current value
+        SmartDashboard.putNumber(key, value);
+        return value;
+    }
+
+    /**
+     * Initialize value on SmartDashboard for user input, or if already present, return current value.
+     * If value is outside (lowerBound, upperBound), it will be set to the previous value.
+     *
+     * @param key (String) The key to associate with the value.
+     * @param initValue (double) The default value to assign if not already on SmartDashboard.
+     * @param lowerBound (double) Lower bound on the value.
+     * @param upperBound (double) Upper bound on the value.
+     *
+     * @return The new value that appears on the dashboard.
+     */
+    public static double updateConstant(String key, double initValue, double lowerBound, double upperBound) {
+        // if key already exists, value will be the current value or whatever we just typed in to the dashboard
+        // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
+        double value = SmartDashboard.getNumber(key, initValue);
+
+        // bounds check
+        if (value < lowerBound || value > upperBound) {
+            value = initValue;
+        }
+
+        // add number if it doesn't exist, or just set it to its current value
+        SmartDashboard.putNumber(key, value);
+        return value;
+    }
 }
