@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
 import com.ctre.phoenix.sensors.CANCoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.AngleUnit;
@@ -287,6 +288,10 @@ public class Mk4NeoModule {
      */
     private void calibrate() {
         // (actual - offset) * 360 / 20
+        double absolutePosition;
+        do {
+            absolutePosition = calibrationEncoder.getAbsolutePosition();
+        } while (absolutePosition < 0.0 || absolutePosition > Math.PI*2);
         directionEncoder.setPosition(
                 (calibrationEncoder.getAbsolutePosition() - calibrationOffset) * RADIANS_TO_SPIN_ENCODER);
     }

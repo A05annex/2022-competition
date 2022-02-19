@@ -112,10 +112,15 @@ public class DriveSubsystem extends SubsystemBase {
      * Print all module angles to SmartDashboard. Should be called in DriveSubsystem periodic if used.
      */
     public void printAllAngles() {
-        SmartDashboard.putNumber("RF angle", m_RF_lastRadians.getRadians());
-        SmartDashboard.putNumber("RR angle", m_RR_lastRadians.getRadians());
-        SmartDashboard.putNumber("LF angle", m_LF_lastRadians.getRadians());
-        SmartDashboard.putNumber("LR angle", m_LR_lastRadians.getRadians());
+        SmartDashboard.putNumber("RF cal angle", m_rf.getCalibrationPosition());
+        SmartDashboard.putNumber("RR cal angle", m_rr.getCalibrationPosition());
+        SmartDashboard.putNumber("LF cal angle", m_lf.getCalibrationPosition());
+        SmartDashboard.putNumber("LR cal angle", m_lr.getCalibrationPosition());
+
+        SmartDashboard.putNumber("RF angle", m_rf.getDirectionPosition());
+        SmartDashboard.putNumber("RR angle", m_rr.getDirectionPosition());
+        SmartDashboard.putNumber("LF angle", m_lf.getDirectionPosition());
+        SmartDashboard.putNumber("LR angle", m_lr.getDirectionPosition());
     }
 
     // begin swerve methods
