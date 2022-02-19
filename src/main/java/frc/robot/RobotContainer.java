@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CollectorCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -24,6 +26,7 @@ public class RobotContainer
 {
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+    CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
@@ -37,6 +40,7 @@ public class RobotContainer
 
     // controller button declarations
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
+    JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,9 +65,10 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        // Add button to command mappings here.
-        // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+        // Reset the NavX field relativity
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
+        // Run the collector at the constant power while B is held
+        m_xboxB.whenHeld(new CollectorCommand(Constants.COLLECTOR_POWER));
     }
     
 
