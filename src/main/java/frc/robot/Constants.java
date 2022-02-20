@@ -62,9 +62,6 @@ public final class Constants {
     public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
     public static final double MAX_METERS_PER_SEC = 3.2;
 
-    // Collector power
-    public static double COLLECTOR_POWER = 0.5;
-
     // DriveCommand constants
     // maximum change in joystick value per 20ms for speed and rotation
     public static double DRIVE_MAX_SPEED_INC = 0.075;
@@ -92,7 +89,7 @@ public final class Constants {
      *
      * @return The new value that appears on the dashboard.
      */
-    public static double updateDriverConstant(String key, double initValue) {
+    public static double updateConstant(String key, double initValue) {
         // if key already exists, value will be the current value or whatever we just typed in to the dashboard
         // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
         double value = SmartDashboard.getNumber(key, initValue);
@@ -113,7 +110,7 @@ public final class Constants {
      *
      * @return The new value that appears on the dashboard.
      */
-    public static double updateDriverConstant(String key, double initValue, double lowerBound, double upperBound) {
+    public static double updateConstant(String key, double initValue, double lowerBound, double upperBound) {
         // if key already exists, value will be the current value or whatever we just typed in to the dashboard
         // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
         double value = SmartDashboard.getNumber(key, initValue);
@@ -126,15 +123,6 @@ public final class Constants {
         // add number if it doesn't exist, or just set it to its current value
         SmartDashboard.putNumber(key, value);
         return value;
-    }
-
-    /**
-     * Put all driver-specific constants on SmartDashboard, and update them in Constants if a new number was typed in.
-     */
-    public static void updateAllDriverConstants() {
-        COLLECTOR_POWER = updateDriverConstant("collector power", COLLECTOR_POWER,
-                -1.0, 1.0);
-
     }
 
 }

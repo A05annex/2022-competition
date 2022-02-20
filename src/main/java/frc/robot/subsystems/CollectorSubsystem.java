@@ -29,6 +29,7 @@ public class CollectorSubsystem extends SubsystemBase {
     }
 
     private final TalonSRX m_collector = new TalonSRX(Constants.CAN_Devices.COLLECTOR);
+    public double collectorPowerTest = 0.5;
 
     /**
      * Creates a new instance of this CollectorSubsystem. This constructor
@@ -44,8 +45,14 @@ public class CollectorSubsystem extends SubsystemBase {
      * Sets the power of the collector. Must be called every loop.
      * @param power (double) Power to set the collector to, from -1.0 to 1.0.
      */
-    public void setCollectorPower(double power) {
+    public void setPower(double power) {
         m_collector.set(ControlMode.PercentOutput, power);
     }
+
+    public void updateCollectorPower() {
+        collectorPowerTest = Constants.updateConstant("Collector Power", collectorPowerTest,
+                -1.0, 1.0);
+    }
+
 }
 

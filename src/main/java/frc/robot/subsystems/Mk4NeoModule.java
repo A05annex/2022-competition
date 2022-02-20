@@ -287,6 +287,10 @@ public class Mk4NeoModule {
      */
     private void calibrate() {
         // (actual - offset) * 360 / 20
+        double absolutePosition;
+        do {
+            absolutePosition = calibrationEncoder.getAbsolutePosition();
+        } while (absolutePosition < 0.0 || absolutePosition > Math.PI*2);
         directionEncoder.setPosition(
                 (calibrationEncoder.getAbsolutePosition() - calibrationOffset) * RADIANS_TO_SPIN_ENCODER);
     }

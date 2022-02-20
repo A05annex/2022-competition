@@ -14,6 +14,7 @@ import frc.robot.commands.CollectorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 
 
 /**
@@ -27,6 +28,7 @@ public class RobotContainer
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
     CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
+    FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
@@ -50,7 +52,7 @@ public class RobotContainer
         m_driveCommand = new DriveCommand(m_xbox);
 
         // set default commands
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -68,7 +70,7 @@ public class RobotContainer
         // Reset the NavX field relativity
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
         // Run the collector at the constant power while B is held
-        m_xboxB.whenHeld(new CollectorCommand(Constants.COLLECTOR_POWER));
+        m_xboxB.whenHeld(new CollectorCommand(m_collectorSubsystem.collectorPowerTest));
     }
     
 
