@@ -36,10 +36,11 @@ public final class Constants {
 
     public static final class CalibrationOffset {
         public static final double
-                RF = 2.753,
-                RR = 3.562,
-                LR = 4.383,
-                LF = 4.309;
+                // 2/20 calibration constants
+                RF = 2.758,
+                RR = 3.566,
+                LR = 4.381,
+                LF = 4.384;
     }
 
     // ports for controllers
