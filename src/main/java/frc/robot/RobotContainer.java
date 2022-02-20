@@ -52,7 +52,7 @@ public class RobotContainer
         m_driveCommand = new DriveCommand(m_xbox);
 
         // set default commands
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
 
         // Configure the button bindings
         configureButtonBindings();
