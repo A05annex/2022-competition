@@ -114,7 +114,7 @@ public class LiftSubsystem extends SubsystemBase {
     public void updateAllLiftConstants() {
         LIFT_kP = Constants.updateConstant("Lift kP", LIFT_kP);
         LIFT_kI = Constants.updateConstant("Lift kI", LIFT_kI);
-        //LIFT_iZone = Constants.updateConstant("Lift iZone", LIFT_iZone);
+        LIFT_iZone = Constants.updateConstant("Lift iZone", LIFT_iZone);
         setLiftPID();
         //m_left_lift_enc_set = Constants.updateConstant("setter left lift enc", m_left_lift_enc_set);
         //m_right_lift_enc_set = Constants.updateConstant("setter right lift enc", m_right_lift_enc_set);
