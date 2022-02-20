@@ -40,10 +40,10 @@ public class RobotContainer
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
 
     // controller button declarations
-    JoystickButton m_xboxX = new JoystickButton(m_xbox, 0);
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
     JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
-    JoystickButton m_xboxY = new JoystickButton(m_xbox, 3);
+    JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
+    JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
 
 
 
@@ -51,7 +51,8 @@ public class RobotContainer
     public RobotContainer()
     {
         // commands
-        m_driveCommand = new DriveCommand(m_xbox);
+        //m_driveCommand = new DriveCommand(m_xbox);
+        m_liftTestCommand = new LiftTestCommand(m_xbox);
 
         // set default commands
         //m_driveSubsystem.setDefaultCommand(m_driveCommand);
