@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 
 /**
@@ -24,6 +26,7 @@ public class RobotContainer
 {
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+    ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
@@ -37,6 +40,9 @@ public class RobotContainer
 
     // controller button declarations
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
+    JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
+    JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
+    JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -64,6 +70,8 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
+        m_xboxB.whenHeld(new ShooterCommand(m_shooterSubsystem.frontShooterTestSpeed,
+                m_shooterSubsystem.rearShooterTestSpeed));
     }
     
 

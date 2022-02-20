@@ -8,6 +8,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ShooterSubsystem;
 import org.a05annex.frc.A05Robot;
 
 
@@ -52,6 +53,9 @@ public class Robot extends A05Robot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+
+        // run shooter constant updater
+        ShooterSubsystem.getInstance().updateShooterConstants();
     }
     
     
