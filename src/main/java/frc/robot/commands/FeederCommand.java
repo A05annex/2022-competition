@@ -6,13 +6,11 @@ import frc.robot.subsystems.FeederSubsystem;
 
 public class FeederCommand extends CommandBase {
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
-    private final double m_power;
 
-    public FeederCommand(double power) {
+    public FeederCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_feederSubsystem);
-        m_power = power;
     }
 
     @Override
@@ -22,7 +20,7 @@ public class FeederCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_feederSubsystem.setPower(m_power);
+        m_feederSubsystem.setPower(m_feederSubsystem.feederPowerTest);
     }
 
     @Override

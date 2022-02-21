@@ -6,12 +6,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CollectorCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.FeederCommand;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -43,6 +45,7 @@ public class RobotContainer
     // controller button declarations
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
     JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
+    JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -70,7 +73,9 @@ public class RobotContainer
         // Reset the NavX field relativity
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
         // Run the collector at the constant power while B is held
-        m_xboxB.whenHeld(new CollectorCommand(m_collectorSubsystem.collectorPowerTest));
+        m_xboxB.whenHeld(new CollectorCommand());
+        m_xboxX.whenHeld(new FeederCommand());
+
     }
     
 

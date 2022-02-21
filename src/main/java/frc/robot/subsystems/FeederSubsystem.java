@@ -29,7 +29,7 @@ public class FeederSubsystem extends SubsystemBase {
     }
 
     private final TalonSRX m_feeder = new TalonSRX(Constants.CAN_Devices.FEEDER);
-    public double feederPowerTest = 1.0;
+    public double feederPowerTest = -1.0;
 
     /**
      * Creates a new instance of this FeederSubsystem. This constructor

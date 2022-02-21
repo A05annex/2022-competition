@@ -7,17 +7,14 @@ import frc.robot.subsystems.CollectorSubsystem;
 public class CollectorCommand extends CommandBase {
 
     private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
-    private final double m_power;
 
     /**
      * Constantly runs the collector at the given power.
-     * @param power (double) Power to set the collector to. Between -1.0 and 1.0.
      */
-    public CollectorCommand(double power) {
+    public CollectorCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_collectorSubsystem);
-        m_power = power;
     }
 
     @Override
@@ -27,7 +24,7 @@ public class CollectorCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_collectorSubsystem.setPower(m_power);
+        m_collectorSubsystem.setPower(m_collectorSubsystem.collectorPowerTest);
     }
 
     @Override
