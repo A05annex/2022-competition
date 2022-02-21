@@ -34,9 +34,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private double m_lastSetFrontSpeed;
     private double m_lastSetRearSpeed;
 
-    // Shooter speeds for testing TODO: remove when done testing
-    public double frontShooterTestSpeed = 0.5;
-    public double rearShooterTestSpeed = -0.5;
+    // Shooter speeds, set from -1.0 to 1.0
+    public double m_frontShooterSpeed = 0.5;
+    public double m_rearShooterSpeed = -0.5;
 
     // Constants
     // Shooter max RPMs
@@ -116,25 +116,39 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     /**
-     * Set the front shooter power.
+     * Set the rear shooter power.
      * @param power (double) Between -1.0 and 1.0.
      */
     public void setRearShooterPower(double power) {
         m_rearShooter.set(ControlMode.PercentOutput, power);
     }
 
-    public double getFrontShooterSpeed() {
+    /**
+     * @return The velocity of the front shooter encoder.
+     */
+    public double getFrontShooterVelocity() {
         return m_frontShooter.getSelectedSensorVelocity();
     }
 
-    public double getRearShooterSpeed() {
+    /**
+     * @return The velocity of the rear shooter encoder.
+     */
+    public double getRearShooterVelocity() {
         return m_rearShooter.getSelectedSensorVelocity();
     }
 
+    public double getFrontShooterSetSpeed() {
+        return m_frontShooterSpeed;
+    }
+
+    public double getRearShooterSetSpeed() {
+        return m_rearShooterSpeed;
+    }
+
     public void updateShooterConstants() {
-        frontShooterTestSpeed = Constants.updateConstant("front speed", frontShooterTestSpeed,
+        m_frontShooterSpeed = Constants.updateConstant("front speed", m_frontShooterSpeed,
                 -1.0, 1.0);
-        rearShooterTestSpeed = Constants.updateConstant("rear speed", rearShooterTestSpeed,
+        m_rearShooterSpeed = Constants.updateConstant("rear speed", m_rearShooterSpeed,
                 -1.0, 1.0);
     }
 

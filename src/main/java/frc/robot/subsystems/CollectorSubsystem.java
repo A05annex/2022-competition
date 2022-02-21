@@ -29,7 +29,7 @@ public class CollectorSubsystem extends SubsystemBase {
     }
 
     private final TalonSRX m_collector = new TalonSRX(Constants.CAN_Devices.COLLECTOR);
-    public double collectorPowerTest = -0.7;
+    private double m_collectorPower = -0.7;
 
     /**
      * Creates a new instance of this CollectorSubsystem. This constructor
@@ -50,8 +50,12 @@ public class CollectorSubsystem extends SubsystemBase {
     }
 
     public void updateCollectorPower() {
-        collectorPowerTest = Constants.updateConstant("Collector Power", collectorPowerTest,
+        m_collectorPower = Constants.updateConstant("Collector Power", m_collectorPower,
                 -1.0, 1.0);
+    }
+
+    public double getCollectorPower() {
+        return m_collectorPower;
     }
 
 }

@@ -15,6 +15,7 @@ public class ShooterCommand extends CommandBase {
 
     /**
      * Runs the shooter at the constant speeds in ShooterSubsystem.
+     *
      * @param toggleButton Toggles the shooter on/off.
      */
     public ShooterCommand(JoystickButton toggleButton) {
@@ -37,8 +38,8 @@ public class ShooterCommand extends CommandBase {
         }
 
         if (m_isRunning) {
-            m_shooterSubsystem.setFrontShooter(m_shooterSubsystem.frontShooterTestSpeed);
-            m_shooterSubsystem.setRearShooter(m_shooterSubsystem.rearShooterTestSpeed);
+            m_shooterSubsystem.setFrontShooter(m_shooterSubsystem.getFrontShooterSetSpeed());
+            m_shooterSubsystem.setRearShooter(m_shooterSubsystem.getRearShooterSetSpeed());
         } else {
             m_shooterSubsystem.setFrontShooter(0.0);
             m_shooterSubsystem.setRearShooter(0.0);

@@ -16,6 +16,7 @@ public class CollectorCommand extends CommandBase {
 
     /**
      * Runs the collector at the constant speed in CollectorSubsystem.
+     *
      * @param toggleButton Toggles the collector on/off.
      */
     public CollectorCommand(JoystickButton toggleButton) {
@@ -38,7 +39,7 @@ public class CollectorCommand extends CommandBase {
         }
 
         if (m_isRunning) {
-            m_collectorSubsystem.setPower(m_collectorSubsystem.collectorPowerTest);
+            m_collectorSubsystem.setPower(m_collectorSubsystem.getCollectorPower());
         } else {
             m_collectorSubsystem.setPower(0.0);
         }
