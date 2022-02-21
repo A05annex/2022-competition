@@ -36,7 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Shooter speeds for testing TODO: remove when done testing
     public double frontShooterTestSpeed = 1.0;
-    public double rearShooterTestSpeed = 1.0;
+    public double rearShooterTestSpeed = -1.0;
 
     // Constants TODO: tune for new shooter
     // Shooter max RPMs

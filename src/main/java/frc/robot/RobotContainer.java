@@ -70,8 +70,7 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
-        m_xboxB.whenHeld(new ShooterCommand(m_shooterSubsystem.frontShooterTestSpeed,
-                m_shooterSubsystem.rearShooterTestSpeed));
+        m_xboxB.whenHeld(new ShooterCommand());
     }
     
 

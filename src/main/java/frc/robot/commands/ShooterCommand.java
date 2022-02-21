@@ -8,15 +8,15 @@ public class ShooterCommand extends CommandBase {
 
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
 
-    private double m_frontSpeed;
-    private double m_rearSpeed;
+//    private double m_frontSpeed;
+//    private double m_rearSpeed;
 
-    public ShooterCommand(double frontSpeed, double rearSpeed) {
+    public ShooterCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_shooterSubsystem);
-        m_frontSpeed = frontSpeed;
-        m_rearSpeed = rearSpeed;
+//        m_frontSpeed = frontSpeed;
+//        m_rearSpeed = rearSpeed;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class ShooterCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setFrontShooter(m_frontSpeed);
-        m_shooterSubsystem.setRearShooter(m_rearSpeed);
+        m_shooterSubsystem.setFrontShooter(m_shooterSubsystem.frontShooterTestSpeed);
+        m_shooterSubsystem.setRearShooter(m_shooterSubsystem.rearShooterTestSpeed);
     }
 
     @Override
