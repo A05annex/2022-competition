@@ -6,14 +6,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CollectorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.FeederCommand;
+import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 
 
 /**
@@ -27,6 +32,8 @@ public class RobotContainer
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
     ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
+    CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
+    FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
@@ -67,10 +74,13 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        // Add button to command mappings here.
-        // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+        // Reset the NavX field relativity
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
-        m_xboxB.whenHeld(new ShooterCommand());
+        m_xboxY.whenHeld(new ShooterCommand());
+        // Run the collector at the constant power while B is held
+        m_xboxB.whenHeld(new CollectorCommand());
+        m_xboxX.whenHeld(new FeederCommand());
+
     }
     
 
