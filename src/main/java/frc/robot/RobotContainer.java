@@ -37,6 +37,7 @@ public class RobotContainer
 
     // command declarations
     DriveCommand m_driveCommand;
+    CollectorCommand m_collectorCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -50,16 +51,20 @@ public class RobotContainer
     JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
     JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
     JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
+    JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
+    JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
         // commands
-        m_driveCommand = new DriveCommand(m_xbox);
+        m_driveCommand = new DriveCommand(m_xbox); // uses sticks
+        m_collectorCommand = new CollectorCommand(m_xboxB);
 
         // set default commands
         //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -74,13 +79,10 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        // Reset the NavX field relativity
-        m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
-        m_xboxY.whenHeld(new ShooterCommand());
-        // Run the collector at the constant power while B is held
-        m_xboxB.whenHeld(new CollectorCommand());
-        m_xboxX.whenHeld(new FeederCommand());
-
+        m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
+        m_xboxY.toggleWhenActive(new ShooterCommand()); // TODO: Toggle shooter on/off
+        m_xboxRightBumper.whenHeld(new FeederCommand()); // Shoot when held
+        // TODO: add collector jerk command and bind to xbox X
     }
     
 
