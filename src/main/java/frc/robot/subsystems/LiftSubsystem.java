@@ -44,6 +44,18 @@ public class LiftSubsystem extends SubsystemBase {
     private double m_right_lift_enc_set = 0.0;
     private final double m_inc = 10000.0; // amount to increment
 
+    // amount to subtract from encoder values to see if the bar is there yet
+    public static final double LIFT_TOLERANCE = 1000.0;
+
+    // TODO hanger position constants
+    public static final class HangerPositions {
+        public static final double
+            RIGHT_UP = 310000.0,
+            LEFT_UP = 420000.0,
+            RIGHT_DOWN = 0.0,
+            LEFT_DOWN = 0.0;
+    }
+
     /**
      * Creates a new instance of this HangerSubsystem. This constructor
      * is private since this class is a Singleton. Code should use
@@ -63,13 +75,34 @@ public class LiftSubsystem extends SubsystemBase {
         setLiftPID();
     }
 
-    // use PID to drive the motors
-    public void setLeftLiftPosition(double position) {
+    /**
+     * Use PID to drive the left hanger.
+     * @param position (double) Encoder value to set the hanger at.
+     */
+    public void setLeftPosition(double position) {
         m_lift_left.set(ControlMode.Position, position);
     }
 
-    public void setRightLiftPosition(double position) {
+    /**
+     * @return The position of the left lift encoder in tics.
+     */
+    public double getLeftPosition() {
+        return m_lift_left.getSelectedSensorPosition();
+    }
+
+    /**
+     * Use PID to drive the right hanger.
+     * @param position (double) Encoder value to set the hanger at.
+     */
+    public void setRightPosition(double position) {
         m_lift_right.set(ControlMode.Position, position);
+    }
+
+    /**
+     * @return The position of the right lift encoder in tics.
+     */
+    public double getRightPosition() {
+        return m_lift_right.getSelectedSensorPosition();
     }
 
     public void setLeftPower(double power) {
@@ -82,8 +115,8 @@ public class LiftSubsystem extends SubsystemBase {
 
     // set positions according to our test variables
     public void setLiftPositionsToTest() {
-        setLeftLiftPosition(m_left_lift_enc_set);
-        setRightLiftPosition(m_right_lift_enc_set);
+        setLeftPosition(m_left_lift_enc_set);
+        setRightPosition(m_right_lift_enc_set);
     }
 
     // increment/decrement test variables

@@ -51,11 +51,11 @@ public class RobotContainer
     public RobotContainer()
     {
         // commands
-        //m_driveCommand = new DriveCommand(m_xbox);
+        m_driveCommand = new DriveCommand(m_xbox);
         m_liftTestCommand = new LiftTestCommand(m_xbox);
 
         // set default commands
-        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_liftSubsystem.setDefaultCommand(m_liftTestCommand);
 
         // Configure the button bindings
