@@ -20,6 +20,7 @@ public final class Constants {
 
     public static final class CAN_Devices {
         public static final int
+                // swerve motors and encoders
                 RF_DRIVE = 1,
                 RF_DIRECTION = 2,
                 RF_CALIBRATION = 20,
@@ -31,7 +32,14 @@ public final class Constants {
                 LR_CALIBRATION = 22,
                 LF_DRIVE = 7,
                 LF_DIRECTION = 8,
-                LF_CALIBRATION = 23;
+                LF_CALIBRATION = 23,
+                // other motors
+                FEEDER = 9,
+                LIFT_LEFT = 10,
+                LIFT_RIGHT = 11,
+                COLLECTOR = 12,
+                SHOOTER_FRONT = 13,
+                SHOOTER_REAR = 14;
     }
 
     public static final class CalibrationOffset {
