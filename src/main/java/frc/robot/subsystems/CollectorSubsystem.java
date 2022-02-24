@@ -31,6 +31,9 @@ public class CollectorSubsystem extends SubsystemBase {
     private final TalonSRX m_collector = new TalonSRX(Constants.CAN_Devices.COLLECTOR);
     private double m_collectorPower = -0.7;
 
+    // number of 20ms cycles to jerk collector backwards and forwards
+    public static final int JERK_CYCLES = 5; // 100 ms
+
     /**
      * Creates a new instance of this CollectorSubsystem. This constructor
      * is private since this class is a Singleton. Code should use

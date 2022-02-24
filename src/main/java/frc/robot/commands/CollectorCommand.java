@@ -28,7 +28,7 @@ public class CollectorCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        m_isRunning = false;
+        //m_isRunning = false; keep last state
         m_lastToggleButton = false;
     }
 

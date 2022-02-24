@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CollectorCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.FeederCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -87,6 +84,7 @@ public class RobotContainer
     {
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
         // TODO: add collector jerk command and bind to xbox X
+        m_xboxX.whenPressed(new CollectorJerkCommand());
     }
     
 
