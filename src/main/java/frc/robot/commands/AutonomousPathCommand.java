@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.NavX;
 import frc.robot.subsystems.ISwerveDrive;
-import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
 /**
@@ -19,7 +18,8 @@ import org.a05annex.util.geo2d.KochanekBartelsSpline;
  *     <li>stops the robot on the path, initiates a command (like aiming and shooting), and continues following
  *     the path when the initiated command completes.</li>
  * </ul>
- *
+ * Note that when run in a test environment the navx device is instantiated as a simulation device rather than a
+ * real physical devise.
  */
 public class AutonomousPathCommand extends CommandBase {
 
@@ -63,34 +63,34 @@ public class AutonomousPathCommand extends CommandBase {
     public void initializeRobotForPath() {
         pathPoint = pathFollower.getPointAt(0.0);
         if (pathPoint != null) {
-            navxInitializeHeadingAndNav(pathPoint.fieldHeading);
+            NavX.getInstance().initializeHeadingAndNav(pathPoint.fieldHeading);
             double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
             double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
             double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC);
             swerveDrive.prepareForDriveComponents(forward, strafe, rotation);
             startTime = System.currentTimeMillis();
-            if (null != pathPoint.action) {
-
+            if ((null != pathPoint.action) && (null != pathPoint.action.command) &&
+                    (KochanekBartelsSpline.RobotActionType.STOP_AND_RUN_COMMAND == pathPoint.action.actionType)) {
+                String commandClass = "frc.robot.commands." + pathPoint.action.command;
+                Command command = null;
+                Object obj;
+                try {
+                    obj = Class.forName(commandClass).newInstance();
+                    if (obj instanceof Command) {
+                        command = (Command)obj;
+                    }
+                    stopAndRunCommand = command;
+                    stopAndRunStartTime = System.currentTimeMillis();
+                    stopAndRunCommand.initialize();
+                } catch (final Exception t) {
+                    System.out.println(
+                            String.format("Could not instantiate command: class='%s'; continuing with path.",
+                                    commandClass));
+                }
             }
         }
 
     }
-
-    /**
-     * This method is overridden in testing because a Navx is not available
-     */
-    protected void navxInitializeHeadingAndNav(AngleConstantD angle) {
-        NavX.getInstance().initializeHeadingAndNav(pathPoint.fieldHeading);
-    }
-
-    protected AngleConstantD navGetHeading() {
-        return NavX.getInstance().getHeading();
-    }
-
-    protected void navxSetExpectedHeadingToCurrent() {
-        NavX.getInstance().setExpectedHeadingToCurrent();
-    }
-
 
     /**
      * The main body of a command.  Called repeatedly while the command is scheduled.
@@ -152,7 +152,7 @@ public class AutonomousPathCommand extends CommandBase {
 
             }
 
-            double errorRotation = (pathPoint.fieldHeading.getRadians() - navGetHeading().getRadians()) *
+            double errorRotation = (pathPoint.fieldHeading.getRadians() - NavX.getInstance().getHeading().getRadians()) *
                     Constants.DRIVE_ORIENTATION_kP;
             // The expected heading is included in the PathPoint. The path point is the instantaneous
             // speed and position that we want to be at NOW. If the heading is incorrect, then the
@@ -163,7 +163,7 @@ public class AutonomousPathCommand extends CommandBase {
             double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC) + errorRotation;
 //            double rotation = (point.speedRotation / Constants.MAX_RADIANS_PER_SEC);
             swerveDrive.swerveDriveComponents(forward, strafe, rotation);
-            navxSetExpectedHeadingToCurrent();
+            NavX.getInstance().setExpectedHeadingToCurrent();
         }
 
     }
@@ -192,6 +192,8 @@ public class AutonomousPathCommand extends CommandBase {
                 stopAndRunDuration += duration;
                 stopAndRunCommand = null;
                 stopAndRunStartTime = 0;
+                // I'm going to assume that if we stop to do something it may involve rotation to aim
+                // for shooting, but, probably does not involve any translation.
                 // TODO - what happens if the robot has moved? The path will not continue
                 //  correctly unless we move back to the start point.
             }

@@ -5,13 +5,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DummyStopAndRunCommand extends CommandBase {
 
-    final private long endTime = System.currentTimeMillis() + 2000;
+    final private long startTime = System.currentTimeMillis();
+    final private long endTime = startTime + 2000;
 
     public DummyStopAndRunCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements();
         System.out.printf("Instantiating command: class='%s'%n", this.getClass().getName());
+        System.out.printf("          '%s':  ends at %d%n", this.getClass().getName(), endTime);
     }
 
     @Override
@@ -21,7 +23,8 @@ public class DummyStopAndRunCommand extends CommandBase {
 
     @Override
     public void execute() {
-
+        System.out.print(".");
+        System.out.flush();
     }
 
     @Override
@@ -32,6 +35,7 @@ public class DummyStopAndRunCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        System.out.printf("%n          '%s':  ends after %.3f%n", this.getClass().getName(),
+                (endTime-startTime)/1000.0);
     }
 }
