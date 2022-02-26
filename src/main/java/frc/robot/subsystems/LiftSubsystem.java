@@ -47,13 +47,16 @@ public class LiftSubsystem extends SubsystemBase {
     // amount to subtract from encoder values to see if the bar is there yet
     public static final double LIFT_TOLERANCE = 1000.0;
 
+    // power for LiftPowerCommand
+    public static final double LIFT_POWER = 1.0;
+
     // TODO hanger position constants
     public static final class HangerPositions {
         public static final double
-            RIGHT_UP = 310000.0,
-            LEFT_UP = 420000.0,
-            RIGHT_DOWN = 0.0,
-            LEFT_DOWN = 0.0;
+            RIGHT_UP = 475000.0, // all the way up
+            LEFT_UP = 600000.0, //
+            RIGHT_DOWN = 260000.0, // right angle, untested
+            LEFT_DOWN = 320000; // right angle, untested
     }
 
     /**
@@ -111,6 +114,19 @@ public class LiftSubsystem extends SubsystemBase {
 
     public void setRightPower(double power) {
         m_lift_right.set(ControlMode.PercentOutput, power);
+    }
+
+    public void setLeftEncoder(double position) {
+        m_lift_left.setSelectedSensorPosition(position);
+    }
+
+    public void setRightEncoder(double position) {
+        m_lift_right.setSelectedSensorPosition(position);
+    }
+
+    public void zeroEncoders() {
+        setLeftEncoder(0.0);
+        setRightEncoder(0.0);
     }
 
     // set positions according to our test variables

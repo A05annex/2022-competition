@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.LiftCommand;
+import frc.robot.commands.LiftPowerCommand;
 import frc.robot.commands.LiftTestCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
@@ -31,6 +33,7 @@ public class RobotContainer
     // command declarations
     DriveCommand m_driveCommand;
     LiftTestCommand m_liftTestCommand;
+    LiftPowerCommand m_liftPowerCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -44,19 +47,22 @@ public class RobotContainer
     JoystickButton m_xboxB = new JoystickButton(m_xbox, 2);
     JoystickButton m_xboxX = new JoystickButton(m_xbox, 3);
     JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
-
-
+    JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
+    JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
+    JoystickButton m_xboxBack = new JoystickButton(m_xbox, 7);
+    JoystickButton m_xboxStart = new JoystickButton(m_xbox, 8);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
         // commands
         m_driveCommand = new DriveCommand(m_xbox);
-        m_liftTestCommand = new LiftTestCommand(m_xbox);
+        //m_liftTestCommand = new LiftTestCommand(m_xbox);
+        m_liftPowerCommand = new LiftPowerCommand(m_xboxA, m_xboxX, m_xboxB, m_xboxY);
 
         // set default commands
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
-        m_liftSubsystem.setDefaultCommand(m_liftTestCommand);
+        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_liftSubsystem.setDefaultCommand(m_liftPowerCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -74,10 +80,12 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         //m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
-        m_xboxA.whenPressed(new InstantCommand(m_liftSubsystem::incLeftLiftPosition));
-        m_xboxB.whenPressed(new InstantCommand(m_liftSubsystem::incRightLiftPosition));
-        m_xboxX.whenPressed(new InstantCommand(m_liftSubsystem::decLeftLiftPosition));
-        m_xboxY.whenPressed(new InstantCommand(m_liftSubsystem::decRightLiftPosition));
+//        m_xboxA.whenPressed(new InstantCommand(m_liftSubsystem::incLeftLiftPosition));
+//        m_xboxB.whenPressed(new InstantCommand(m_liftSubsystem::incRightLiftPosition));
+//        m_xboxX.whenPressed(new InstantCommand(m_liftSubsystem::decLeftLiftPosition));
+//        m_xboxY.whenPressed(new InstantCommand(m_liftSubsystem::decRightLiftPosition));
+        m_xboxRightBumper.whenPressed(new InstantCommand(m_liftSubsystem::zeroEncoders));
+        m_xboxLeftBumper.whenPressed(new LiftCommand(m_xboxStart, m_xboxBack));
     }
     
 
