@@ -44,10 +44,11 @@ public final class Constants {
 
     public static final class CalibrationOffset {
         public static final double
-                RF = 2.753,
-                RR = 3.562,
-                LR = 4.383,
-                LF = 4.309;
+                // 2/21 calibration constants: post spin fix
+                RF = 2.764,
+                RR = 3.559,
+                LR = 4.386,
+                LF = 4.312;
     }
 
     // ports for controllers
