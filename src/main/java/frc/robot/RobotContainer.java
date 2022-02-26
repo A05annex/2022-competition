@@ -83,7 +83,6 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
-        // TODO: add collector jerk command and bind to xbox X
         m_xboxX.whenPressed(new CollectorJerkCommand());
     }
     
