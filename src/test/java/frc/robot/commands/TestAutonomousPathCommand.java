@@ -27,32 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestAutonomousPathCommand {
     String testPathName = "./src/test/resources/paths/AutonomousPathCommandTest.json";
 
-    public class DummyAutonomousPathCommand extends AutonomousPathCommand {
-
-        public DummyAutonomousPathCommand(KochanekBartelsSpline path, Subsystem driveSubsystem) {
-            super(path, driveSubsystem);
-        }
-
-        @Override
-        public void initialize() {
-            super.initialize();
-        }
-
-        @Override
-        protected void navxInitializeHeadingAndNav(AngleConstantD angle) {
-            NavX.getInstance().initializeHeadingAndNav(pathPoint.fieldHeading);
-        }
-
-        @Override
-        protected AngleConstantD navGetHeading() {
-            return pathPoint.fieldHeading;
-        }
-
-        @Override
-        protected void navxSetExpectedHeadingToCurrent() {
-            NavX.getInstance().setExpectedHeadingToCurrent();
-        }
-    }
     /**
      *
      */
@@ -67,7 +41,7 @@ public class TestAutonomousPathCommand {
         KochanekBartelsSpline path = new KochanekBartelsSpline();
         assertTrue(path.loadPath(testPathName));
 
-        DummyAutonomousPathCommand autonomousPathCommend = new DummyAutonomousPathCommand(
+        AutonomousPathCommand autonomousPathCommend = new AutonomousPathCommand(
                 path,DummySwerveDriveSubsystem.getInstance());
         autonomousPathCommend.initialize();
 
