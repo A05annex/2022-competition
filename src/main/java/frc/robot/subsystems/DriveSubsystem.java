@@ -8,7 +8,7 @@ import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.Utl;
 
-public class DriveSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
     /**
      * The Singleton instance of this DriveSubsystem. Code should use
      * the {@link #getInstance()} method to get the single instance (rather
@@ -190,6 +190,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param strafe   Strafe right. From -1 (full left)  to 1 (full right).
      * @param rotation Clockwise rotation. From -1 (full counter-clockwise) to 1 (full clockwise).
      */
+    @Override
     public void swerveDriveComponents(double forward, double strafe,
                                       double rotation) {
         setModulesForChassisMotion(forward, strafe, rotation, true);
@@ -206,6 +207,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param strafe   Strafe right. From -1 (full left)  to 1 (full right).
      * @param rotation Clockwise rotation. From -1 (full counter-clockwise) to 1 (full clockwise).
      */
+    @Override
     public void prepareForDriveComponents(double forward, double strafe,
                                           double rotation)
     {
@@ -225,6 +227,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param speed            (double) Speed from 0.0 to 1.0.
      * @param rotation         (double) Clockwise rotation speed from -1.0 to 1.0.
      */
+    @Override
     public void swerveDrive(AngleConstantD chassisDirection, double speed, double rotation) {
         swerveDriveComponents(chassisDirection.cos() * speed,
                 chassisDirection.sin() * speed, rotation);
@@ -238,6 +241,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param speed          (double) Speed from 0.0 to 1.0.
      * @param rotation       (double) Clockwise rotation speed from -1.0 to 1.0.
      */
+    @Override
     public void swerveDriveFieldRelative(AngleConstantD fieldDirection, double speed, double rotation) {
         swerveDrive(new AngleD(fieldDirection).subtract(m_navx.getHeading()), speed, rotation);
     }
@@ -255,6 +259,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param fieldY  (double) The Y location of the robot on the field.
      * @param heading (AngleD) The heading of the robot on the field.
      */
+    @Override
     public void setFieldPosition(double fieldX, double fieldY, AngleD heading) {
         m_fieldX = fieldX;
         m_fieldY = fieldY;

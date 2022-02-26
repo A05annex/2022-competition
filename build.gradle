@@ -56,6 +56,7 @@ test {
 dependencies {
     //implementation 'org.a05annex:a05annexUtil:0.9.1'
     implementation 'org.jetbrains:annotations:17.0.0'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation wpi.java.deps.wpilib()
@@ -81,6 +82,7 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
     testImplementation('org.mockito:mockito-core:3.+')
     testImplementation('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+    testRuntimeOnly(files('libs/a05annexUtil-0.9.4.jar'))
 }
 
 // Simulation configuration (e.g. environment variables).
