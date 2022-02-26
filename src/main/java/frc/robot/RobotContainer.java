@@ -64,7 +64,7 @@ public class RobotContainer
         m_feederCommand = new FeederCommand(m_xboxRightBumper, m_xboxLeftBumper);
 
         // set default commands
-        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
         m_shooterSubsystem.setDefaultCommand(m_shooterCommand);
         m_feederSubsystem.setDefaultCommand(m_feederCommand);
