@@ -39,7 +39,7 @@ public class CollectorCommand extends CommandBase {
         }
 
         if (m_isRunning) {
-            m_collectorSubsystem.setPower(m_collectorSubsystem.getCollectorPower());
+            m_collectorSubsystem.setPower(CollectorSubsystem.COLLECTOR_POWER);
         } else {
             m_collectorSubsystem.setPower(0.0);
         }
@@ -54,6 +54,6 @@ public class CollectorCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_collectorSubsystem.setPower(0.0);
+        //m_collectorSubsystem.setPower(0.0);
     }
 }
