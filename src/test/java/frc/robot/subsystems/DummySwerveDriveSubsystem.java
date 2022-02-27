@@ -56,22 +56,23 @@ public class DummySwerveDriveSubsystem extends SubsystemBase implements ISwerveD
     public void prepareForDriveComponents(double forward, double strafe, double rotation) {
         System.out.printf("prepareForDriveComponents:  %d %10.3f %10.3f %10.3f%n", System.currentTimeMillis(),
                 forward, strafe, rotation);
-
     }
 
     @Override
     public void swerveDrive(AngleConstantD chassisDirection, double speed, double rotation) {
-
+        System.out.printf("swerveDrive:  %d %10.3f %10.3f %10.3f%n", System.currentTimeMillis(),
+                chassisDirection.getRadians(), speed, rotation);
     }
 
     @Override
     public void swerveDriveFieldRelative(AngleConstantD fieldDirection, double speed, double rotation) {
-
+        System.out.printf("swerveDriveFieldRelative:  %d %10.3f %10.3f %10.3f%n", System.currentTimeMillis(),
+                fieldDirection.getRadians(), speed, rotation);
     }
 
     @Override
     public void setHeading(AngleConstantD targetHeading) {
-        System.out.printf("setFieldHeading:                                %10.3f%n", targetHeading);
+        System.out.printf("setFieldHeading:        %10.3f%n", targetHeading.getRadians());
     }
 }
 

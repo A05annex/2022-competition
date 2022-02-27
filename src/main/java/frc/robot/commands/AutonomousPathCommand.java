@@ -188,14 +188,23 @@ public class AutonomousPathCommand extends CommandBase {
             if (stopAndRunCommand.isFinished()) {
                 // done with the stop and run, so end it and increment the stop and run duration.
                 stopAndRunCommand.end(false);
-                long duration = System.currentTimeMillis() - stopAndRunStartTime;
+                long now = System.currentTimeMillis();
+                long duration = now - stopAndRunStartTime;
                 stopAndRunDuration += duration;
                 stopAndRunCommand = null;
                 stopAndRunStartTime = 0;
                 // I'm going to assume that if we stop to do something it may involve rotation to aim
                 // for shooting, but, probably does not involve any translation.
-                // TODO - what happens if the robot has moved? The path will not continue
-                //  correctly unless we move back to the start point.
+                swerveDrive.setHeading(pathPoint.fieldHeading);
+                try {
+                    Thread.sleep(15);
+                    double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
+                    double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
+                    double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC);
+                    swerveDrive.prepareForDriveComponents(forward, strafe, rotation);
+                } catch (InterruptedException e) {
+                    return isFinished;
+                }
             }
         }
         return isFinished;
