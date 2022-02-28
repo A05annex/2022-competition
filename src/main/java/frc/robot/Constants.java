@@ -6,6 +6,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 
 /**
@@ -54,14 +55,27 @@ public final class Constants {
     // ports for controllers
     public static final int XBOX_PORT = 0;
 
-    // length and width from center of the wheels, in m
-    public static final double DRIVE_LENGTH = 0.5842;
-    public static final double DRIVE_WIDTH = 0.5842;
+    // for prototype, length and width from center of the wheels, in m (note chassis is 30" square,
+    // the bolt pattern is 29" square, wheels are 2.75" in from the bolt pattern or centered on the
+    // corners of a 23.5"(0.5969m) square.
+    // For competition, length and width from center of the wheels, in m (note chassis is 28" square,
+    // the bolt pattern is 27" square, wheels are 2.75" in from the bolt pattern or centered on the
+    // corners of a 21.5"(0.5461m) square.
+    public static final double DRIVE_LENGTH = 0.5969;
+    public static final double DRIVE_WIDTH = 0.5969;
     public static final double DRIVE_DIAGONAL = Utl.length(DRIVE_LENGTH, DRIVE_WIDTH);
 
     // drive encoder tics per radian of robot rotation when rotation is controlled by position rather than speed.
     public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
-    public static final double MAX_METERS_PER_SEC = 3.2; //TODO: may have changed for the programmer robot w/o weight
+    // See the Mk4NeoModule for how this speed is initially estimated.
+    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC;
+    //  The maximum spin of the robot when all that is happening is spin. Since the robot drive centers are
+    //  square, att wheels are aligned so their axis passes through the center of that square, and all wheels
+    // follow the same circular path at a radius of DRIVE_DIAGONAL/2.0 at MAX_METERS_PER_SEC. So this is
+    // computed from DRIVE_DIAGONAL and MAX_METERS_PER_SEC:
+    //     Max [radians/sec] = max speed [meters/sec] / (PI * radius) [meters/radian]
+    //     Max [radians/sec] = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5)
+    public static final double MAX_RADIANS_PER_SEC = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5);
 
     // DriveCommand constants
     // maximum change in joystick value per 20ms for speed and rotation
