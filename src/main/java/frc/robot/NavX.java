@@ -103,7 +103,7 @@ public class NavX {
         // In the past we have always initialized with the front of the robot facing down field, so the
         // heading was 0.0 at initialization. In this case we are
         m_refPitch.setDegrees(m_ahrs.getPitch());
-        m_refYaw.setDegrees(-m_ahrs.getYaw());
+        m_refYaw.setDegrees(m_ahrs.getYaw());
         m_refRoll.setDegrees(m_ahrs.getRoll());
         m_refHeading.setValue(heading);
         m_headingRawLast.setValue(AngleD.ZERO);
@@ -146,7 +146,7 @@ public class NavX {
      */
     public void recomputeHeading(boolean setExpectedToCurrent) {
         m_setExpectedToCurrent = setExpectedToCurrent;
-        AngleD heading_raw = new AngleD(AngleUnit.DEGREES, -m_ahrs.getYaw());
+        AngleD heading_raw = new AngleD(AngleUnit.DEGREES, m_ahrs.getYaw());
         // This is the logic for detecting and correcting for the IMU discontinuity at +180degrees and -180degrees.
         if (m_headingRawLast.isLessThan(AngleD.NEG_PI_OVER_2) && heading_raw.isGreaterThan(AngleD.ZERO)) {
             // The previous raw IMU heading was negative and close to the discontinuity, and it is now positive. We
@@ -208,10 +208,10 @@ public class NavX {
         // the reference position is set, see initializeHeadingAndNav().
         return new NavInfo(
                 new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getPitch() - m_refPitch.getDegrees()),
-                new AngleConstantD(AngleUnit.DEGREES, -m_ahrs.getYaw() - m_refYaw.getDegrees()),
+                new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getYaw() - m_refYaw.getDegrees()),
                 new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getRoll() - m_refRoll.getDegrees()),
                 new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getPitch()),
-                new AngleConstantD(AngleUnit.DEGREES, -m_ahrs.getYaw()),
+                new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getYaw()),
                 new AngleConstantD(AngleUnit.DEGREES, m_ahrs.getRoll()));
     }
 
