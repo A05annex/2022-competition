@@ -32,9 +32,9 @@ public class FeederCommand extends CommandBase {
     @Override
     public void execute() {
         if (m_forwardButton.get()) {
-            m_feederSubsystem.setPower(m_feederSubsystem.getFeederPower());
+            m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
         } else if (m_reverseButton.get()) {
-            m_feederSubsystem.setPower(-m_feederSubsystem.getFeederPower());
+            m_feederSubsystem.setPower(-FeederSubsystem.FEEDER_POWER);
         } else {
             m_feederSubsystem.setPower(0.0);
         }
