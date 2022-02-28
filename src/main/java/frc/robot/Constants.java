@@ -104,7 +104,7 @@ public final class Constants {
      *
      * @return The new value that appears on the dashboard.
      */
-    public static double updateDriverConstant(String key, double initValue) {
+    public static double updateConstant(String key, double initValue) {
         // if key already exists, value will be the current value or whatever we just typed in to the dashboard
         // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
         double value = SmartDashboard.getNumber(key, initValue);
@@ -125,7 +125,7 @@ public final class Constants {
      *
      * @return The new value that appears on the dashboard.
      */
-    public static double updateDriverConstant(String key, double initValue, double lowerBound, double upperBound) {
+    public static double updateConstant(String key, double initValue, double lowerBound, double upperBound) {
         // if key already exists, value will be the current value or whatever we just typed in to the dashboard
         // if key doesn't exist yet, value will be set to initValue and added to SmartDashboard
         double value = SmartDashboard.getNumber(key, initValue);
@@ -139,24 +139,4 @@ public final class Constants {
         SmartDashboard.putNumber(key, value);
         return value;
     }
-
-    /**
-     * Put all driver-specific constants on SmartDashboard, and update them in Constants if a new number was typed in.
-     */
-    public static void updateAllDriverConstants() {
-        DRIVE_DEADBAND = updateDriverConstant("drive deadband", DRIVE_DEADBAND,
-                0.0, 1.0);
-        DRIVE_SPEED_SENSITIVITY = updateDriverConstant("drive sensitivity", DRIVE_SPEED_SENSITIVITY,
-                1.0, Double.MAX_VALUE);
-        DRIVE_SPEED_GAIN = updateDriverConstant("drive gain", DRIVE_SPEED_GAIN,
-                0.0, Double.MAX_VALUE);
-
-        ROTATE_DEADBAND = updateDriverConstant("rotate deadband", ROTATE_DEADBAND,
-                0.0, 1.0);
-        ROTATE_SENSITIVITY = updateDriverConstant("rotate sensitivity", ROTATE_SENSITIVITY,
-                1.0, Double.MAX_VALUE);
-        ROTATE_GAIN = updateDriverConstant("rotate gain", ROTATE_GAIN,
-                0.0, Double.MAX_VALUE);
-    }
-
 }
