@@ -43,11 +43,19 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double MAX_FRONT_SHOOTER_RPM = 24000.0;
     public static double MAX_REAR_SHOOTER_RPM = 29000.0;
 
-    //Shooter PID constants
+    // Shooter PID constants
     public static double SHOOTER_kP = 0.002;
     public static double SHOOTER_kI = 0.0;
     public static double SHOOTER_kF_FRONT = 0.042;
     public static double SHOOTER_kF_REAR = 0.0335;
+
+    // Shooter powers 2/27
+    // autonomous starting position
+    public static double AUTO_START_FRONT = 0.35;
+    public static double AUTO_START_REAR = -0.85;
+    // ball ring position
+    public static double AUTO_BALL_FRONT = 0.425;
+    public static double AUTO_BALL_REAR = -0.625;
 
     /**
      * Creates a new instance of this ShooterSubsystem. This constructor
