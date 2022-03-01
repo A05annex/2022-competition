@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.LiftCommand;
-import frc.robot.commands.LiftPowerCommand;
-import frc.robot.commands.LiftTestCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 
@@ -32,8 +29,9 @@ public class RobotContainer
 
     // command declarations
     DriveCommand m_driveCommand;
-    LiftTestCommand m_liftTestCommand;
-    LiftPowerCommand m_liftPowerCommand;
+//    LiftTestCommand m_liftTestCommand;
+//    LiftPowerCommand m_liftPowerCommand;
+    LiftManualCommand m_liftManualCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -57,12 +55,13 @@ public class RobotContainer
     {
         // commands
         m_driveCommand = new DriveCommand(m_xbox);
-        //m_liftTestCommand = new LiftTestCommand(m_xbox);
-        m_liftPowerCommand = new LiftPowerCommand(m_xboxA, m_xboxX, m_xboxB, m_xboxY);
+//        m_liftTestCommand = new LiftTestCommand(m_xbox);
+//        m_liftPowerCommand = new LiftPowerCommand(m_xboxA, m_xboxX, m_xboxB, m_xboxY);
+        m_liftManualCommand = new LiftManualCommand(m_xboxY, m_xboxB, m_xboxX, m_xboxA);
 
         // set default commands
-        //m_driveSubsystem.setDefaultCommand(m_driveCommand);
-        m_liftSubsystem.setDefaultCommand(m_liftPowerCommand);
+        m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_liftSubsystem.setDefaultCommand(m_liftManualCommand);
 
         // Configure the button bindings
         configureButtonBindings();

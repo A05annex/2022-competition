@@ -53,8 +53,8 @@ public class LiftSubsystem extends SubsystemBase {
     // TODO hanger position constants
     public static final class HangerPositions {
         public static final double
-            RIGHT_UP = 475000.0, // all the way up
-            LEFT_UP = 600000.0, //
+            RIGHT_UP = 400000.0, // all the way up
+            LEFT_UP = 600000.0, // all the way up
             RIGHT_DOWN = 260000.0, // right angle, untested
             LEFT_DOWN = 320000; // right angle, untested
     }
