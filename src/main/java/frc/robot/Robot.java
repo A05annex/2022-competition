@@ -9,6 +9,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -64,6 +65,9 @@ public class Robot extends A05Robot
         ShooterSubsystem.getInstance().updateShooterConstants();
         CollectorSubsystem.getInstance().updateCollectorPower();
         FeederSubsystem.getInstance().updateFeederPower();
+
+        // print limelight target data
+        LimelightSubsystem.getInstance().printXY();
     }
     
     

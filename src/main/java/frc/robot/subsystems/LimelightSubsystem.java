@@ -124,9 +124,10 @@ public class LimelightSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("ts", data.ts);
     }
 
-    @Override
-    public void periodic() {
-        printTargetData();
+    public void printXY() {
+        TargetData data = getTargetData();
+        SmartDashboard.putNumber("tx", data.tx);
+        SmartDashboard.putNumber("ty", data.ty);
     }
 }
 
