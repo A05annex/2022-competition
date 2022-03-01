@@ -6,7 +6,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -34,7 +33,7 @@ public class RobotContainer
 
     // command declarations
     DriveCommand m_driveCommand;
-    CollectorCommand m_collectorCommand;
+    CollectorHoldCommand m_collectorCommand;
     ShooterCommand m_shooterCommand;
     FeederCommand m_feederCommand;
     private final Command autoCommand = null; // autonomous command
@@ -61,14 +60,14 @@ public class RobotContainer
     {
         // commands
         m_driveCommand = new DriveCommand(m_xbox, m_xboxStart); // uses both sticks and Start for limelight targeting
-        m_collectorCommand = new CollectorCommand(m_xboxB);
-        m_shooterCommand = new ShooterCommand(m_xboxY);
+        m_collectorCommand = new CollectorHoldCommand(m_xboxB);
+        //m_shooterCommand = new ShooterCommand(m_xboxY);
         m_feederCommand = new FeederCommand(m_xboxRightBumper, m_xboxLeftBumper);
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
-        m_shooterSubsystem.setDefaultCommand(m_shooterCommand);
+        //m_shooterSubsystem.setDefaultCommand(m_shooterCommand);
         m_feederSubsystem.setDefaultCommand(m_feederCommand);
 
         // Configure the button bindings
@@ -86,6 +85,7 @@ public class RobotContainer
     {
         m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
         m_xboxX.whenPressed(new CollectorJerkCommand());
+        m_xboxY.whenPressed(new AutoShooterBallsCommand());
     }
     
 
