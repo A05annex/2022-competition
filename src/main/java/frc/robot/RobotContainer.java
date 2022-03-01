@@ -34,8 +34,6 @@ public class RobotContainer
     // command declarations
     DriveCommand m_driveCommand;
     CollectorHoldCommand m_collectorCommand;
-    ShooterCommand m_shooterCommand;
-    FeederCommand m_feederCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -59,16 +57,12 @@ public class RobotContainer
     public RobotContainer()
     {
         // commands
-        m_driveCommand = new DriveCommand(m_xbox, m_xboxStart); // uses both sticks and Start for limelight targeting
-        m_collectorCommand = new CollectorHoldCommand(m_xboxB);
-        //m_shooterCommand = new ShooterCommand(m_xboxY);
-        m_feederCommand = new FeederCommand(m_xboxRightBumper, m_xboxLeftBumper);
+        m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper); // uses both sticks and LB for limelight targeting
+        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper);
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
-        //m_shooterSubsystem.setDefaultCommand(m_shooterCommand);
-        m_feederSubsystem.setDefaultCommand(m_feederCommand);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -83,9 +77,11 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
+        m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
         m_xboxX.whenPressed(new CollectorJerkCommand());
-        m_xboxY.whenPressed(new AutoShooterBallsCommand());
+        m_xboxB.whenPressed(new AutoShooterBallsCommand());
+        m_xboxA.whenPressed(new AutoShooterStartCommand());
+        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
     }
     
 
