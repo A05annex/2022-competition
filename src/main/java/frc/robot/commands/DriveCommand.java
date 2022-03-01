@@ -34,8 +34,8 @@ public class DriveCommand extends CommandBase {
     public static double ROTATE_DEADBAND = 0.05;
 
     // sensitivity and gain
-    public static double DRIVE_SPEED_SENSITIVITY = 3.0;
-    public static double DRIVE_SPEED_GAIN = 1.0;
+    public static double DRIVE_SPEED_SENSITIVITY = 2.0;
+    public static double DRIVE_SPEED_GAIN = 0.7;
     public static double ROTATE_SENSITIVITY = 2.0;
     public static double ROTATE_GAIN = 0.8;
 
