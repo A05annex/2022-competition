@@ -52,13 +52,15 @@ public class RobotContainer
     JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
     JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
     JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
+    JoystickButton m_xboxBack = new JoystickButton(m_xbox, 7);
+    JoystickButton m_xboxStart = new JoystickButton(m_xbox, 8);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
         // commands
-        m_driveCommand = new DriveCommand(m_xbox); // uses both sticks
+        m_driveCommand = new DriveCommand(m_xbox, m_xboxStart); // uses both sticks and Start for limelight targeting
         m_collectorCommand = new CollectorCommand(m_xboxB);
         m_shooterCommand = new ShooterCommand(m_xboxY);
         m_feederCommand = new FeederCommand(m_xboxRightBumper, m_xboxLeftBumper);

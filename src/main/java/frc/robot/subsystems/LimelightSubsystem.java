@@ -6,6 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import org.a05annex.util.AngleConstantD;
+import org.a05annex.util.AngleUnit;
 
 public class LimelightSubsystem extends SubsystemBase {
     /**
@@ -32,7 +34,7 @@ public class LimelightSubsystem extends SubsystemBase {
     public static final class Pipelines {
         public static final int
                 DRIVER = 1,
-                SHOOTER = 2;
+                SHOOTER = 4;
     }
 
     // get limelight NetworkTable
@@ -78,6 +80,19 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     /**
+     *
+     * @return (AngleConstantD) The difference between the target and the limelight cursor, in degrees.
+     */
+    public AngleConstantD getTargetError() {
+        double tx = getTargetData().tx;
+        if (tx == -100.0) {
+            // no limelight, so no error
+            return new AngleConstantD(AngleConstantD.ZERO);
+        }
+        return new AngleConstantD(AngleUnit.DEGREES, getTargetData().tx);
+    }
+
+    /**
      * Returns the data class to hold all target data from the limelight.
      * If there is no data, all values will be -1.0.
      *
@@ -89,11 +104,11 @@ public class LimelightSubsystem extends SubsystemBase {
      */
     public TargetData getTargetData() {
         return new TargetData(
-                m_table.getEntry("tv").getDouble(-1.0),
-                m_table.getEntry("tx").getDouble(-1.0),
-                m_table.getEntry("ty").getDouble(-1.0),
-                m_table.getEntry("ta").getDouble(-1.0),
-                m_table.getEntry("ts").getDouble(-1.0)
+                m_table.getEntry("tv").getDouble(-100.0),
+                m_table.getEntry("tx").getDouble(-100.0),
+                m_table.getEntry("ty").getDouble(-100.0),
+                m_table.getEntry("ta").getDouble(-100.0),
+                m_table.getEntry("ts").getDouble(-100.0)
         );
     }
 

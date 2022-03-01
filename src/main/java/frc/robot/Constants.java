@@ -64,7 +64,10 @@ public final class Constants {
     public static final double MAX_METERS_PER_SEC = 3.2;
 
     // kP for keeping drive at the same orientation
-    public static double DRIVE_ORIENTATION_kP = 1.2;
+    public static final double DRIVE_ORIENTATION_kP = 1.2;
+
+    // kP for keeping target orientation while driving
+    public static final double TARGET_kP = 0.5;
 
     // connect constants to SmartDashboard
     /**
