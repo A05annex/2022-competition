@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double MAX_FRONT_SHOOTER_RPM = 24000.0;
     public static double MAX_REAR_SHOOTER_RPM = 29000.0;
 
-    //Shooter PID constants
+    // Shooter PID constants
     public static double SHOOTER_kP = 0.002;
     public static double SHOOTER_kI = 0.0;
     public static double SHOOTER_kF_FRONT = 0.042;
