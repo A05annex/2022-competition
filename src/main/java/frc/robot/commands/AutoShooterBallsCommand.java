@@ -9,9 +9,6 @@ public class AutoShooterBallsCommand extends CommandBase {
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
-    private boolean m_done = false;
-    private final int REV_CYCLES = 25; // 0.5 seconds
-    private final int WAIT_CYCLES = 100; // 2 seconds total
 
     public AutoShooterBallsCommand() {
         // each subsystem used by the command must be passed into the
@@ -23,7 +20,6 @@ public class AutoShooterBallsCommand extends CommandBase {
     @Override
     public void initialize() {
         m_cyclesElapsed = 0;
-        m_done = false;
     }
 
     @Override
@@ -33,7 +29,7 @@ public class AutoShooterBallsCommand extends CommandBase {
         m_shooterSubsystem.setRearShooter(ShooterSubsystem.AUTO_BALL_REAR);
 
         // wait for shooter to rev up
-        if (m_cyclesElapsed >= REV_CYCLES) {
+        if (m_cyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
             m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
         }
 
@@ -42,7 +38,7 @@ public class AutoShooterBallsCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_cyclesElapsed >= WAIT_CYCLES;
+        return m_cyclesElapsed >= ShooterSubsystem.WAIT_CYCLES;
     }
 
     @Override

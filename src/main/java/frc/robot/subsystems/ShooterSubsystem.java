@@ -57,6 +57,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double AUTO_BALL_FRONT = 0.425;
     public static double AUTO_BALL_REAR = -0.625;
 
+    // Shooter autonomous wait lengths
+    public static final int REV_CYCLES = 25; // 0.5 seconds
+    public static final int WAIT_CYCLES = 100; // 2 seconds total
+
     /**
      * Creates a new instance of this ShooterSubsystem. This constructor
      * is private since this class is a Singleton. Code should use
