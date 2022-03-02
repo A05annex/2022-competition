@@ -5,9 +5,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
+import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -94,6 +96,43 @@ public final class Constants {
 
     // kP for keeping drive at the same orientation
     public static double DRIVE_ORIENTATION_kP = 1.2;
+
+    // enum that contains autos
+    public enum AutonomousPath {
+        FOUR_BALL_SLOW("4Ball Slow", 0, "2022_4ball_test_slow.json"),
+        THREE_SEC_TEST("3 sec test", 1, "3sec_test.json");
+
+        static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.THREE_SEC_TEST;
+
+        private final String m_pathName;
+        private final int m_id;
+        private final String m_filename;
+
+        AutonomousPath(String skill, int id, String filename) {
+            m_pathName = skill;
+            m_id = id;
+            m_filename = filename;
+        }
+
+        public static String getName() {
+            return AUTONOMOUS_PATH.m_pathName;
+        }
+
+        /**
+         * Load this autonomous path.
+         *
+         * @return The loaded path, {@code null} if the path could not be loaded.
+         */
+        public static KochanekBartelsSpline load() {
+            KochanekBartelsSpline spline = new KochanekBartelsSpline();
+            if (spline.loadPath(Filesystem.getDeployDirectory().toString() + "/paths/" +
+                    AUTONOMOUS_PATH.m_filename)) {
+                return spline;
+            } else {
+                return null;
+            }
+        }
+    }
 
     // connect constants to SmartDashboard
     /**

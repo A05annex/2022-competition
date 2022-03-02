@@ -5,16 +5,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutonomousPathCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
 
 /**
@@ -33,7 +36,7 @@ public class RobotContainer
 
     // command declarations
     DriveCommand m_driveCommand;
-    private final Command autoCommand = null; // autonomous command
+    private AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
     NavX m_navx = NavX.getInstance();
@@ -58,6 +61,9 @@ public class RobotContainer
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
+
+        // autonomous
+        m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -86,6 +92,6 @@ public class RobotContainer
     public Command getAutonomousCommand()
     {
         // An ExampleCommand will run in autonomous
-        return autoCommand;
+        return m_autoCommand;
     }
 }
