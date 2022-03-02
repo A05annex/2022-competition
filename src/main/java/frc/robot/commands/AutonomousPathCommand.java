@@ -152,8 +152,9 @@ public class AutonomousPathCommand extends CommandBase {
 
             }
 
-            double errorRotation = (pathPoint.fieldHeading.getRadians() - NavX.getInstance().getHeading().getRadians()) *
-                    Constants.DRIVE_ORIENTATION_kP;
+            double errorRotation = 0.0;
+//            double errorRotation = (pathPoint.fieldHeading.getRadians() - NavX.getInstance().getHeading().getRadians()) *
+//                    Constants.DRIVE_ORIENTATION_kP;
             // The expected heading is included in the PathPoint. The path point is the instantaneous
             // speed and position that we want to be at NOW. If the heading is incorrect, then the
             // direction the forward and strafe is incorrect and we will be at the wrong place on

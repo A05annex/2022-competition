@@ -77,7 +77,7 @@ public final class Constants {
     // computed from DRIVE_DIAGONAL and MAX_METERS_PER_SEC:
     //     Max [radians/sec] = max speed [meters/sec] / (PI * radius) [meters/radian]
     //     Max [radians/sec] = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5)
-    public static final double MAX_RADIANS_PER_SEC = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5);
+    public static final double MAX_RADIANS_PER_SEC = (MAX_METERS_PER_SEC * 2 * Math.PI) / (Math.PI * DRIVE_DIAGONAL);
 
     // DriveCommand constants
     // maximum change in joystick value per 20ms for speed and rotation
