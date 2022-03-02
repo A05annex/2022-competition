@@ -34,6 +34,7 @@ public class RobotContainer
     // command declarations
     DriveCommand m_driveCommand;
     CollectorHoldCommand m_collectorCommand;
+    FeederCommand m_feederCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -51,6 +52,8 @@ public class RobotContainer
     JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
     JoystickButton m_xboxBack = new JoystickButton(m_xbox, 7);
     JoystickButton m_xboxStart = new JoystickButton(m_xbox, 8);
+    JoystickButton m_xboxLeftStickPress = new JoystickButton(m_xbox, 9);
+    JoystickButton m_xboxRightStickPress = new JoystickButton(m_xbox, 10);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -59,10 +62,12 @@ public class RobotContainer
         // commands
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper); // uses both sticks and LB for limelight targeting
         m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper);
+        m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
+        m_feederSubsystem.setDefaultCommand(m_feederCommand);
 
         // Configure the button bindings
         configureButtonBindings();
