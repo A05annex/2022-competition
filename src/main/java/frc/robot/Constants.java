@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Mk4NeoModule;
@@ -79,30 +80,37 @@ public final class Constants {
     //     Max [radians/sec] = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5)
     public static final double MAX_RADIANS_PER_SEC = (MAX_METERS_PER_SEC * 2 * Math.PI) / (Math.PI * DRIVE_DIAGONAL);
 
-    // DriveCommand constants
-    // maximum change in joystick value per 20ms for speed and rotation
-    public static double DRIVE_MAX_SPEED_INC = 0.075;
-    public static double DRIVE_MAX_ROTATE_INC = 0.075;
-
-    // deadband of drive and rotate joysticks
-    public static double DRIVE_DEADBAND = 0.05;
-    public static double ROTATE_DEADBAND = 0.05;
-
-    // sensitivity and gain
-    public static double DRIVE_SPEED_SENSITIVITY = 3.0;
-    public static double DRIVE_SPEED_GAIN = 1.0;
-    public static double ROTATE_SENSITIVITY = 2.0;
-    public static double ROTATE_GAIN = 0.8;
-
     // kP for keeping drive at the same orientation
     public static double DRIVE_ORIENTATION_kP = 1.2;
+
+    // Digital input switchboard
+    private static final DigitalInput switch0 = new DigitalInput(4);
+    private static final DigitalInput switch1 = new DigitalInput(3);
+    private static final DigitalInput switch2 = new DigitalInput(2);
+    private static final DigitalInput switch3 = new DigitalInput(1);
+    private static final DigitalInput switch4 = new DigitalInput(0);
+
+    public static int readDriverID() {
+        return (switch0.get() ? 0 : 1) + (switch1.get() ? 0 : 2);
+    }
+
+    public static int readAutoID() {
+        return (switch2.get() ? 0 : 1) + (switch3.get() ? 0 : 2) + (switch4.get() ? 0 : 4);
+    }
+
+    public static void printIDs() {
+        SmartDashboard.putNumber("driver", readDriverID());
+        SmartDashboard.putNumber("auto", readAutoID());
+    }
 
     // enum that contains autos
     public enum AutonomousPath {
         FOUR_BALL_SLOW("4Ball Slow", 0, "2022_4ball_test_slow.json"),
-        THREE_SEC_TEST("3 sec test", 1, "3sec_test.json");
+        THREE_SEC_TEST("3 sec test", 1, "3sec_test.json"),
+        FIVE_METER_STRAIGHT_TEST("5m straight", 2, "2022_cal_5m_straight.json"),
+        CLOCKWISE_ROTATE_TEST("rotate test" , 3, "2022_cal_clockwise_rotation.json");
 
-        static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.THREE_SEC_TEST;
+        static final AutonomousPath AUTONOMOUS_PATH = AutonomousPath.FIVE_METER_STRAIGHT_TEST;
 
         private final String m_pathName;
         private final int m_id;
@@ -125,7 +133,7 @@ public final class Constants {
          */
         public static KochanekBartelsSpline load() {
             KochanekBartelsSpline spline = new KochanekBartelsSpline();
-            if (spline.loadPath(Filesystem.getDeployDirectory().toString() + "/paths/" +
+            if (spline.loadPath(Filesystem.getDeployDirectory() + "/paths/" +
                     AUTONOMOUS_PATH.m_filename)) {
                 return spline;
             } else {

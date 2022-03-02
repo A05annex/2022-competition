@@ -60,6 +60,9 @@ public class Robot extends A05Robot
         ShooterSubsystem.getInstance().updateShooterConstants();
         CollectorSubsystem.getInstance().updateCollectorPower();
         FeederSubsystem.getInstance().updateFeederPower();
+
+        // print switchboard
+        Constants.printIDs();
     }
     
     
