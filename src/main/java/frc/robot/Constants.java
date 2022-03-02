@@ -53,6 +53,7 @@ public final class Constants {
 
     // ports for controllers
     public static final int XBOX_PORT = 0;
+    public static final int HANG_XBOX_PORT = 1;
 
     // length and width from center of the wheels, in m
     public static final double DRIVE_LENGTH = 0.5842;

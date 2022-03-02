@@ -155,8 +155,8 @@ public class LiftSubsystem extends SubsystemBase {
     public void printLiftData() {
         SmartDashboard.putNumber("left lift enc", m_lift_left.getSelectedSensorPosition());
         SmartDashboard.putNumber("right lift enc", m_lift_right.getSelectedSensorPosition());
-        SmartDashboard.putNumber("setter left lift enc", m_left_lift_enc_set);
-        SmartDashboard.putNumber("setter right lift enc", m_right_lift_enc_set);
+//        SmartDashboard.putNumber("setter left lift enc", m_left_lift_enc_set);
+//        SmartDashboard.putNumber("setter right lift enc", m_right_lift_enc_set);
     }
 
     // change PID and enc setters with SmartDashboard

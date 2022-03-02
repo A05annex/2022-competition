@@ -33,6 +33,7 @@ public class RobotContainer
     DriveCommand m_driveCommand;
     CollectorHoldCommand m_collectorCommand;
     FeederCommand m_feederCommand;
+    LiftManualCommand m_liftManualCommand;
     private final Command autoCommand = null; // autonomous command
 
     // declare NavX, used for resetting initial heading
@@ -40,6 +41,7 @@ public class RobotContainer
 
     // controller declarations
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
+    XboxController m_hang_xbox = new XboxController(Constants.HANG_XBOX_PORT);
 
     // controller button declarations
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
@@ -53,6 +55,12 @@ public class RobotContainer
     JoystickButton m_xboxLeftStickPress = new JoystickButton(m_xbox, 9);
     JoystickButton m_xboxRightStickPress = new JoystickButton(m_xbox, 10);
 
+    // hang xbox controller buttons
+    JoystickButton m_hangA = new JoystickButton(m_hang_xbox, 1);
+    JoystickButton m_hangB = new JoystickButton(m_hang_xbox, 2);
+    JoystickButton m_hangX = new JoystickButton(m_hang_xbox, 3);
+    JoystickButton m_hangY = new JoystickButton(m_hang_xbox, 4);
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -61,11 +69,13 @@ public class RobotContainer
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper); // uses both sticks and LB for limelight targeting
         m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper);
         m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
+        m_liftManualCommand = new LiftManualCommand(m_hangY, m_hangB, m_hangX, m_hangA);
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
         m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
         m_feederSubsystem.setDefaultCommand(m_feederCommand);
+        m_liftSubsystem.setDefaultCommand(m_liftManualCommand);
 
         // Configure the button bindings
         configureButtonBindings();
