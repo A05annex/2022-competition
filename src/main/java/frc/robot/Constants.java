@@ -107,11 +107,12 @@ public final class Constants {
     // enum that contains autos
     public enum AutonomousPath {
         FOUR_BALL_SLOW("4Ball Slow", 0, "2022_4ball_test_slow.json"),
-        THREE_SEC_TEST("3 sec test", 1, "3sec_test.json"),
-        FIVE_METER_STRAIGHT_TEST("5m straight", 2, "2022_cal_5m_straight.json"),
-        CLOCKWISE_ROTATE_TEST("rotate test" , 3, "2022_cal_clockwise_rotation.json");
+        FOUR_BALL("4Ball", 1, "2022_4ball.json"),
+        THREE_SEC_TEST("3 sec test", 2, "3sec_test.json"),
+        FIVE_METER_STRAIGHT_TEST("5m straight", 3, "2022_cal_5m_straight.json"),
+        CLOCKWISE_ROTATE_TEST("rotate test" , 4, "2022_cal_clockwise_rotation.json");
 
-        static final AutonomousPath AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
+        static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
 
         private final String m_pathName;
         private final int m_id;
@@ -139,6 +140,16 @@ public final class Constants {
                 return spline;
             } else {
                 return null;
+            }
+        }
+
+        public static void setAutonomousToId(int id) {
+            AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
+            for (AutonomousPath path : values()) {
+                if (path.m_id == id) {
+                    AUTONOMOUS_PATH = path;
+                    break;
+                }
             }
         }
     }

@@ -38,6 +38,10 @@ public class Robot extends A05Robot
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
+
+        // read and print auto
+        Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
+        SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
     }
     
     
