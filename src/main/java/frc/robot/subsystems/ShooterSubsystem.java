@@ -54,8 +54,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double AUTO_START_FRONT = 0.4;
     public static double AUTO_START_REAR = -0.9;
     // ball ring position
-    public static double AUTO_BALL_FRONT = 0.45;
-    public static double AUTO_BALL_REAR = -0.65;
+    public static double AUTO_BALL_FRONT = 0.475;
+    public static double AUTO_BALL_REAR = -0.675;
 
     // Shooter autonomous wait lengths
     public static final int REV_CYCLES = 25; // 0.5 seconds

@@ -76,7 +76,7 @@ public class RobotContainer
     {
         // commands
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper); // uses both sticks and LB for limelight targeting
-        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper);
+        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper, m_xboxStart);
         m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
         m_liftStickCommand = new LiftStickCommand(m_hangXbox);
 
@@ -107,7 +107,7 @@ public class RobotContainer
         m_xboxB.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
         m_xboxA.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_START_FRONT, ShooterSubsystem.AUTO_START_REAR));
         m_xboxY.whenPressed(new ShooterSetSpeedCommand());
-        m_xboxStart.whenPressed(new AutoDropCollectorCommand());
+//        m_xboxStart.whenPressed(new AutoShooterStartCommand());
     }
     
 

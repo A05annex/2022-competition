@@ -8,12 +8,14 @@ import frc.robot.subsystems.CollectorSubsystem;
 public class CollectorHoldCommand extends CommandBase {
     private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
     private final JoystickButton m_holdButton;
+    private final JoystickButton m_reverseButton;
 
-    public CollectorHoldCommand(JoystickButton holdButton) {
+    public CollectorHoldCommand(JoystickButton holdButton, JoystickButton reverseButton) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_collectorSubsystem);
         m_holdButton = holdButton;
+        m_reverseButton = reverseButton;
     }
 
     @Override
@@ -23,7 +25,9 @@ public class CollectorHoldCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (m_holdButton.get()) {
+        if (m_reverseButton.get()) {
+            m_collectorSubsystem.setPower(-CollectorSubsystem.COLLECTOR_POWER);
+        } else if (m_holdButton.get()) {
             m_collectorSubsystem.setPower(CollectorSubsystem.COLLECTOR_POWER);
         } else {
             m_collectorSubsystem.setPower(0.0);

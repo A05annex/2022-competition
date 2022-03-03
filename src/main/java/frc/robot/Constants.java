@@ -115,7 +115,7 @@ public final class Constants {
         FOUR_BALL("4Ball", 5, "2022_4ball.json"),
         FOUR_BALL_SLOW("4Ball Slow", 6, "2022_4ball_test_slow.json");
 
-        static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
+        static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.TWO_BALL_A;
 
         private final String m_pathName;
         private final int m_id;
@@ -147,7 +147,7 @@ public final class Constants {
         }
 
         public static void setAutonomousToId(int id) {
-            AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
+            AUTONOMOUS_PATH = AutonomousPath.TWO_BALL_A;
             for (AutonomousPath path : values()) {
                 if (path.m_id == id) {
                     AUTONOMOUS_PATH = path;
