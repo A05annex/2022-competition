@@ -1,61 +1,54 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
 public class ShooterCommand extends CommandBase {
-
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
-    private final JoystickButton m_toggleButton;
+    private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
+    private int m_cyclesElapsed = 0;
+    private final double m_frontPower;
+    private final double m_rearPower;
 
-    private boolean m_isRunning = false;
-    private boolean m_lastToggleButton = false;
-
-    /**
-     * Runs the shooter at the constant speeds in ShooterSubsystem.
-     *
-     * @param toggleButton Toggles the shooter on/off.
-     */
-    public ShooterCommand(JoystickButton toggleButton) {
+    public ShooterCommand(double frontPower, double rearPower) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_shooterSubsystem);
-        m_toggleButton = toggleButton;
+        addRequirements(m_feederSubsystem);
+        m_frontPower = frontPower;
+        m_rearPower = rearPower;
     }
 
     @Override
     public void initialize() {
-        m_isRunning = false;
-        m_lastToggleButton = false;
+        m_cyclesElapsed = 0;
     }
 
     @Override
     public void execute() {
-        if (m_toggleButton.get() && !m_lastToggleButton) {
-            m_isRunning = !m_isRunning;
+        // set shooter speeds
+        m_shooterSubsystem.setFrontShooter(m_frontPower);
+        m_shooterSubsystem.setRearShooter(m_rearPower);
+
+        // wait for shooter to rev up
+        if (m_cyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
+            m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
         }
 
-        if (m_isRunning) {
-            m_shooterSubsystem.setFrontShooter(m_shooterSubsystem.getFrontShooterSetSpeed());
-            m_shooterSubsystem.setRearShooter(m_shooterSubsystem.getRearShooterSetSpeed());
-        } else {
-            m_shooterSubsystem.setFrontShooter(0.0);
-            m_shooterSubsystem.setRearShooter(0.0);
-        }
-
-        m_lastToggleButton = m_toggleButton.get();
+        m_cyclesElapsed++;
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return m_cyclesElapsed >= ShooterSubsystem.WAIT_CYCLES;
     }
 
     @Override
     public void end(boolean interrupted) {
         m_shooterSubsystem.setFrontShooter(0.0);
         m_shooterSubsystem.setRearShooter(0.0);
+        m_feederSubsystem.setPower(0.0);
     }
 }
