@@ -37,8 +37,8 @@ public class CollectorJerkCommand extends CommandBase {
         }
 
         // run backwards
-        if (m_cyclesElapsed <= CollectorSubsystem.JERK_CYCLES && m_state == 1) {
-            m_collectorSubsystem.setPower(-CollectorSubsystem.JERK_POWER);
+        if (m_cyclesElapsed <= CollectorSubsystem.BACK_CYCLES && m_state == 1) {
+            m_collectorSubsystem.setPower(-CollectorSubsystem.BACK_POWER);
         } else if (m_state == 1) {
             m_state = 2;
             m_cyclesElapsed = 0;
@@ -46,7 +46,7 @@ public class CollectorJerkCommand extends CommandBase {
 
         // run forwards
         if (m_cyclesElapsed <= CollectorSubsystem.FORWARD_CYCLES && m_state == 2) {
-            m_collectorSubsystem.setPower(CollectorSubsystem.JERK_POWER);
+            m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER);
         } else if (m_state == 2) {
             m_state = 3;
             m_cyclesElapsed = 0;
