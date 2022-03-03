@@ -107,11 +107,13 @@ public final class Constants {
 
     // enum that contains autos
     public enum AutonomousPath {
-        FOUR_BALL_SLOW("4Ball Slow", 0, "2022_4ball_test_slow.json"),
-        FOUR_BALL("4Ball", 1, "2022_4ball.json"),
-        THREE_SEC_TEST("3 sec test", 2, "3sec_test.json"),
-        FIVE_METER_STRAIGHT_TEST("5m straight", 3, "2022_cal_5m_straight.json"),
-        CLOCKWISE_ROTATE_TEST("rotate test" , 4, "2022_cal_clockwise_rotation.json");
+        TWO_BALL_A("2Ball A", 0, "2022_2ball_A.json"),
+        TWO_BALL_B("2Ball B", 1, "2022_2ball_B.json"),
+        TWO_BALL_C("2Ball C", 2, "2022_2ball_A.json"),
+        THREE_BALL_AB("3Ball AB", 3, "2022_3ball_AB.json"),
+        THREE_BALL_BD("3Ball BD", 4, ""), // not done
+        FOUR_BALL("4Ball", 5, "2022_4ball.json"),
+        FOUR_BALL_SLOW("4Ball Slow", 6, "2022_4ball_test_slow.json");
 
         static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.FOUR_BALL_SLOW;
 
