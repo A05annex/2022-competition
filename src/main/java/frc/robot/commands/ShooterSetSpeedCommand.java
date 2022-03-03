@@ -5,20 +5,16 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShooterCommand extends CommandBase {
+public class ShooterSetSpeedCommand extends CommandBase {
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
-    private final double m_frontPower;
-    private final double m_rearPower;
 
-    public ShooterCommand(double frontPower, double rearPower) {
+    public ShooterSetSpeedCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_shooterSubsystem);
         addRequirements(m_feederSubsystem);
-        m_frontPower = frontPower;
-        m_rearPower = rearPower;
     }
 
     @Override
@@ -29,8 +25,8 @@ public class ShooterCommand extends CommandBase {
     @Override
     public void execute() {
         // set shooter speeds
-        m_shooterSubsystem.setFrontShooter(m_frontPower);
-        m_shooterSubsystem.setRearShooter(m_rearPower);
+        m_shooterSubsystem.setFrontShooter(m_shooterSubsystem.getFrontShooterSetSpeed());
+        m_shooterSubsystem.setRearShooter(m_shooterSubsystem.getRearShooterSetSpeed());
 
         // wait for shooter to rev up
         if (m_cyclesElapsed >= ShooterSubsystem.REV_CYCLES) {

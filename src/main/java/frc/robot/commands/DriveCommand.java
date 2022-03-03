@@ -2,9 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.NavX;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.AngleUnit;
 import org.a05annex.util.Utl;
@@ -12,8 +14,10 @@ import org.a05annex.util.Utl;
 
 public class DriveCommand extends CommandBase {
     private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+    private final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
 
     private final XboxController m_xbox;
+    private final JoystickButton m_targetButton;
     private final NavX m_navx = NavX.getInstance();
 
     // save last stick values to limit rate of change
@@ -30,16 +34,17 @@ public class DriveCommand extends CommandBase {
     public static double ROTATE_DEADBAND = 0.05;
 
     // sensitivity and gain
-    public static double DRIVE_SPEED_SENSITIVITY = 3.0;
-    public static double DRIVE_SPEED_GAIN = 1.0;
-    public static double ROTATE_SENSITIVITY = 2.0;
-    public static double ROTATE_GAIN = 0.8;
+    public static double DRIVE_SPEED_SENSITIVITY = 2.0;
+    public static double DRIVE_SPEED_GAIN = 0.7;
+    public static double ROTATE_SENSITIVITY = 1.5;
+    public static double ROTATE_GAIN = 0.5;
 
-    public DriveCommand(XboxController xbox) {
+    public DriveCommand(XboxController xbox, JoystickButton targetButton) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
-        addRequirements(this.m_driveSubsystem);
+        addRequirements(m_driveSubsystem);
         m_xbox = xbox;
+        m_targetButton = targetButton;
     }
 
     @Override
@@ -89,30 +94,45 @@ public class DriveCommand extends CommandBase {
 
         // rotate math
         double rotation;
-        // take out rotation sign and store it for later
-        double rotationMult = (stickRotate < 0.0) ? -1.0 : 1.0;
-        stickRotate = Math.abs(stickRotate);
-        // are we rotating?
-        if (stickRotate < ROTATE_DEADBAND) {
-            // no rotate, keep current heading or 0 if no NavX
-            NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
-            if (headingInfo != null) {
-                rotation = new AngleD(headingInfo.expectedHeading).subtract(new AngleD(headingInfo.heading))
-                        .getRadians() * Constants.DRIVE_ORIENTATION_kP;
-                // clip and add speed multiplier
-                rotation = Utl.clip(rotation, -0.5, 0.5) * speed;
+        // are we targeting with the limelight?
+        if (m_targetButton.get()) {
+            // using the limelight targeting
+            if (speed == 0) {
+                // not moving, just setHeading and return
+                m_driveSubsystem.setHeading(m_driveSubsystem.getFieldHeading().add(
+                        m_limelightSubsystem.getTargetError()));
+                return;
             } else {
-                // no NavX
-                rotation = 0.0;
+                // moving, PID to target
+                rotation = m_limelightSubsystem.getTargetError().getRadians() * Constants.TARGET_kP;
             }
         } else {
-            // rotating
-            // adjust for deadband
-            rotation = (stickRotate - ROTATE_DEADBAND) / (1.0 - ROTATE_DEADBAND);
-            // update expected heading
-            m_navx.setExpectedHeadingToCurrent();
-            // add sensitivity, gain and sign
-            rotation = Math.pow(rotation, ROTATE_SENSITIVITY) * ROTATE_GAIN * rotationMult;
+            // not targeting, use driver rotation
+            // take out rotation sign and store it for later
+            double rotationMult = (stickRotate < 0.0) ? -1.0 : 1.0;
+            stickRotate = Math.abs(stickRotate);
+            // are we rotating?
+            if (stickRotate < ROTATE_DEADBAND) {
+                // no rotate, keep current heading or 0 if no NavX
+                NavX.HeadingInfo headingInfo = m_navx.getHeadingInfo();
+                if (headingInfo != null) {
+                    rotation = new AngleD(headingInfo.expectedHeading).subtract(new AngleD(headingInfo.heading))
+                            .getRadians() * Constants.DRIVE_ORIENTATION_kP;
+                    // clip and add speed multiplier
+                    rotation = Utl.clip(rotation, -0.5, 0.5) * speed;
+                } else {
+                    // no NavX
+                    rotation = 0.0;
+                }
+            } else {
+                // rotating
+                // adjust for deadband
+                rotation = (stickRotate - ROTATE_DEADBAND) / (1.0 - ROTATE_DEADBAND);
+                // update expected heading
+                m_navx.setExpectedHeadingToCurrent();
+                // add sensitivity, gain and sign
+                rotation = Math.pow(rotation, ROTATE_SENSITIVITY) * ROTATE_GAIN * rotationMult;
+            }
         }
 
         // find direction, if speed is close to 0 rotation will be zeroed

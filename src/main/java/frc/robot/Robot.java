@@ -7,11 +7,10 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.CollectorSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.*;
 import org.a05annex.frc.A05Robot;
 
 
@@ -42,6 +41,9 @@ public class Robot extends A05Robot
         // read and print auto
         Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
         SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
+
+        // Start logitech camera
+        CameraServer.startAutomaticCapture();
     }
     
     
@@ -70,6 +72,8 @@ public class Robot extends A05Robot
         Constants.printIDs();
 
         SmartDashboard.putNumber("heading", NavX.getInstance().getHeading().getDegrees());
+
+        LimelightSubsystem.getInstance().printXY();
     }
     
     

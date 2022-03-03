@@ -18,6 +18,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 
 /**
@@ -33,16 +35,22 @@ public class RobotContainer
     ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
     FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
+    LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
-    private AutonomousPathCommand m_autoCommand;
+    CollectorHoldCommand m_collectorCommand;
+    FeederCommand m_feederCommand;
+    LiftStickCommand m_liftStickCommand;
+    private final Command autoCommand = null; // autonomous command
+    private final AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
     NavX m_navx = NavX.getInstance();
 
     // controller declarations
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
+    XboxController m_hangXbox = new XboxController(Constants.HANG_XBOX_PORT);
 
     // controller button declarations
     JoystickButton m_xboxA = new JoystickButton(m_xbox, 1);
@@ -51,16 +59,32 @@ public class RobotContainer
     JoystickButton m_xboxY = new JoystickButton(m_xbox, 4);
     JoystickButton m_xboxLeftBumper = new JoystickButton(m_xbox, 5);
     JoystickButton m_xboxRightBumper = new JoystickButton(m_xbox, 6);
+    JoystickButton m_xboxBack = new JoystickButton(m_xbox, 7);
+    JoystickButton m_xboxStart = new JoystickButton(m_xbox, 8);
+    JoystickButton m_xboxLeftStickPress = new JoystickButton(m_xbox, 9);
+    JoystickButton m_xboxRightStickPress = new JoystickButton(m_xbox, 10);
+
+    // hang xbox controller buttons
+    JoystickButton m_hangA = new JoystickButton(m_hangXbox, 1);
+    JoystickButton m_hangB = new JoystickButton(m_hangXbox, 2);
+    JoystickButton m_hangX = new JoystickButton(m_hangXbox, 3);
+    JoystickButton m_hangY = new JoystickButton(m_hangXbox, 4);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
         // commands
-        m_driveCommand = new DriveCommand(m_xbox);
+        m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper); // uses both sticks and LB for limelight targeting
+        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper);
+        m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
+        m_liftStickCommand = new LiftStickCommand(m_hangXbox);
 
         // set default commands
         m_driveSubsystem.setDefaultCommand(m_driveCommand);
+        m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
+        m_feederSubsystem.setDefaultCommand(m_feederCommand);
+        m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
 
         // autonomous
         m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem);
@@ -78,9 +102,11 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        // Add button to command mappings here.
-        // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
-        m_xboxA.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav));
+        m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
+        m_xboxX.whenPressed(new CollectorJerkCommand());
+        m_xboxB.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
+        m_xboxA.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_START_FRONT, ShooterSubsystem.AUTO_START_REAR));
+        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
     }
     
 

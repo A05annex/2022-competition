@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double MAX_FRONT_SHOOTER_RPM = 24000.0;
     public static double MAX_REAR_SHOOTER_RPM = 29000.0;
 
-    //Shooter PID constants
+    // Shooter PID constants
     public static double SHOOTER_kP = 0.002;
     public static double SHOOTER_kI = 0.0;
     public static double SHOOTER_kF_FRONT = 0.042;
@@ -58,8 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double AUTO_BALL_REAR = -0.625;
 
     // Shooter autonomous wait lengths
-    public static final int REV_CYCLES = 50; // 1 seconds
-    public static final int WAIT_CYCLES = 100; // 2.5 seconds total
+    public static final int REV_CYCLES = 25; // 0.5 seconds
+    public static final int WAIT_CYCLES = 100; // 2 seconds total
 
     /**
      * Creates a new instance of this ShooterSubsystem. This constructor

@@ -57,6 +57,7 @@ public final class Constants {
 
     // ports for controllers
     public static final int XBOX_PORT = 0;
+    public static final int HANG_XBOX_PORT = 1;
 
     // for prototype, length and width from center of the wheels, in m (note chassis is 30" square,
     // the bolt pattern is 29" square, wheels are 2.75" in from the bolt pattern or centered on the
@@ -153,6 +154,9 @@ public final class Constants {
             }
         }
     }
+
+    // kP for keeping target orientation while driving
+    public static final double TARGET_kP = 0.5;
 
     // connect constants to SmartDashboard
     /**

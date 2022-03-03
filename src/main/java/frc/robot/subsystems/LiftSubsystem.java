@@ -50,13 +50,13 @@ public class LiftSubsystem extends SubsystemBase {
     // power for LiftPowerCommand
     public static final double LIFT_POWER = 1.0;
 
-    // TODO hanger position constants
+    // hanger position constants
     public static final class HangerPositions {
         public static final double
-            RIGHT_UP = 475000.0, // all the way up
+            RIGHT_UP = 400000.0, // all the way up
             LEFT_UP = 600000.0, // all the way up
             RIGHT_DOWN = 260000.0, // right angle, untested
-            LEFT_DOWN = 320000.0, // right angle, untested
+            LEFT_DOWN = 320000, // right angle, untested
             RIGHT_AUTO_UP = 10000.0; // drop collector, untested
     }
 
@@ -156,8 +156,8 @@ public class LiftSubsystem extends SubsystemBase {
     public void printLiftData() {
         SmartDashboard.putNumber("left lift enc", m_lift_left.getSelectedSensorPosition());
         SmartDashboard.putNumber("right lift enc", m_lift_right.getSelectedSensorPosition());
-        SmartDashboard.putNumber("setter left lift enc", m_left_lift_enc_set);
-        SmartDashboard.putNumber("setter right lift enc", m_right_lift_enc_set);
+//        SmartDashboard.putNumber("setter left lift enc", m_left_lift_enc_set);
+//        SmartDashboard.putNumber("setter right lift enc", m_right_lift_enc_set);
     }
 
     // change PID and enc setters with SmartDashboard
