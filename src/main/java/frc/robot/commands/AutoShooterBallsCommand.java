@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CollectorSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.*;
 
 
 public class AutoShooterBallsCommand extends CommandBase {
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
     private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
+    private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+    private final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
 
     public AutoShooterBallsCommand() {
@@ -18,6 +18,7 @@ public class AutoShooterBallsCommand extends CommandBase {
         addRequirements(m_shooterSubsystem);
         addRequirements(m_feederSubsystem);
         addRequirements(m_collectorSubsystem);
+        addRequirements(m_driveSubsystem);
     }
 
     @Override
@@ -38,7 +39,8 @@ public class AutoShooterBallsCommand extends CommandBase {
         }
 
         // limelight target
-
+        m_driveSubsystem.setHeading(m_driveSubsystem.getFieldHeading().add(
+                m_limelightSubsystem.getTargetError()));
 
         m_cyclesElapsed++;
     }
