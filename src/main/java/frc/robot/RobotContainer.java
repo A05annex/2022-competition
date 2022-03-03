@@ -107,6 +107,7 @@ public class RobotContainer
         m_xboxB.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
         m_xboxA.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_START_FRONT, ShooterSubsystem.AUTO_START_REAR));
         m_xboxY.whenPressed(new ShooterSetSpeedCommand());
+        m_xboxStart.whenPressed(new AutoDropCollectorCommand());
     }
     
 

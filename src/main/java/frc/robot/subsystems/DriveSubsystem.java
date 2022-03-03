@@ -343,8 +343,8 @@ public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
         m_lastChassisStrafe = m_thisChassisStrafe;
         m_lastTime = now;
 
-        // telemetry
-        printAllAngles();
+//        // telemetry
+//        printAllAngles();
     }
 }
 

@@ -71,8 +71,6 @@ public class Robot extends A05Robot
         // print switchboard
         Constants.printIDs();
 
-        SmartDashboard.putNumber("heading", NavX.getInstance().getHeading().getDegrees());
-
         LimelightSubsystem.getInstance().printXY();
     }
     

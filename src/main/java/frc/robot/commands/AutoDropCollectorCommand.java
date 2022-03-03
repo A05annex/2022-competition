@@ -6,6 +6,8 @@ import frc.robot.subsystems.LiftSubsystem;
 
 public class AutoDropCollectorCommand extends CommandBase {
     private final LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
+    private int m_cyclesElapsed = 0;
+    private boolean m_done = false;
 
     public AutoDropCollectorCommand() {
         // each subsystem used by the command must be passed into the
@@ -15,17 +17,24 @@ public class AutoDropCollectorCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        m_liftSubsystem.setRightPosition(LiftSubsystem.HangerPositions.RIGHT_AUTO_UP);
+        m_cyclesElapsed = 0;
+        m_done = false;
     }
 
     @Override
     public void execute() {
+        if (m_cyclesElapsed <= LiftSubsystem.LIFT_AUTO_CYCLES) {
+            m_liftSubsystem.setLeftPower(LiftSubsystem.LIFT_POWER);
+        } else {
+            m_done = true;
+        }
 
+        m_cyclesElapsed++;
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return m_done;
     }
 
     @Override

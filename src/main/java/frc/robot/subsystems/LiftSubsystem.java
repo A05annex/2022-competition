@@ -50,6 +50,9 @@ public class LiftSubsystem extends SubsystemBase {
     // power for LiftPowerCommand
     public static final double LIFT_POWER = 1.0;
 
+    // cycles to lift in auto
+    public static final int LIFT_AUTO_CYCLES = 10;
+
     // hanger position constants
     public static final class HangerPositions {
         public static final double
