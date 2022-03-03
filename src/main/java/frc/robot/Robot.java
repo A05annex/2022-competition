@@ -6,6 +6,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -63,6 +64,8 @@ public class Robot extends A05Robot
 
         // print switchboard
         Constants.printIDs();
+
+        SmartDashboard.putNumber("heading", NavX.getInstance().getHeading().getDegrees());
     }
     
     

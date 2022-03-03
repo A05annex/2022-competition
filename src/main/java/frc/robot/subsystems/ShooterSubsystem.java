@@ -58,8 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double AUTO_BALL_REAR = -0.625;
 
     // Shooter autonomous wait lengths
-    public static final int REV_CYCLES = 25; // 0.5 seconds
-    public static final int WAIT_CYCLES = 100; // 2 seconds total
+    public static final int REV_CYCLES = 50; // 1 seconds
+    public static final int WAIT_CYCLES = 100; // 2.5 seconds total
 
     /**
      * Creates a new instance of this ShooterSubsystem. This constructor
