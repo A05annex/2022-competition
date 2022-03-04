@@ -95,6 +95,9 @@ public class Robot extends A05Robot
         {
             autonomousCommand.schedule();
         }
+
+        // set to shooter pipeline
+        LimelightSubsystem.getInstance().setPipeline(LimelightSubsystem.Pipelines.SHOOTER);
     }
     
     

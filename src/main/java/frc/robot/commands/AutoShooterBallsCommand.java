@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
@@ -7,7 +8,6 @@ import frc.robot.subsystems.*;
 public class AutoShooterBallsCommand extends CommandBase {
     private final ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
-    private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
     private final DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
     private final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
@@ -17,14 +17,12 @@ public class AutoShooterBallsCommand extends CommandBase {
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(m_shooterSubsystem);
         addRequirements(m_feederSubsystem);
-        addRequirements(m_collectorSubsystem);
         addRequirements(m_driveSubsystem);
     }
 
     @Override
     public void initialize() {
         m_cyclesElapsed = 0;
-        m_collectorSubsystem.setPower(0.0);
     }
 
     @Override
@@ -43,6 +41,7 @@ public class AutoShooterBallsCommand extends CommandBase {
                 m_limelightSubsystem.getTargetError()));
 
         m_cyclesElapsed++;
+        SmartDashboard.putNumber("cycles", m_cyclesElapsed);
     }
 
     @Override

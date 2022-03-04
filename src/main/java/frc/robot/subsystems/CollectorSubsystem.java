@@ -40,7 +40,7 @@ public class CollectorSubsystem extends SubsystemBase {
 
     // number of 20ms cycles to jerk collector backwards and forwards
     public static final int BACK_CYCLES = 5; // 80 ms
-    public static final int FORWARD_CYCLES = 7; // 100 ms
+    public static final int FORWARD_CYCLES = 5; // 100 ms
     public static final int STOP_CYCLES = 10; // 200 ms
 
     /**
