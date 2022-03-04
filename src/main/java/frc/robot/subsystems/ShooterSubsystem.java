@@ -35,8 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private double m_lastSetRearSpeed;
 
     // Shooter speeds, set from -1.0 to 1.0
-    public double m_frontShooterSpeed = 0.425;
-    public double m_rearShooterSpeed = -0.625;
+    public double m_frontShooterSpeed = 0.4; // dump speed
+    public double m_rearShooterSpeed = -0.4;
 
     // Constants
     // Shooter max RPMs
@@ -56,6 +56,13 @@ public class ShooterSubsystem extends SubsystemBase {
     // ball ring position
     public static double AUTO_BALL_FRONT = 0.55;
     public static double AUTO_BALL_REAR = -0.55;
+
+    // dump speeds
+    public static double DUMP_SPEED_FRONT = 0.4;
+    public static double DUMP_SPEED_REAR = -0.4;
+
+    // time to wait for ball to settle
+    public static double SETTLE_CYCLES = 50 + ShooterSubsystem.WAIT_CYCLES; // 1 second
 
     // Shooter autonomous wait lengths
     public static final int REV_CYCLES = 25; // 0.5 seconds
