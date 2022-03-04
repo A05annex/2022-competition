@@ -39,6 +39,6 @@ public class AutoDropCollectorCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        m_liftSubsystem.setLeftPower(0.0);
     }
 }

@@ -31,6 +31,6 @@ public class AutoCollectorOnCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        m_collectorSubsystem.setPower(0.0);
     }
 }
