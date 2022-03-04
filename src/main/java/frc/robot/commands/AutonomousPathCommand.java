@@ -34,10 +34,11 @@ public class AutonomousPathCommand extends CommandBase {
     private long stopAndRunDuration = 0;
     private Command stopAndRunCommand = null;
 
-    public AutonomousPathCommand(KochanekBartelsSpline path, Subsystem driveSubsystem) {
+    public AutonomousPathCommand(KochanekBartelsSpline path, Subsystem driveSubsystem, Subsystem... requirements) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(driveSubsystem);
+        addRequirements(requirements);
         swerveDrive = (ISwerveDrive)driveSubsystem;
         spline = path;
         pathFollower = spline.getPathFollower();
