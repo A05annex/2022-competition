@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double DUMP_SPEED_REAR = -0.4;
 
     // time to wait for ball to settle
-    public static double SETTLE_CYCLES = 50 + ShooterSubsystem.WAIT_CYCLES; // 1 second
+    public static double SETTLE_CYCLES = 100 + ShooterSubsystem.WAIT_CYCLES; // 2 seconds
 
     // Shooter autonomous wait lengths
     public static final int REV_CYCLES = 25; // 0.5 seconds
