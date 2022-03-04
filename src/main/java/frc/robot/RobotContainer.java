@@ -87,7 +87,8 @@ public class RobotContainer
         m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
 
         // autonomous
-        m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem);
+        m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem,
+                m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
 
         // Configure the button bindings
         configureButtonBindings();

@@ -11,7 +11,7 @@ public class AutoCollectorOnCommand extends CommandBase {
     public AutoCollectorOnCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
-        addRequirements(m_collectorSubsystem);
+//        addRequirements(m_collectorSubsystem); path planner won't work if this is here
     }
 
     @Override
