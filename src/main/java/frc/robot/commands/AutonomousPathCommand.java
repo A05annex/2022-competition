@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.NavX;
 import frc.robot.subsystems.ISwerveDrive;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This is a command that follows an autonomous path created in the
@@ -31,26 +32,31 @@ public class AutonomousPathCommand extends CommandBase {
     private boolean isFinished = false;
     private long startTime;
     private long stopAndRunStartTime = 0;
-    private long stopAndRunDuration = 0;
+    protected long stopAndRunDuration = 0;
     private Command stopAndRunCommand = null;
 
-    public AutonomousPathCommand(KochanekBartelsSpline path, Subsystem driveSubsystem, Subsystem... requirements) {
+    /**
+     * Instantiate the {@code AutonomousPathCommand}.
+     * @param path The path description.
+     * @param driveSubsystem The swerve drive subsystem.
+     * @param additionalRequirements Additional required subsystems.
+     */
+    public AutonomousPathCommand(@NotNull KochanekBartelsSpline path, @NotNull Subsystem driveSubsystem,
+                                 Subsystem... additionalRequirements) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(driveSubsystem);
-        addRequirements(requirements);
+        addRequirements(additionalRequirements);
         swerveDrive = (ISwerveDrive)driveSubsystem;
         spline = path;
-        pathFollower = spline.getPathFollower();
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startTime = System.currentTimeMillis();
         pathFollower = spline.getPathFollower();
+        startTime = System.currentTimeMillis();
         isFinished = false;
-
         initializeRobotForPath();
     }
     /**
@@ -73,26 +79,39 @@ public class AutonomousPathCommand extends CommandBase {
             startTime = System.currentTimeMillis();
             if ((null != pathPoint.action) && (null != pathPoint.action.command) &&
                     (KochanekBartelsSpline.RobotActionType.STOP_AND_RUN_COMMAND == pathPoint.action.actionType)) {
-                String commandClass = "frc.robot.commands." + pathPoint.action.command;
-                Command command = null;
-                Object obj;
-                try {
-                    obj = Class.forName(commandClass).newInstance();
-                    if (obj instanceof Command) {
-                        command = (Command)obj;
-                    }
-                    stopAndRunCommand = command;
+                if (null != (stopAndRunCommand = instantiateActionCommand(pathPoint.action.command))) {
                     stopAndRunStartTime = System.currentTimeMillis();
                     stopAndRunCommand.initialize();
-                } catch (final Exception t) {
-                    System.out.println(
-                            String.format("Could not instantiate command: class='%s'; continuing with path.",
-                                    commandClass));
                 }
             }
             lastPathPoint = pathPoint;
         }
 
+    }
+
+    /**
+     * Instantiate the action command.
+     * @param commandClassName The command class name, assumed to be in the {@code frc.robot.commands}
+     *                         package, and has a no argument constructor.
+     * @return Returns the instantiated command, or {@code null} if the command could not be instantiated.
+     */
+    private Command instantiateActionCommand(@NotNull String commandClassName) {
+        String commandClass = "frc.robot.commands." + commandClassName;
+        Object obj;
+        Command command = null;
+        try {
+            obj = Class.forName(commandClass).getDeclaredConstructor().newInstance();
+            if (obj instanceof Command) {
+                command = (Command)obj;
+            } else {
+                System.out.printf("Class '%s' is not a command; continuing with path.%n", commandClass);
+
+            }
+        } catch (final Exception t) {
+            System.out.printf("Could not instantiate command: class='%s'; continuing with path.%n",
+                    commandClass);
+        }
+        return command;
     }
 
     /**
@@ -102,77 +121,66 @@ public class AutonomousPathCommand extends CommandBase {
     @Override
     public void execute() {
         if (null != stopAndRunCommand) {
-            // There is an active stop-and-run command
+            // There is an active stop-and-run command. Take the next stepbbin that command.
             stopAndRunCommand.execute();
-            return;
-        }
-        double pathTime = (System.currentTimeMillis() - startTime - stopAndRunDuration) / 1000.0;
-        pathPoint = pathFollower.getPointAt(pathTime);
-        if (pathPoint == null) {
-            isFinished = true;
-            swerveDrive.swerveDriveComponents(0, 0, 0);
+
         } else {
-            // for 2022 Rapid React we have added scheduled actions and stop-and-run actions. This makes this
-            // command very much like a wpilib CommandGroup action. The interesting thing about this action
-            // that it gets all its sequencing from the path file - which was built without access to the
-            // actual code and commands that may be scheduled or stop_and_run. These commands are instantiated by
-            // reflection, so only the name of the command is required during path planning.
-            if ((null != pathPoint.action) && (null != pathPoint.action.command)) {
-                // OK, the new thing - an action - first, let's see if we can instantiate the command for that
-                // action. This is the same code for either a scheduled or stop-and-run action. If is required
-                // that any specified action is in the 'frc.robot.commands' package, and has a no argument
-                // constructor. Additionally, if it is a scheduled command, it cannot require the drive subsystem
-                // or path following would be interrupted.
-                String commandClass = "frc.robot.commands." + pathPoint.action.command;
+            // get the path time: path time is a time along the path as though there were no stop-and-run
+            // commands. The duration of any stop-and-run commands is tracked and subtracted to get the
+            // actual path time.
+            double pathTime = (System.currentTimeMillis() - startTime - stopAndRunDuration) / 1000.0;
+            pathPoint = pathFollower.getPointAt(pathTime);
+            if (pathPoint == null) {
+                // We have reached the end of the path, stop the robot and finish this command.
+                isFinished = true;
+                swerveDrive.swerveDriveComponents(0.0, 0.0, 0.0);
+            } else {
+                // for 2022 Rapid React we have added scheduled actions and stop-and-run actions. This makes this
+                // command very much like a wpilib CommandGroup action. The interesting thing about this action
+                // that it gets all its sequencing from the path file - which was built without access to the
+                // actual code and commands that may be scheduled or stop_and_run. These commands are instantiated
+                // by reflection, so only the name of the command is required during path planning.
                 Command command = null;
-                //System.out.println(String.format("Instantiating command: class='%s'", commandClass));
-                final Object obj;
-                try {
-                    // instantiate the command (no argument constructor required)
-                    obj = Class.forName(commandClass).newInstance();
-                    if (obj instanceof Command) {
-                        command = (Command)obj;
-                    }
-                    // OK, we've instantiated the command, now either schedule it, or run it.
+                if ((null != pathPoint.action) && (null != pathPoint.action.command) &&
+                        (null != (command = instantiateActionCommand(pathPoint.action.command)))) {
+                    // OK, we've instantiated the command, now either schedule it, or run it inside this command.
                     if (KochanekBartelsSpline.RobotActionType.SCHEDULE_COMMAND == pathPoint.action.actionType) {
                         // this one is really simple - we just schedule the command, and it happens in
                         // parallel with path following.
                         CommandScheduler.getInstance().schedule(command);
                     } else if (KochanekBartelsSpline.RobotActionType.STOP_AND_RUN_COMMAND == pathPoint.action.actionType) {
                         // this is a bit more complicated, we are going to run the command inside this command,
-                        // then resume path following when this command completes.
+                        // then resume path following when this command completes. So we assume the robot is stopped,
+                        //that we know the start time of the command, and that the command is initialized.
                         stopAndRunCommand = command;
-                        swerveDrive.swerveDriveComponents(0, 0, 0);
+                        swerveDrive.swerveDriveComponents(0.0, 0.0, 0.0);
                         stopAndRunStartTime = System.currentTimeMillis();
                         stopAndRunCommand.initialize();
                         return;
                     }
-                } catch (final Exception t) {
-                    System.out.println(
-                            String.format("Could not instantiate command: class='%s'; continuing with path.",
-                                    commandClass));
                 }
 
+                double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
+                double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
+                // The expected heading is included in the PathPoint. The path point is the instantaneous
+                // speed and position that we want to be at when we go through the path point. So, we are
+                // actually telling the swerve drive what to do to get from the last control point to this
+                // control point. If the heading is not the last PathPoint heading, then forward and strafe
+                // speeds are not in the right direction. So here we have a heading PID error correction to
+                //try and keep us on path.
+//                double errorRotation = 0.0;  // when calibrating rotation rate.
+                double errorRotation = (lastPathPoint.fieldHeading.getRadians() -
+                        NavX.getInstance().getHeading().getRadians()) * Constants.DRIVE_ORIENTATION_kP;
+                double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC) + errorRotation;
+                swerveDrive.swerveDriveComponents(forward, strafe, rotation);
+                NavX.getInstance().setExpectedHeadingToCurrent();
+
+                lastPathPoint = pathPoint;
             }
-
-//            double errorRotation = 0.0;
-            double errorRotation = (lastPathPoint.fieldHeading.getRadians() - NavX.getInstance().getHeading().getRadians()) *
-                    Constants.DRIVE_ORIENTATION_kP;
-            // The expected heading is included in the PathPoint. The path point is the instantaneous
-            // speed and position that we want to be at NOW. If the heading is incorrect, then the
-            // direction the forward and strafe is incorrect and we will be at the wrong place on
-            // the field. So we need a PID correction of heading incorporated here.
-            double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
-            double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
-            double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC) + errorRotation;
-//            double rotation = (point.speedRotation / Constants.MAX_RADIANS_PER_SEC);
-            swerveDrive.swerveDriveComponents(forward, strafe, rotation);
-            NavX.getInstance().setExpectedHeadingToCurrent();
-
-            lastPathPoint = pathPoint;
         }
 
     }
+
 
     /**
      * <p>

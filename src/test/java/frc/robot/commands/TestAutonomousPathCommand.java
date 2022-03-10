@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -8,6 +9,7 @@ import frc.robot.subsystems.DummySwerveDriveSubsystem;
 import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
@@ -25,6 +27,34 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @RunWith(JUnitPlatform.class)
 public class TestAutonomousPathCommand {
+
+    /**
+     * This is extension of the {@link AutonomousPathCommand} that overrides the
+     * {@link Command#runsWhenDisabled()} to return {@code true} so we can run in
+     * the test environment which believes the robot is disabled.
+     */
+    class AutonomousPathCommandWrapper extends AutonomousPathCommand {
+
+        /**
+         * Instantiate the {@code AutonomousPathCommand}.
+         *
+         * @param path                   The path description.
+         * @param driveSubsystem         The swerve drive subsystem.
+         * @param additionalRequirements Additional required subsystems.
+         */
+        public AutonomousPathCommandWrapper(@NotNull KochanekBartelsSpline path,
+                                            @NotNull Subsystem driveSubsystem,
+                                            Subsystem... additionalRequirements) {
+            super(path, driveSubsystem, additionalRequirements);
+        }
+
+        @Override
+        public boolean runsWhenDisabled() {
+            return true;
+        }
+    }
+
+
     String testPathName = "./src/test/resources/paths/AutonomousPathCommandTest.json";
 
     /**
@@ -41,21 +71,44 @@ public class TestAutonomousPathCommand {
         KochanekBartelsSpline path = new KochanekBartelsSpline();
         assertTrue(path.loadPath(testPathName));
 
-        AutonomousPathCommand autonomousPathCommend = new AutonomousPathCommand(
+        DummyScheduledCommand.resetCounts();
+        DummyStopAndRunCommand.resetCounts();
+        AutonomousPathCommandWrapper autonomousPathCommend = new AutonomousPathCommandWrapper(
                 path,DummySwerveDriveSubsystem.getInstance());
-        autonomousPathCommend.initialize();
 
+        // Run the command using the scheduler so we can test that things are actually scheduled correctly.
+        CommandScheduler scheduler = CommandScheduler.getInstance();
+        scheduler.schedule(autonomousPathCommend);
+        scheduler.run();
         long startTime = System.currentTimeMillis();
-        System.out.println(String.format("Start time: %d", startTime));
-        long nextTime = startTime + 20;
-        while (!autonomousPathCommend.isFinished()) {
-            autonomousPathCommend.execute();
+        long nextRunTime = startTime;
+        while (scheduler.isScheduled(autonomousPathCommend)) {
+            scheduler.run();
+            nextRunTime += 20L;
+            long sleepTime = nextRunTime - System.currentTimeMillis();
             try {
-                Thread.sleep(20);
+                if (sleepTime > 0L) {
+                    Thread.sleep(nextRunTime - System.currentTimeMillis());
+                }
             } catch (InterruptedException e) {
                 break;
             }
         }
-        autonomousPathCommend.end(false);
+
+        // The path has been run, assure the DummyScheduledCommand was instantiated and executed twice
+        assertEquals(2, DummyScheduledCommand.getInstantiationCt());
+        assertEquals(2, DummyScheduledCommand.getInitializationCt());
+        assertEquals(2, DummyScheduledCommand.getExecuteCt());
+        assertEquals(2, DummyScheduledCommand.getEndCt());
+
+        // Assure the stop-and-run was actually run 3 times. with about 100.0 executes (2 seconds) fo each run.
+        assertEquals(3, DummyStopAndRunCommand.getInstantiationCt());
+        assertEquals(3, DummyStopAndRunCommand.getInitializationCt());
+        assertEquals(303.0, (double)DummyStopAndRunCommand.getExecuteCt(),3.0);
+        assertEquals(3, DummyStopAndRunCommand.getEndCt());
+
+        // Assure the stop-and-run duration is about 6 second (6000 milliseconds). It is expected that each command
+        // can overrun about 1 cycle, and that cycle times vary to 25ms max.
+        assertEquals(6040.0, (double)autonomousPathCommend.stopAndRunDuration,40.0);
     }
 }
