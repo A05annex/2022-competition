@@ -38,10 +38,6 @@ public class Robot extends A05Robot
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
 
-        // read and print auto
-        Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
-        SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
-
         // Start logitech camera
         CameraServer.startAutomaticCapture();
     }

@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -42,7 +43,6 @@ public class RobotContainer
     CollectorHoldCommand m_collectorCommand;
     FeederCommand m_feederCommand;
     LiftStickCommand m_liftStickCommand;
-    private final Command autoCommand = null; // autonomous command
     private final AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
@@ -87,6 +87,8 @@ public class RobotContainer
         m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
 
         // autonomous
+        Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
+        SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
         m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem,
                 m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
 
