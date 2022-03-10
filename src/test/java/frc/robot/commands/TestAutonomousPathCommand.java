@@ -1,13 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.NavX;
 import frc.robot.subsystems.DummySwerveDriveSubsystem;
-import org.a05annex.util.AngleConstantD;
-import org.a05annex.util.AngleD;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +29,7 @@ public class TestAutonomousPathCommand {
      * {@link Command#runsWhenDisabled()} to return {@code true} so we can run in
      * the test environment which believes the robot is disabled.
      */
-    class AutonomousPathCommandWrapper extends AutonomousPathCommand {
+    static class TestAutonomousPathCommandWrapper extends AutonomousPathCommand {
 
         /**
          * Instantiate the {@code AutonomousPathCommand}.
@@ -42,9 +38,9 @@ public class TestAutonomousPathCommand {
          * @param driveSubsystem         The swerve drive subsystem.
          * @param additionalRequirements Additional required subsystems.
          */
-        public AutonomousPathCommandWrapper(@NotNull KochanekBartelsSpline path,
-                                            @NotNull Subsystem driveSubsystem,
-                                            Subsystem... additionalRequirements) {
+        public TestAutonomousPathCommandWrapper(@NotNull KochanekBartelsSpline path,
+                                                @NotNull Subsystem driveSubsystem,
+                                                Subsystem... additionalRequirements) {
             super(path, driveSubsystem, additionalRequirements);
         }
 
@@ -67,27 +63,26 @@ public class TestAutonomousPathCommand {
         // get a scheduler and schedule the Autonomous
         File file = new File(testPathName);
         System.out.println(file.getAbsolutePath());
-        Boolean exists = file.exists();
         KochanekBartelsSpline path = new KochanekBartelsSpline();
         assertTrue(path.loadPath(testPathName));
 
         DummyScheduledCommand.resetCounts();
         DummyStopAndRunCommand.resetCounts();
-        AutonomousPathCommandWrapper autonomousPathCommend = new AutonomousPathCommandWrapper(
-                path,DummySwerveDriveSubsystem.getInstance());
+        TestAutonomousPathCommandWrapper autonomousPathCommend = new TestAutonomousPathCommandWrapper(
+                path, DummySwerveDriveSubsystem.getInstance());
 
         // Run the command using the scheduler so we can test that things are actually scheduled correctly.
         CommandScheduler scheduler = CommandScheduler.getInstance();
         scheduler.schedule(autonomousPathCommend);
         scheduler.run();
-        long startTime = System.currentTimeMillis();
-        long nextRunTime = startTime;
+        long nextRunTime = System.currentTimeMillis();
         while (scheduler.isScheduled(autonomousPathCommend)) {
             scheduler.run();
             nextRunTime += 20L;
             long sleepTime = nextRunTime - System.currentTimeMillis();
             try {
                 if (sleepTime > 0L) {
+                    //noinspection BusyWait
                     Thread.sleep(nextRunTime - System.currentTimeMillis());
                 }
             } catch (InterruptedException e) {
@@ -104,7 +99,7 @@ public class TestAutonomousPathCommand {
         // Assure the stop-and-run was actually run 3 times. with about 100.0 executes (2 seconds) fo each run.
         assertEquals(3, DummyStopAndRunCommand.getInstantiationCt());
         assertEquals(3, DummyStopAndRunCommand.getInitializationCt());
-        assertEquals(303.0, (double)DummyStopAndRunCommand.getExecuteCt(),3.0);
+        assertEquals(303.0, DummyStopAndRunCommand.getExecuteCt(),3.0);
         assertEquals(3, DummyStopAndRunCommand.getEndCt());
 
         // Assure the stop-and-run duration is about 6 second (6000 milliseconds). It is expected that each command
