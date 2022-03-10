@@ -92,6 +92,15 @@ public class LimelightSubsystem extends SubsystemBase {
         return new AngleConstantD(AngleUnit.DEGREES, getTargetData().tx);
     }
 
+    public double distanceToTarget() {
+        double ty = getTargetData().ty;
+        if (ty == -100.0) {
+            return 0.0;
+        }
+        return ((Constants.TARGET_HEIGHT - Constants.LIMELIGHT_HEIGHT) /
+                Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE + ty))) + Constants.TARGET_RADIUS;
+    }
+
     /**
      * Returns the data class to hold all target data from the limelight.
      * If there is no data, all values will be -1.0.

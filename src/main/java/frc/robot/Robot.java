@@ -65,6 +65,7 @@ public class Robot extends A05Robot
         FeederSubsystem.getInstance().updateFeederPower();
 
         LimelightSubsystem.getInstance().printXY();
+        SmartDashboard.putNumber("Distance", LimelightSubsystem.getInstance().distanceToTarget());
     }
     
     

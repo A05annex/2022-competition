@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Mk4NeoModule;
+import org.a05annex.util.AngleConstantD;
+import org.a05annex.util.AngleUnit;
 import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
@@ -58,6 +60,12 @@ public final class Constants {
     // ports for controllers
     public static final int XBOX_PORT = 0;
     public static final int HANG_XBOX_PORT = 1;
+
+    // limelight and field position for distance calculation
+    public static final double TARGET_HEIGHT = 2.62; // meters
+    public static final double TARGET_RADIUS = 0.61; // meters
+    public static final double LIMELIGHT_HEIGHT = 0.99; // meters
+    public static final double LIMELIGHT_ANGLE = 64.0; // degrees
 
     // for prototype, length and width from center of the wheels, in m (note chassis is 30" square,
     // the bolt pattern is 29" square, wheels are 2.75" in from the bolt pattern or centered on the
