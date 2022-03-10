@@ -64,9 +64,6 @@ public class Robot extends A05Robot
         CollectorSubsystem.getInstance().updateCollectorPower();
         FeederSubsystem.getInstance().updateFeederPower();
 
-        // print switchboard
-        Constants.printIDs();
-
         LimelightSubsystem.getInstance().printXY();
     }
     
