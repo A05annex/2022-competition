@@ -62,12 +62,18 @@ public class Robot extends A05Robot
         // run the constant updaters
         ShooterSubsystem.getInstance().updateShooterConstants();
         CollectorSubsystem.getInstance().updateCollectorPower();
-        FeederSubsystem.getInstance().updateFeederPower();
+//        FeederSubsystem.getInstance().updateFeederPower();
 
-        // print switchboard
-        Constants.printIDs();
+//        // print switchboard
+//        Constants.printIDs();
 
         LimelightSubsystem.getInstance().printXY();
+
+        // print shooter velocities and if they are ready
+        SmartDashboard.putNumber("front vel", ShooterSubsystem.getInstance().getFrontShooterVelocity());
+        SmartDashboard.putNumber("rear vel", ShooterSubsystem.getInstance().getRearShooterVelocity());
+        SmartDashboard.putBoolean("front ready", ShooterSubsystem.getInstance().isFrontReady());
+        SmartDashboard.putBoolean("rear ready", ShooterSubsystem.getInstance().isRearReady());
     }
     
     
