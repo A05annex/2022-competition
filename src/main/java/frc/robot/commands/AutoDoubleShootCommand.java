@@ -27,6 +27,9 @@ public class AutoDoubleShootCommand extends CommandBase {
         m_jerkCyclesElapsed = 0;
         m_state = 0;
         m_done = false;
+        // give me control of collector
+        m_shooterSubsystem.setIsShooting(true);
+        m_collectorSubsystem.setPower(0.0);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class AutoDoubleShootCommand extends CommandBase {
                 m_limelightSubsystem.getTargetError()));
 
         // start feeder after REV_CYCLES
-        if (m_feederCyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
+        if (m_feederCyclesElapsed >= ShooterSubsystem.AUTO_REV_CYCLES) {
             m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
         }
 
@@ -84,5 +87,6 @@ public class AutoDoubleShootCommand extends CommandBase {
         m_shooterSubsystem.setRearShooter(0.0);
         m_feederSubsystem.setPower(0.0);
         m_collectorSubsystem.setPower(0.0);
+        m_shooterSubsystem.setIsShooting(false);
     }
 }
