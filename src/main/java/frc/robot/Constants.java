@@ -109,10 +109,10 @@ public final class Constants {
     public enum AutonomousPath {
         TWO_BALL_A("2Ball A", 0, "2022_2ball_A.json"),
         TWO_BALL_B("2Ball B", 1, "2022_2ball_B.json"),
-        TWO_BALL_C("2Ball C", 2, "2022_2ball_C.json");
+        TWO_BALL_C("2Ball C", 2, "2022_2ball_C.json"),
 //        THREE_BALL_AB("3Ball AB", 3, "2022_3ball_AB.json"),
 //        THREE_BALL_BD("3Ball BD", 4, ""), // not done
-//        FOUR_BALL("4Ball", 5, "2022_4ball.json"),
+        FOUR_BALL("4Ball", 3, "2022_4ball.json");
 //        FOUR_BALL_SLOW("4Ball Slow", 6, "2022_4ball_test_slow.json");
 
         static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.TWO_BALL_A;
