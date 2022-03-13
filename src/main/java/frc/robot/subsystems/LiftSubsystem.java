@@ -188,7 +188,7 @@ public class LiftSubsystem extends SubsystemBase {
     public void periodic() {
         // telemetry
         //printLiftData();
-        updateAllLiftConstants(); // this also updates PID
+//        updateAllLiftConstants(); // this also updates PID
     }
 }
 

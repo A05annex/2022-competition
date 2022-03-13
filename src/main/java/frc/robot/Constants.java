@@ -57,6 +57,25 @@ public final class Constants {
                 LF = 4.312;
     }
 
+    public static final class LimelightCalibrationPoint {
+        public final double ty;
+        public final double frontSpeed;
+        public final double rearSpeed;
+
+        public LimelightCalibrationPoint(double ty, double frontSpeed, double rearSpeed) {
+            this.ty = ty;
+            this.frontSpeed = frontSpeed;
+            this.rearSpeed = rearSpeed;
+        }
+    }
+
+    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+        new LimelightCalibrationPoint(7.8, 0.5, -0.55),
+        new LimelightCalibrationPoint(2.65, 0.55, -0.55),
+        new LimelightCalibrationPoint(-1.0, 0.625, -0.55),
+        new LimelightCalibrationPoint(-4.3, 0.725, -0.625)
+    };
+
     // ports for controllers
     public static final int XBOX_PORT = 0;
     public static final int HANG_XBOX_PORT = 1;

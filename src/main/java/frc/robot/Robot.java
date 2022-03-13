@@ -61,11 +61,14 @@ public class Robot extends A05Robot
 
         // run the constant updaters
         ShooterSubsystem.getInstance().updateShooterConstants();
-        CollectorSubsystem.getInstance().updateCollectorPower();
-        FeederSubsystem.getInstance().updateFeederPower();
+//        CollectorSubsystem.getInstance().updateCollectorPower();
+//        FeederSubsystem.getInstance().updateFeederPower();
 
         LimelightSubsystem.getInstance().printXY();
-        SmartDashboard.putNumber("Distance", LimelightSubsystem.getInstance().distanceToTarget());
+//        SmartDashboard.putNumber("Distance", LimelightSubsystem.getInstance().distanceToTarget());
+        LimelightSubsystem.getInstance().printCanShoot();
+        LimelightSubsystem.getInstance().printCanShootBool();
+        LimelightSubsystem.getInstance().printShooterPowers();
     }
     
     

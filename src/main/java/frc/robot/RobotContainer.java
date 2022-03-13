@@ -107,10 +107,12 @@ public class RobotContainer
     {
         m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
         m_xboxX.whenPressed(new CollectorJerkCommand());
-        m_xboxB.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
+//        m_xboxB.whenPressed(new ShooterCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
+        m_xboxB.whenPressed(new LimelightShootCommand());
         m_xboxY.whenPressed(new ShooterSetSpeedCommand());
 //        m_xboxA.whenPressed(new ShooterCommand(ShooterSubsystem.DUMP_SPEED_FRONT, ShooterSubsystem.DUMP_SPEED_REAR));
         m_xboxA.whenPressed(new DoubleShootCommand(ShooterSubsystem.AUTO_BALL_FRONT, ShooterSubsystem.AUTO_BALL_REAR));
+        m_hangA.whenPressed(new AutoDoubleShootCommand());
     }
     
 
