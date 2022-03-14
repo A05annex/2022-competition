@@ -16,6 +16,9 @@ public class LimelightShootCommand extends CommandBase {
     private LimelightCalibrationPoint m_shooterSpeeds = null;
     private boolean m_done = false;
 
+    /**
+     * Shoots one ball at speed given by the Limelight. If no target or outside shootable range, does not run.
+     */
     public LimelightShootCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

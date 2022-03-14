@@ -17,6 +17,11 @@ public class DoubleShootCommand extends CommandBase {
     private final double m_frontPower;
     private final double m_rearPower;
 
+    /**
+     * Shoots once, jerks the collector, then shoots again.
+     * @param frontPower (double) Power to run the front shooter from -1.0 to 1.0.
+     * @param rearPower (double) Power to run the rear shooter from -1.0 to 1.0.
+     */
     public DoubleShootCommand(double frontPower, double rearPower) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

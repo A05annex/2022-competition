@@ -9,6 +9,9 @@ public class AutoDropCollectorCommand extends CommandBase {
     private int m_cyclesElapsed = 0;
     private boolean m_done = false;
 
+    /**
+     * Lifts the first hanger bar to drop the collector in auto. Used as a stop-and-run in the path planner.
+     */
     public AutoDropCollectorCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

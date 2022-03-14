@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftSubsystem;
+import org.junit.Ignore;
 
 
 public class LiftStickCommand extends CommandBase {
@@ -10,6 +11,12 @@ public class LiftStickCommand extends CommandBase {
     private final XboxController m_xbox;
     private final double HANG_DEADBAND = 0.05;
 
+    /**
+     * Default command for LiftSubsystem. Right stick controls the right hanger, and left stick controls the
+     * left hanger. Runs using percent power. If stick is in neutral position, uses PID to hold the hanger at the
+     * last set position.
+     * @param xbox The hanger xbox controller.
+     */
     public LiftStickCommand(XboxController xbox) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

@@ -93,6 +93,10 @@ public class LimelightSubsystem extends SubsystemBase {
         return new AngleConstantD(AngleUnit.DEGREES, getTargetData().tx);
     }
 
+    /**
+     * Should calculate the distance to the center of the target. Not working currrently, since the target is curved.
+     * @return (double) The distance to the target in meters.
+     */
     public double distanceToTarget() {
         double ty = getTargetData().ty;
         if (ty == -100.0) {
@@ -116,6 +120,14 @@ public class LimelightSubsystem extends SubsystemBase {
         }
     }
 
+    /**
+     * Whether we can shoot a ball according to the limelight, and why not if not.
+     * @return A value from the CAN_SHOOT enumerator.
+     * <p>YES: we are able to shoot</p>
+     * <p>TOO_CLOSE or TOO_FAR: distance is outside the calibration point array</p>
+     * <p>NO_TARGET: the target is not visible</p>
+     * <p>NO_LIMELIGHT: NetworkTables is returning the default value, so the limelight is probably not plugged in</p>
+     */
     public CAN_SHOOT canShoot() {
         double ty = getTargetData().ty;
         double tx = getTargetData().tx;
@@ -148,6 +160,12 @@ public class LimelightSubsystem extends SubsystemBase {
         return CAN_SHOOT.YES;
     }
 
+    /**
+     * Calculates shooter speeds using the Y degree value of the limelight and the array of limelight calibration
+     * points in Constants. Robot should be centered on the target when this is used.
+     * @return A LimelightCalibrationPoint containing the shooter speeds, as well as the ty used to get them.
+     * If canShoot() returns anything other than YES, the speeds will both be 0.0.
+     */
     public LimelightCalibrationPoint getShooterSpeeds() {
         double ty = getTargetData().ty;
         LimelightCalibrationPoint[] limelightPoints = Constants.LIMELIGHT_CALIBRATION_POINTS;
@@ -187,11 +205,11 @@ public class LimelightSubsystem extends SubsystemBase {
      * Returns the data class to hold all target data from the limelight.
      * If there is no data, all values will be -1.0.
      *
-     * tv (double): Whether the limelight has any valid targets (0 or 1)
-     * tx (double): Horizontal offset from crosshair to target (-29.8 degrees to 29.8 degrees)
-     * ty (double): Vertical offset from crosshair to target (-24.85 degrees to 24.85 degrees)
-     * ta (double): Target area (0% of image to 100% of image)
-     * ts (double): Target skew or rotation (-90 degrees to 0 degrees)
+     * <p>tv (double): Whether the limelight has any valid targets (0 or 1)</p>
+     * <p>tx (double): Horizontal offset from crosshair to target (-29.8 degrees to 29.8 degrees)</p>
+     * <p>ty (double): Vertical offset from crosshair to target (-24.85 degrees to 24.85 degrees)</p>
+     * <p>ta (double): Target area (0% of image to 100% of image)</p>
+     * <p>ts (double): Target skew or rotation (-90 degrees to 0 degrees)</p>
      */
     public TargetData getTargetData() {
         return new TargetData(

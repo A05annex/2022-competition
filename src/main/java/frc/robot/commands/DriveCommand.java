@@ -39,6 +39,12 @@ public class DriveCommand extends CommandBase {
     public static double ROTATE_SENSITIVITY = 1.5;
     public static double ROTATE_GAIN = 0.5;
 
+    /**
+     * Default command for DriveSubsystem. Left stick moves the robot field-relatively, and right stick X rotates.
+     * Contains driver constants for sensitivity, gain, and deadband.
+     * @param xbox (XboxController) The drive xbox controller.
+     * @param targetButton (JoystickButton) When held, rotates to the limelight target.
+     */
     public DriveCommand(XboxController xbox, JoystickButton targetButton) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

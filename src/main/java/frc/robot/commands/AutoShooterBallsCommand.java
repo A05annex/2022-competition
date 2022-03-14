@@ -12,6 +12,9 @@ public class AutoShooterBallsCommand extends CommandBase {
     private final LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
 
+    /**
+     * Shoots one ball at constant speeds set in ShooterSubsystem. Used as a stop-and-run in the path planner.
+     */
     public AutoShooterBallsCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

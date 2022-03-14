@@ -15,6 +15,9 @@ public class AutoDoubleShootCommand extends CommandBase {
     private int m_state = 0;
     private boolean m_done = false;
 
+    /**
+     * Shoots once, jerks the collector, then shoots again. Used as a stop-and-run in the path planner.
+     */
     public AutoDoubleShootCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

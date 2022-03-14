@@ -10,6 +10,9 @@ public class ShooterSetSpeedCommand extends CommandBase {
     private final FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
     private int m_cyclesElapsed = 0;
 
+    /**
+     * Shoots one ball at speeds set in the SmartDashboard.
+     */
     public ShooterSetSpeedCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

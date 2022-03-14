@@ -10,6 +10,11 @@ public class CollectorHoldCommand extends CommandBase {
     private final JoystickButton m_holdButton;
     private final JoystickButton m_reverseButton;
 
+    /**
+     * Default command for CollectorSubsystem, runs while a button is held.
+     * @param holdButton (JoystickButton) Run at COLLECTOR_POWER while held.
+     * @param reverseButton (JoystickButton) Run at -COLLECTOR_POWER while held.
+     */
     public CollectorHoldCommand(JoystickButton holdButton, JoystickButton reverseButton) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

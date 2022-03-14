@@ -9,6 +9,9 @@ public class CollectorJerkCommand extends CommandBase {
     private int m_cyclesElapsed = 0;
     private int m_state = 0;
 
+    /**
+     * Jerks the collector forward and backward, then ends. Uses constants in CollectorSubsystem.
+     */
     public CollectorJerkCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

@@ -8,6 +8,9 @@ import frc.robot.subsystems.CollectorSubsystem;
 public class AutoCollectorOnCommand extends CommandBase {
     private final CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
 
+    /**
+     * Turns the collector on in auto. Stops when the robot exits autonomous mode. Scheduled by the path planner.
+     */
     public AutoCollectorOnCommand() {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)

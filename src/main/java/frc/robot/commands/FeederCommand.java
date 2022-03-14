@@ -11,10 +11,10 @@ public class FeederCommand extends CommandBase {
     private final JoystickButton m_reverseButton;
 
     /**
-     * Runs the feeder at the constant speed in FeederSubsystem.
+     * Default command for FeederSubsystem. Runs the feeder at the constant speed in FeederSubsystem.
      *
-     * @param forwardButton Runs forward when pressed.
-     * @param reverseButton Reverses when pressed.
+     * @param forwardButton (JoystickButton) Runs at FEEDER_POWER while held.
+     * @param reverseButton (JoystickButton) Runs at -FEEDER_POWER while held.
      */
     public FeederCommand(JoystickButton forwardButton, JoystickButton reverseButton) {
         // each subsystem used by the command must be passed into the
