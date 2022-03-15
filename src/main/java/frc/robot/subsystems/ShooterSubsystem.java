@@ -62,11 +62,19 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double DUMP_SPEED_REAR = -0.4;
 
     // time to wait for ball to settle
-    public static double SETTLE_CYCLES = 50 + ShooterSubsystem.WAIT_CYCLES; // 1 second
+    public static double SETTLE_CYCLES = 75; // 1.5 second
 
-    // Shooter autonomous wait lengths
+    // Shooter wait lengths
+    public static final int AUTO_REV_CYCLES = 50; // longer so robot can settle, 1 second
+    public static final int AUTO_WAIT_CYCLES = 100; // wait to jerk collector until after first ball is shot
     public static final int REV_CYCLES = 25; // 0.5 seconds
     public static final int WAIT_CYCLES = 100; // 2 seconds total
+
+    // speed tolerance to start feeding
+    private final double SPINUP_THRESHOLD = 0.9;
+
+    // keep track of whether a shoot command is running for auto
+    private boolean m_isShooting = false;
 
     /**
      * Creates a new instance of this ShooterSubsystem. This constructor
@@ -162,6 +170,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public double getRearShooterSetSpeed() {
         return m_rearShooterSpeed;
+    }
+
+    public void setIsShooting(boolean isShooting) {
+        m_isShooting = isShooting;
+    }
+
+    public boolean getIsShooting() {
+        return m_isShooting;
+    }
+
+    public boolean isFrontReady() {
+        return getFrontShooterVelocity() <= -m_lastSetFrontSpeed * SPINUP_THRESHOLD;
+    }
+
+    public boolean isRearReady() {
+        return getRearShooterVelocity() >= -m_lastSetRearSpeed * SPINUP_THRESHOLD;
+    }
+
+    public boolean isReady() {
+        return isFrontReady() && isRearReady();
     }
 
     public void updateShooterConstants() {

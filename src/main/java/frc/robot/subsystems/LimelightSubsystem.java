@@ -38,6 +38,9 @@ public class LimelightSubsystem extends SubsystemBase {
                 SHOOTER = 4;
     }
 
+    // constant bump to getShooterSpeeds()
+    private double m_limelightBump = 0.0;
+
     // get limelight NetworkTable
     private final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -164,7 +167,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * Calculates shooter speeds using the Y degree value of the limelight and the array of limelight calibration
      * points in Constants. Robot should be centered on the target when this is used.
      * @return A LimelightCalibrationPoint containing the shooter speeds, as well as the ty used to get them.
-     * If canShoot() returns anything other than YES, the speeds will both be 0.0.
+     * If canShoot() returns anything other than YES, returns null.
      */
     public LimelightCalibrationPoint getShooterSpeeds() {
         double ty = getTargetData().ty;
@@ -190,6 +193,9 @@ public class LimelightSubsystem extends SubsystemBase {
                 double rearSpeed = (limelightPoints[closePoint].rearSpeed * (1-parametricDistance)) +
                         (limelightPoints[farPoint].rearSpeed * parametricDistance);
 
+                // add limelight bump
+                frontSpeed += m_limelightBump;
+                rearSpeed += m_limelightBump;
                 return new LimelightCalibrationPoint(ty, frontSpeed, rearSpeed);
             } else {
                 // wrong point, keep going
@@ -254,6 +260,10 @@ public class LimelightSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("front limelight", 0.0);
             SmartDashboard.putNumber("rear limelight", 0.0);
         }
+    }
+
+    public void updateLimelightBump() {
+        m_limelightBump = Constants.updateConstant("limelight bump", m_limelightBump);
     }
 }
 

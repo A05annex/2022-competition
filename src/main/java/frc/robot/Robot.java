@@ -64,11 +64,12 @@ public class Robot extends A05Robot
 //        CollectorSubsystem.getInstance().updateCollectorPower();
 //        FeederSubsystem.getInstance().updateFeederPower();
 
-        LimelightSubsystem.getInstance().printXY();
-//        SmartDashboard.putNumber("Distance", LimelightSubsystem.getInstance().distanceToTarget());
-        LimelightSubsystem.getInstance().printCanShoot();
-        LimelightSubsystem.getInstance().printCanShootBool();
-        LimelightSubsystem.getInstance().printShooterPowers();
+        LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
+        limelightSubsystem.printXY();
+        limelightSubsystem.printCanShoot();
+        limelightSubsystem.printCanShootBool();
+        limelightSubsystem.printShooterPowers();
+        limelightSubsystem.updateLimelightBump();
     }
     
     

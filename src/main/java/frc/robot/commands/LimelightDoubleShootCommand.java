@@ -50,12 +50,12 @@ public class LimelightDoubleShootCommand extends CommandBase {
             m_shooterSubsystem.setRearShooter(m_shooterSpeeds.rearSpeed);
 
             // start feeder after REV_CYCLES
-            if (m_feederCyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
+            if (m_feederCyclesElapsed >= ShooterSubsystem.AUTO_REV_CYCLES && m_state != 2) {
                 m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
             }
 
             // after WAIT_CYCLES, start collector jerk
-            if (m_feederCyclesElapsed >= ShooterSubsystem.WAIT_CYCLES) {
+            if (m_feederCyclesElapsed >= ShooterSubsystem.AUTO_WAIT_CYCLES) {
                 m_jerkCyclesElapsed++;
             }
 
@@ -71,12 +71,19 @@ public class LimelightDoubleShootCommand extends CommandBase {
             if (m_jerkCyclesElapsed <= CollectorSubsystem.FORWARD_CYCLES && m_state == 1) {
                 m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER);
             } else if (m_state == 1) {
+                m_feederSubsystem.setPower(0.0); // stop feeder and let ball settle
                 m_state = 2;
                 m_jerkCyclesElapsed = 0;
             }
 
-            // wait for ball to settle and shoot
+            // wait for ball to settle
             if (m_jerkCyclesElapsed >= ShooterSubsystem.SETTLE_CYCLES && m_state == 2) {
+                m_state = 3; // start feeder again
+                m_jerkCyclesElapsed = 0;
+            }
+
+            // wait until shot
+            if (m_jerkCyclesElapsed >= ShooterSubsystem.WAIT_CYCLES && m_state == 3) {
                 m_done = true;
             }
 
