@@ -33,10 +33,6 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
         m_jerkCyclesElapsed = 0;
         m_state = 0;
         m_done = false;
-        m_shooterSpeeds = m_limelightSubsystem.getShooterSpeeds();
-        if (m_shooterSpeeds == null) {
-            m_done = true;
-        }
         // give me control of collector
         m_shooterSubsystem.setIsShooting(true);
         m_collectorSubsystem.setPower(0.0);
@@ -45,9 +41,17 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
     @Override
     public void execute() {
         if (!m_done) {
-            // start shooters
-            m_shooterSubsystem.setFrontShooter(m_shooterSpeeds.frontSpeed);
-            m_shooterSubsystem.setRearShooter(m_shooterSpeeds.rearSpeed);
+            // recalculate shooter speeds
+            m_shooterSpeeds = m_limelightSubsystem.getShooterSpeeds();
+
+            // run shooters
+            if (m_limelightSubsystem.canShoot() == LimelightSubsystem.CAN_SHOOT.YES) {
+                m_shooterSubsystem.setFrontShooter(m_shooterSpeeds.frontSpeed);
+                m_shooterSubsystem.setRearShooter(m_shooterSpeeds.rearSpeed);
+            } else {
+                m_shooterSubsystem.setFrontShooter(ShooterSubsystem.AUTO_BALL_FRONT);
+                m_shooterSubsystem.setRearShooter(ShooterSubsystem.AUTO_BALL_REAR);
+            }
 
             // limelight target
             m_driveSubsystem.setHeading(m_driveSubsystem.getFieldHeading().add(
