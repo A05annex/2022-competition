@@ -38,7 +38,7 @@ public class Mk4NeoModule {
     /**
      * The maximum speed of the module with this module implementation.
      */
-    public static final double MAX_METERS_PER_SEC = 3.2;
+    public static final double MAX_METERS_PER_SEC = 2.68;
     /**
      * Based on telemetry feedback, 1 wheel direction revolution maps to 18 spin encoder revolutions
      */

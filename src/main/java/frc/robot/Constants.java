@@ -98,7 +98,7 @@ public final class Constants {
     public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
     // See the Mk4NeoModule for how this speed is initially estimated.
 //    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (190.0/197.0); // tested
-    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (165.0/197.0);
+    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC;
     //  The maximum spin of the robot when all that is happening is spin. Since the robot drive centers are
     //  square, att wheels are aligned so their axis passes through the center of that square, and all wheels
     // follow the same circular path at a radius of DRIVE_DIAGONAL/2.0 at MAX_METERS_PER_SEC. So this is
@@ -130,6 +130,9 @@ public final class Constants {
         SmartDashboard.putNumber("driver", readDriverID());
         SmartDashboard.putNumber("auto", readAutoID());
     }
+
+    // amount of time to wait in auto
+    public static int AUTO_WAIT_CYCLES = 100;
 
     // enum that contains autos
     public enum AutonomousPath {

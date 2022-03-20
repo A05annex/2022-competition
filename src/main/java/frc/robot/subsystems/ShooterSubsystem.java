@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -71,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final int WAIT_CYCLES = 100; // 2 seconds total
 
     // speed tolerance to start feeding
-    private final double SPINUP_THRESHOLD = 0.9;
+    private final double SPINUP_THRESHOLD = 0.98;
 
     // keep track of whether a shoot command is running for auto
     private boolean m_isShooting = false;
@@ -197,6 +198,11 @@ public class ShooterSubsystem extends SubsystemBase {
                 -1.0, 1.0);
         m_rearShooterSpeed = Constants.updateConstant("rear speed", m_rearShooterSpeed,
                 -1.0, 1.0);
+    }
+
+    public void printSpinupPercents() {
+        SmartDashboard.putNumber("front percent", m_lastSetFrontSpeed / m_frontShooter.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("rear percent", m_lastSetRearSpeed / m_rearShooter.getSelectedSensorVelocity());
     }
 
 }
