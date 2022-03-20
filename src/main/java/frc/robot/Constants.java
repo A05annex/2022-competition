@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Mk4NeoModule;
-import org.a05annex.util.AngleConstantD;
-import org.a05annex.util.AngleUnit;
 import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
@@ -99,7 +97,8 @@ public final class Constants {
     // drive encoder tics per radian of robot rotation when rotation is controlled by position rather than speed.
     public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
     // See the Mk4NeoModule for how this speed is initially estimated.
-    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (190.0/197.0); // tested
+//    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (190.0/197.0); // tested
+    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (165.0/197.0);
     //  The maximum spin of the robot when all that is happening is spin. Since the robot drive centers are
     //  square, att wheels are aligned so their axis passes through the center of that square, and all wheels
     // follow the same circular path at a radius of DRIVE_DIAGONAL/2.0 at MAX_METERS_PER_SEC. So this is
@@ -136,10 +135,11 @@ public final class Constants {
     public enum AutonomousPath {
         TWO_BALL_A("2Ball A", 0, "2022_2ball_A.json"),
         TWO_BALL_B("2Ball B", 1, "2022_2ball_B.json"),
-        TWO_BALL_C("2Ball C", 2, "2022_2ball_C.json");
+        TWO_BALL_C("2Ball C", 2, "2022_2ball_C.json"),
 //        THREE_BALL_AB("3Ball AB", 3, "2022_3ball_AB.json"),
 //        THREE_BALL_BD("3Ball BD", 4, ""), // not done
-//        FOUR_BALL("4Ball", 5, "2022_4ball.json"),
+        FOUR_BALL("4Ball", 3, "2022_4ball.json"),
+        FOUR_BALL_LIMELIGHT("4Ball Limelight", 4, "2022_4ball_limelight");
 //        FOUR_BALL_SLOW("4Ball Slow", 6, "2022_4ball_test_slow.json");
 
         static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.TWO_BALL_A;
