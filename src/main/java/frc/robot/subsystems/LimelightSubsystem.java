@@ -39,7 +39,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     // constant bump to getShooterSpeeds()
-    private double m_limelightBump = 0.0;
+    private double m_limelightBump = 0.02;
 
     // get limelight NetworkTable
     private final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");

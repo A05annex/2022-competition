@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -43,6 +45,8 @@ public class CollectorSubsystem extends SubsystemBase {
     public static final int FORWARD_CYCLES = 7; // 100 ms
     public static final int STOP_CYCLES = 10; // 200 ms
 
+    public static double MAX_SPEED = 0.0; // TODO
+
     /**
      * Creates a new instance of this CollectorSubsystem. This constructor
      * is private since this class is a Singleton. Code should use
@@ -52,6 +56,10 @@ public class CollectorSubsystem extends SubsystemBase {
         m_collector.configFactoryDefault();
         m_collector.setNeutralMode(NeutralMode.Brake);
         m_lastPower = 0.0;
+
+        // encoder
+        m_collector.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        m_collector.setSensorPhase(false);
     }
 
     /**
@@ -63,6 +71,20 @@ public class CollectorSubsystem extends SubsystemBase {
         m_lastPower = power;
     }
 
+    /**
+     * Sets the speed of the collector using the encoder.
+     * @param power (double) Power to set the collector to, from -1.0 to 1.0.
+     */
+    public void setSpeed(double power) {
+        m_lastPower = power;
+        double speed = MAX_SPEED * power;
+        m_collector.set(ControlMode.Velocity, speed);
+    }
+
+    public double getSpeed() {
+        return m_collector.getSelectedSensorVelocity();
+    }
+
     public void updateCollectorPower() {
         COLLECTOR_POWER = Constants.updateConstant("Collector Power", COLLECTOR_POWER,
                 -1.0, 1.0);
@@ -72,5 +94,8 @@ public class CollectorSubsystem extends SubsystemBase {
         return m_lastPower;
     }
 
-}
+    public void printSpeed() {
+        SmartDashboard.putNumber("collector enc", getSpeed());
+    }
 
+}

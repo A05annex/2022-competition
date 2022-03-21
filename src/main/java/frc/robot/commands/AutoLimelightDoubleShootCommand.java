@@ -35,7 +35,6 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
         m_done = false;
         // give me control of collector
         m_shooterSubsystem.setIsShooting(true);
-        m_collectorSubsystem.setPower(0.0);
     }
 
     @Override
@@ -56,6 +55,11 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
             // limelight target
             m_driveSubsystem.setHeading(m_driveSubsystem.getFieldHeading().add(
                     m_limelightSubsystem.getTargetError()));
+
+            // run collector until shooter is revved
+            if (m_feederCyclesElapsed < ShooterSubsystem.AUTO_REV_CYCLES) {
+                m_collectorSubsystem.setPower(CollectorSubsystem.COLLECTOR_POWER);
+            }
 
             // start feeder after REV_CYCLES
             if (m_feederCyclesElapsed >= ShooterSubsystem.AUTO_REV_CYCLES && m_state != 2) {
