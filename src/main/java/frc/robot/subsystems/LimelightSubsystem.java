@@ -195,7 +195,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
                 // add limelight bump
                 frontSpeed += m_limelightBump;
-                rearSpeed += m_limelightBump;
+                rearSpeed -= m_limelightBump;
                 return new LimelightCalibrationPoint(ty, frontSpeed, rearSpeed);
             } else {
                 // wrong point, keep going

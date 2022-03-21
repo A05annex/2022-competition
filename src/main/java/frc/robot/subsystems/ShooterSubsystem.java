@@ -63,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double DUMP_SPEED_REAR = -0.4;
 
     // time to wait for ball to settle
-    public static double SETTLE_CYCLES = 75; // 1.5 second
+    public static double SETTLE_CYCLES = 50; // 1 second
 
     // Shooter wait lengths
     public static final int AUTO_REV_CYCLES = 50; // longer so robot can settle, 1 second
@@ -201,8 +201,13 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void printSpinupPercents() {
-        SmartDashboard.putNumber("front percent", m_lastSetFrontSpeed / m_frontShooter.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("rear percent", m_lastSetRearSpeed / m_rearShooter.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("front percent", getFrontShooterVelocity() / m_lastSetFrontSpeed);
+        SmartDashboard.putNumber("rear percent", getRearShooterVelocity() / m_lastSetRearSpeed);
+    }
+
+    public void printShooterEncoders() {
+        SmartDashboard.putNumber("front enc", getFrontShooterVelocity());
+        SmartDashboard.putNumber("rear enc", getRearShooterVelocity());
     }
 
 }

@@ -43,7 +43,7 @@ public class RobotContainer
     CollectorHoldCommand m_collectorCommand;
     FeederCommand m_feederCommand;
     LiftStickCommand m_liftStickCommand;
-    private final AutonomousPathCommand m_autoCommand;
+    AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
     NavX m_navx = NavX.getInstance();
@@ -89,8 +89,11 @@ public class RobotContainer
         // autonomous
         Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
         SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
-        m_autoCommand = new AutonomousPathCommand(Constants.AutonomousPath.load(), m_driveSubsystem,
-                m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
+        KochanekBartelsSpline path = Constants.AutonomousPath.load();
+        if (path != null) {
+            m_autoCommand = new AutonomousPathCommand(path, m_driveSubsystem,
+                    m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
+        }
 
         // Configure the button bindings
         configureButtonBindings();

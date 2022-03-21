@@ -71,7 +71,8 @@ public class Robot extends A05Robot
         limelightSubsystem.printShooterPowers();
         limelightSubsystem.updateLimelightBump();
 
-        ShooterSubsystem.getInstance().printSpinupPercents();
+//        ShooterSubsystem.getInstance().printSpinupPercents();
+        ShooterSubsystem.getInstance().printShooterEncoders();
     }
     
     
