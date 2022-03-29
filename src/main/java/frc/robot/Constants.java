@@ -59,19 +59,20 @@ public final class Constants {
         public final double ty;
         public final double frontSpeed;
         public final double rearSpeed;
+        public final double xOffset;
 
-        public LimelightCalibrationPoint(double ty, double frontSpeed, double rearSpeed) {
+        public LimelightCalibrationPoint(double ty, double frontSpeed, double rearSpeed, double xOffset) {
             this.ty = ty;
             this.frontSpeed = frontSpeed;
             this.rearSpeed = rearSpeed;
+            this.xOffset = xOffset;
         }
     }
 
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-        new LimelightCalibrationPoint(7.8, 0.5, -0.55),
-        new LimelightCalibrationPoint(2.65, 0.55, -0.55),
-        new LimelightCalibrationPoint(-1.0, 0.625, -0.55),
-        new LimelightCalibrationPoint(-4.3, 0.725, -0.625)
+        new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
+        new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
+        new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
     };
 
     // ports for controllers

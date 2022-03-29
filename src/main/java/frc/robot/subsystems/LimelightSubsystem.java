@@ -39,7 +39,10 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     // constant bump to getShooterSpeeds()
-    private double m_limelightBump = 0.02;
+    private double m_limelightBump = 0.0;
+
+    // offset for x targeting
+    public static final AngleConstantD X_OFFSET = new AngleConstantD(AngleUnit.DEGREES, 4.20);
 
     // get limelight NetworkTable
     private final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -89,11 +92,45 @@ public class LimelightSubsystem extends SubsystemBase {
      */
     public AngleConstantD getTargetError() {
         double tx = getTargetData().tx;
-        if (tx == -100.0) {
-            // no limelight, so no error
+        double ty = getTargetData().ty;
+
+        CAN_SHOOT canShoot = canShoot();
+        // if no limelight or no target, no error
+        if (canShoot == CAN_SHOOT.NO_LIMELIGHT || canShoot == CAN_SHOOT.NO_TARGET) {
             return new AngleConstantD(AngleConstantD.ZERO);
         }
-        return new AngleConstantD(AngleUnit.DEGREES, getTargetData().tx);
+
+        // if outside of range, use tx
+        if (canShoot == CAN_SHOOT.TOO_CLOSE || canShoot == CAN_SHOOT.TOO_FAR) {
+            return new AngleConstantD(AngleUnit.DEGREES, getTargetData().tx);
+        }
+
+        // else, use offset based on cal points
+        LimelightCalibrationPoint[] limelightPoints = Constants.LIMELIGHT_CALIBRATION_POINTS;
+        int closePoint = 0;
+        int farPoint = 1;
+        while (farPoint < limelightPoints.length) {
+            if (ty > limelightPoints[farPoint].ty) {
+                // find parametric distance from close point (0 to 1)
+                double intervalAngle = limelightPoints[farPoint].ty - limelightPoints[closePoint].ty;
+                double deltaAngle = ty - limelightPoints[closePoint].ty;
+                double parametricDistance = deltaAngle / intervalAngle;
+
+                // find offset between two points
+                double xOffset = (limelightPoints[closePoint].xOffset * (1-parametricDistance)) +
+                        (limelightPoints[farPoint].xOffset * parametricDistance);
+
+                // add offset to tx and return
+                return new AngleConstantD(AngleUnit.DEGREES, tx + xOffset);
+            } else {
+                // wrong point, keep going
+                closePoint++;
+                farPoint++;
+            }
+        }
+        // something went wrong, return zero
+        System.out.println("LimelightSubsystem line 132 says this shouldn't happen");
+        return new AngleConstantD(AngleConstantD.ZERO);
     }
 
     /**
@@ -196,7 +233,7 @@ public class LimelightSubsystem extends SubsystemBase {
                 // add limelight bump
                 frontSpeed += m_limelightBump;
                 rearSpeed -= m_limelightBump;
-                return new LimelightCalibrationPoint(ty, frontSpeed, rearSpeed);
+                return new LimelightCalibrationPoint(ty, frontSpeed, rearSpeed, 0.0);
             } else {
                 // wrong point, keep going
                 closePoint++;
