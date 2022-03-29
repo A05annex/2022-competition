@@ -62,14 +62,13 @@ public class ShooterSubsystem extends SubsystemBase {
     public static double DUMP_SPEED_FRONT = 0.4;
     public static double DUMP_SPEED_REAR = -0.4;
 
-    // time to wait for ball to settle
-    public static double SETTLE_CYCLES = 50; // 1 second
-
     // Shooter wait lengths
     public static final int AUTO_REV_CYCLES = 50; // longer so robot can settle, 1 second
     public static final int AUTO_WAIT_CYCLES = 100; // wait to jerk collector until after first ball is shot
     public static final int REV_CYCLES = 25; // 0.5 seconds
     public static final int WAIT_CYCLES = 100; // 2 seconds total
+
+    public static double SETTLE_CYCLES = 50; // 1 second
 
     // speed tolerance to start feeding
     private final double SPINUP_THRESHOLD = 0.98;
