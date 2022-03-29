@@ -68,7 +68,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final int REV_CYCLES = 25; // 0.5 seconds
     public static final int WAIT_CYCLES = 100; // 2 seconds total
 
-    public static double SETTLE_CYCLES = 50; // 1 second
+    // for double shots
+    public static double SETTLE_CYCLES = 50; // wait until ball is settled to turn on the feeder
+    public static double SHOOT_CYCLES = 25; // wait until ball is being shot to load next one
+    public static double DOUBLE_CYCLES = 200; // total time of double shot = 4 seconds
 
     // speed tolerance to start feeding
     private final double SPINUP_THRESHOLD = 0.98;

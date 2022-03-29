@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CollectorSubsystem;
@@ -47,62 +48,67 @@ public class LimelightDoubleShootCommand extends CommandBase {
         SHOOT_1,
         JERK_REVERSE,
         JERK_FORWARD,
-        SETTLE,
-        SHOOT_2;
+        SHOOT_2
     }
 
     @Override
     public void execute() {
+        // keep total time, end if over
+        m_totalCyclesElapsed++;
+        if (m_totalCyclesElapsed >= ShooterSubsystem.DOUBLE_CYCLES) {
+            m_done = true;
+        }
+
         if (!m_done) {
+            // state machine (i think?)
+            if (m_state == STATE.SPINUP && m_stateCyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
+                m_state = STATE.SHOOT_1;
+                m_stateCyclesElapsed = 0;
+            } else if (m_state == STATE.SHOOT_1 && m_stateCyclesElapsed >= ShooterSubsystem.SHOOT_CYCLES) {
+                m_state = STATE.JERK_REVERSE;
+                m_stateCyclesElapsed = 0;
+            } else if (m_state == STATE.JERK_REVERSE && m_stateCyclesElapsed >= CollectorSubsystem.BACK_CYCLES) {
+                m_state = STATE.JERK_FORWARD;
+                m_stateCyclesElapsed = 0;
+            } else if (m_state == STATE.JERK_FORWARD && m_stateCyclesElapsed >= CollectorSubsystem.FORWARD_CYCLES) {
+                m_state = STATE.SHOOT_2;
+                m_stateCyclesElapsed = 0;
+            } else if (m_state == STATE.SHOOT_2 && m_stateCyclesElapsed >= ShooterSubsystem.SETTLE_CYCLES) {
+                m_state = STATE.JERK_REVERSE; // go back to jerking
+                m_stateCyclesElapsed = 0;
+            }
+            m_stateCyclesElapsed++;
+
             // run shooters no matter state
             m_shooterSubsystem.setFrontShooter(m_shooterSpeeds.frontSpeed);
             m_shooterSubsystem.setRearShooter(m_shooterSpeeds.rearSpeed);
 
-            // state iterator
-            if (m_state == STATE.SPINUP && m_stateCyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
-                m_state = STATE.SHOOT_1;
-            } else if (m_state == STATE.SHOOT_1 && m_stateCyclesElapsed >= )
-            m_stateCyclesElapsed++;
-
-            // start feeder after REV_CYCLES
-            if (m_stateCyclesElapsed >= ShooterSubsystem.AUTO_REV_CYCLES) {
-                m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
+            switch (m_state) {
+                case SPINUP:
+                    // keep collecting
+                    m_collectorSubsystem.setPower(CollectorSubsystem.COLLECTOR_POWER);
+                    break;
+                case SHOOT_1:
+                    // stop collector and feed
+                    m_collectorSubsystem.setPower(0.0);
+                    m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
+                    break;
+                case JERK_REVERSE:
+                    // feed and jerk backward
+                    m_collectorSubsystem.setPower(-CollectorSubsystem.BACK_POWER);
+                    m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
+                    break;
+                case JERK_FORWARD:
+                    // feed and jerk forward
+                    m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER);
+                    m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
+                    break;
+                case SHOOT_2:
+                    // stop collector and feed
+                    m_collectorSubsystem.setPower(0.0);
+                    m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
+                    break;
             }
-
-            // after WAIT_CYCLES, start collector jerk
-            if (m_feederCyclesElapsed >= ShooterSubsystem.AUTO_WAIT_CYCLES) {
-                m_jerkCyclesElapsed++;
-            }
-
-            // run backwards
-            if (m_jerkCyclesElapsed != 0 && m_jerkCyclesElapsed <= CollectorSubsystem.BACK_CYCLES && m_state == 0) {
-                m_collectorSubsystem.setPower(-CollectorSubsystem.BACK_POWER);
-            } else if (m_jerkCyclesElapsed != 0 && m_state == 0) {
-                m_state = 1;
-                m_jerkCyclesElapsed = 0;
-            }
-
-            // run forwards
-            if (m_jerkCyclesElapsed <= CollectorSubsystem.FORWARD_CYCLES && m_state == 1) {
-                m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER);
-            } else if (m_state == 1) {
-                m_feederSubsystem.setPower(0.0); // stop feeder and let ball settle
-                m_state = 2;
-                m_jerkCyclesElapsed = 0;
-            }
-
-            // wait for ball to settle
-            if (m_jerkCyclesElapsed >= ShooterSubsystem.SETTLE_CYCLES && m_state == 2) {
-                m_state = 3; // start feeder again
-                m_jerkCyclesElapsed = 0;
-            }
-
-            // wait until shot
-            if (m_jerkCyclesElapsed >= ShooterSubsystem.WAIT_CYCLES && m_state == 3) {
-                m_done = true;
-            }
-
-            m_feederCyclesElapsed++;
         }
     }
 

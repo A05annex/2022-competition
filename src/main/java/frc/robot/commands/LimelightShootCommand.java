@@ -45,7 +45,6 @@ public class LimelightShootCommand extends CommandBase {
 
             // wait for shooter to rev up
             if (m_cyclesElapsed >= ShooterSubsystem.REV_CYCLES) {
-//            if (m_shooterSubsystem.isReady()) {
                 m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
             }
 
