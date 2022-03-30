@@ -62,7 +62,6 @@ public class Robot extends A05Robot
         // run the constant updaters
         ShooterSubsystem.getInstance().updateShooterConstants();
         CollectorSubsystem.getInstance().updateCollectorPower();
-//        FeederSubsystem.getInstance().updateFeederPower();
 
         LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
         limelightSubsystem.printXY();
@@ -70,11 +69,6 @@ public class Robot extends A05Robot
         limelightSubsystem.printCanShootBool();
         limelightSubsystem.printShooterPowers();
         limelightSubsystem.updateLimelightBump();
-
-//        ShooterSubsystem.getInstance().printSpinupPercents();
-//        ShooterSubsystem.getInstance().printShooterEncoders();
-
-        CollectorSubsystem.getInstance().printSpeed();
     }
     
     
