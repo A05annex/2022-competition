@@ -70,6 +70,7 @@ public final class Constants {
     }
 
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+        new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
         new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
         new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
         new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
@@ -133,7 +134,7 @@ public final class Constants {
     }
 
     // amount of time to wait in auto
-    public static int AUTO_WAIT_CYCLES = 100;
+    public static int AUTO_WAIT_CYCLES = 50;
 
     // enum that contains autos
     public enum AutonomousPath {
