@@ -55,7 +55,7 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
 
         if (!m_done) {
             // state machine (i think?)
-            if (m_state == STATE.SPINUP && m_stateCyclesElapsed > ShooterSubsystem.REV_CYCLES) {
+            if (m_state == STATE.SPINUP && m_stateCyclesElapsed > ShooterSubsystem.AUTO_REV_CYCLES) {
                 m_state = STATE.SHOOT_1;
                 m_stateCyclesElapsed = 0;
             } else if (m_state == STATE.SHOOT_1 && m_stateCyclesElapsed > ShooterSubsystem.SHOOT_CYCLES) {
