@@ -34,11 +34,11 @@ public class CollectorSubsystem extends SubsystemBase {
     private double m_lastPower;
 
     // power to collect
-    public static double COLLECTOR_POWER = -0.6;
+    public static double COLLECTOR_POWER = -0.8;
 
     // power to jerk
-    public static double BACK_POWER = -0.75;
-    public static double FORWARD_POWER = -0.75;
+    public static double BACK_POWER = -0.65;
+    public static double FORWARD_POWER = -0.65;
 
     // number of 20ms cycles to jerk collector backwards and forwards
     public static final int BACK_CYCLES = 4; // 80 ms

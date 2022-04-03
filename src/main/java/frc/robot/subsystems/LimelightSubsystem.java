@@ -39,7 +39,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     // constant bump to getShooterSpeeds()
-    private double m_limelightBump = 0.0;
+    private double m_limelightBump = -0.03;
 
     // offset for x targeting
     public static final AngleConstantD X_OFFSET = new AngleConstantD(AngleUnit.DEGREES, 4.20);
