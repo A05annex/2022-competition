@@ -68,7 +68,7 @@ public class Robot extends A05Robot
         limelightSubsystem.printCanShoot();
         limelightSubsystem.printCanShootBool();
         limelightSubsystem.printShooterPowers();
-        limelightSubsystem.updateLimelightBump();
+        limelightSubsystem.printLimelightBump();
     }
     
     

@@ -39,7 +39,8 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     // constant bump to getShooterSpeeds()
-    private double m_limelightBump = -0.03;
+    private double m_limelightBump = 0.00;
+    private final double LIMELIGHT_BUMP_INC = 0.01;
 
     // offset for x targeting
     public static final AngleConstantD X_OFFSET = new AngleConstantD(AngleUnit.DEGREES, 4.20);
@@ -299,8 +300,20 @@ public class LimelightSubsystem extends SubsystemBase {
         }
     }
 
-    public void updateLimelightBump() {
-        m_limelightBump = Constants.updateConstant("limelight bump", m_limelightBump);
+//    public void updateLimelightBump() {
+//        m_limelightBump = Constants.updateConstant("limelight bump", m_limelightBump);
+//    }
+
+    public void printLimelightBump() {
+        SmartDashboard.putNumber("limelight bump", m_limelightBump);
+    }
+
+    public void bumpUpLimelight() {
+        m_limelightBump += LIMELIGHT_BUMP_INC;
+    }
+
+    public void bumpDownLimelight() {
+        m_limelightBump -= LIMELIGHT_BUMP_INC;
     }
 }
 

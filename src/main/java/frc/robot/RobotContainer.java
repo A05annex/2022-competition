@@ -37,6 +37,7 @@ public class RobotContainer
     CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
     FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
     LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
+    LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
 
     // command declarations
     DriveCommand m_driveCommand;
@@ -117,6 +118,10 @@ public class RobotContainer
         // Other bindings for the drive controller
         m_xboxX.whenPressed(new CollectorJerkCommand());
         m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
+
+        // Limelight bump controls
+        m_hangY.whenPressed(new InstantCommand(m_limelightSubsystem::bumpUpLimelight));
+        m_hangA.whenPressed(new InstantCommand(m_limelightSubsystem::bumpDownLimelight));
     }
     
 
