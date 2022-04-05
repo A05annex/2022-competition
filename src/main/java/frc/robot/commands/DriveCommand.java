@@ -39,8 +39,9 @@ public class DriveCommand extends CommandBase {
     public static double ROTATE_SENSITIVITY = 1.5;
     public static double ROTATE_GAIN = 0.5;
 
-    // boost button gain and trigger threshold
+    // boost button gain, slow, and trigger threshold
     public static final double DRIVE_BOOST_GAIN = 1.0;
+    public static final double DRIVE_SLOW_GAIN = 0.3;
     public static final double BOOST_TRIGGER_THRESHOLD = 0.5;
 
     /**
@@ -68,6 +69,8 @@ public class DriveCommand extends CommandBase {
         double gain = DRIVE_SPEED_GAIN;
         if (m_xbox.getRightTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
             gain = DRIVE_BOOST_GAIN;
+        } else if (m_xbox.getLeftTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
+            gain = DRIVE_SLOW_GAIN;
         }
 
         // get stick values

@@ -75,7 +75,7 @@ public class RobotContainer
     public RobotContainer()
     {
         // commands
-        // uses both sticks, LB for limelight targeting, and right trigger for boost
+        // uses both sticks, LB for limelight targeting, and triggers for boost/slow
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper);
         m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper, m_xboxStart);
         m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
