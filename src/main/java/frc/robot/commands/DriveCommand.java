@@ -39,6 +39,10 @@ public class DriveCommand extends CommandBase {
     public static double ROTATE_SENSITIVITY = 1.5;
     public static double ROTATE_GAIN = 0.5;
 
+    // boost button gain and trigger threshold
+    public static final double DRIVE_BOOST_GAIN = 1.0;
+    public static final double BOOST_TRIGGER_THRESHOLD = 0.5;
+
     /**
      * Default command for DriveSubsystem. Left stick moves the robot field-relatively, and right stick X rotates.
      * Contains driver constants for sensitivity, gain, and deadband.
@@ -60,6 +64,12 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
+        // if pressing boost button, set gain to boost gain
+        double gain = DRIVE_SPEED_GAIN;
+        if (m_xbox.getRightTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
+            gain = DRIVE_BOOST_GAIN;
+        }
+
         // get stick values
         // left stick Y for forward/backward speed
         double stickY = -m_xbox.getLeftY(); // Y is inverted so up is 1 and down is -1
@@ -96,7 +106,7 @@ public class DriveCommand extends CommandBase {
             speed = (distance - DRIVE_DEADBAND) / (1.0 - DRIVE_DEADBAND);
         }
         // add gain and sensitivity
-        speed = Math.pow(speed, DRIVE_SPEED_SENSITIVITY) * DRIVE_SPEED_GAIN;
+        speed = Math.pow(speed, DRIVE_SPEED_SENSITIVITY) * gain;
 
         // rotate math
         double rotation;
