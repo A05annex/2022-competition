@@ -142,7 +142,7 @@ public final class Constants {
         TWO_BALL_A("2Ball A", 1, "2022_2ball_A.json"),
         TWO_BALL_B("2Ball B", 2, "2022_2ball_B.json"),
         TWO_BALL_C("2Ball C", 3, "2022_2ball_C.json"),
-        THREE_BALL_WESTVALLEY("3Ball West Valley", 0, "2022_3ball_westvalley.json");
+        THREE_BALL_WESTVALLEY("3Ball West Valley", 4, "2022_3ball_westvalley.json");
 
         static AutonomousPath AUTONOMOUS_PATH = AutonomousPath.TWO_BALL_B;
 
