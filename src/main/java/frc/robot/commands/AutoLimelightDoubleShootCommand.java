@@ -100,12 +100,12 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
                     break;
                 case JERK_REVERSE:
                     // feed and jerk backward
-                    m_collectorSubsystem.setPower(-CollectorSubsystem.BACK_POWER);
+                    m_collectorSubsystem.setPower(-CollectorSubsystem.BACK_POWER + CollectorSubsystem.DOUBLE_BUMP);
                     m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
                     break;
                 case JERK_FORWARD:
                     // feed and jerk forward
-                    m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER);
+                    m_collectorSubsystem.setPower(CollectorSubsystem.FORWARD_POWER - CollectorSubsystem.DOUBLE_BUMP);
                     m_feederSubsystem.setPower(FeederSubsystem.FEEDER_POWER);
                     break;
                 case SHOOT_2:
