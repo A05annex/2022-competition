@@ -70,11 +70,30 @@ public final class Constants {
     }
 
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-        new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
-        new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
-        new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
-        new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
+            new LimelightCalibrationPoint(-1.0, 0.53, -0.53, 4.20),
+            new LimelightCalibrationPoint(-2.0, 0.55, -0.55, 4.20),
+            new LimelightCalibrationPoint(-3.0, 0.57, -0.55, 5.20),
+            new LimelightCalibrationPoint(-4.2, 0.57, -0.55, 5.20),
+            new LimelightCalibrationPoint(-5.6, 0.59, -0.55, 5.20),
+            new LimelightCalibrationPoint(-6.8, 0.62, -0.55, 5.20)
     };
+
+// 4 psi
+//    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+//            new LimelightCalibrationPoint(0.0, 0.49, -0.54, 4.20),
+//            new LimelightCalibrationPoint(-2.0, 0.53, -0.53, 4.20),
+//            new LimelightCalibrationPoint(-3.0, 0.55, -0.55, 5.20),
+//            new LimelightCalibrationPoint(-4.75, 0.57, -0.57, 5.20),
+//            new LimelightCalibrationPoint(-6.9, 0.65, -0.55, 5.20)
+//    };
+
+// West Valley
+//    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+//        new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
+//        new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
+//        new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
+//        new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
+//    };
 
     // ports for controllers
     public static final int XBOX_PORT = 0;
