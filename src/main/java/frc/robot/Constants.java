@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
@@ -69,13 +70,19 @@ public final class Constants {
         }
     }
 
-    // West Valley
+    // static
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-            new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
-            new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
-            new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
-            new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
+            new LimelightCalibrationPoint(0.0, 0.62, -0.8, 4.2),
+            new LimelightCalibrationPoint(-7.0, 0.62, -0.8, 4.2)
     };
+
+//    // West Valley
+//    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+//            new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
+//            new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
+//            new LimelightCalibrationPoint(-5.0, 0.6, -0.7, 5.20),
+//            new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
+//    };
 
     // broken shooter motor
 //    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {

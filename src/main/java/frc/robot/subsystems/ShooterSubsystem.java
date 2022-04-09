@@ -36,8 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private double m_lastSetRearSpeed;
 
     // Shooter speeds, set from -1.0 to 1.0
-    public double m_frontShooterSpeed = 0.67; // dump speed
-    public double m_rearShooterSpeed = -0.67;
+    public double m_frontShooterSpeed = 0.62; // dump speed
+    public double m_rearShooterSpeed = -0.8;
 
     // Constants
     // Shooter max RPMs
