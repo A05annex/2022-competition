@@ -39,7 +39,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     // constant bump to getShooterSpeeds()
-    private double m_limelightBump = 0.03;
+    private double m_limelightBump = 0.05;
     private final double LIMELIGHT_BUMP_INC = 0.005;
 
     // offset for x targeting

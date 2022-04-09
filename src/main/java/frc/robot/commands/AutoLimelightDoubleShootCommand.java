@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.LimelightCalibrationPoint;
 import frc.robot.subsystems.*;
 
@@ -73,15 +74,20 @@ public class AutoLimelightDoubleShootCommand extends CommandBase {
             }
             m_stateCyclesElapsed++;
 
-            // recalculate shooter speeds
-            m_shooterSpeeds = m_limelightSubsystem.getShooterSpeeds();
             // run shooters no matter state
-            if (m_limelightSubsystem.canShoot() == LimelightSubsystem.CAN_SHOOT.YES) {
+            LimelightSubsystem.CAN_SHOOT canShoot = m_limelightSubsystem.canShoot();
+            if (canShoot == LimelightSubsystem.CAN_SHOOT.YES) {
+                m_shooterSpeeds = m_limelightSubsystem.getShooterSpeeds();
                 m_shooterSubsystem.setFrontShooter(m_shooterSpeeds.frontSpeed);
                 m_shooterSubsystem.setRearShooter(m_shooterSpeeds.rearSpeed);
+            } else if (canShoot == LimelightSubsystem.CAN_SHOOT.TOO_CLOSE){
+                m_shooterSubsystem.setFrontShooter(Constants.LIMELIGHT_CALIBRATION_POINTS[0].frontSpeed);
+                m_shooterSubsystem.setRearShooter(Constants.LIMELIGHT_CALIBRATION_POINTS[0].rearSpeed);
             } else {
-                m_shooterSubsystem.setFrontShooter(ShooterSubsystem.AUTO_BALL_FRONT);
-                m_shooterSubsystem.setRearShooter(ShooterSubsystem.AUTO_BALL_REAR);
+                m_shooterSubsystem.setFrontShooter(Constants.LIMELIGHT_CALIBRATION_POINTS
+                        [Constants.LIMELIGHT_CALIBRATION_POINTS.length - 1].frontSpeed);
+                m_shooterSubsystem.setRearShooter(Constants.LIMELIGHT_CALIBRATION_POINTS
+                        [Constants.LIMELIGHT_CALIBRATION_POINTS.length - 1].rearSpeed);
             }
 
             // limelight target
