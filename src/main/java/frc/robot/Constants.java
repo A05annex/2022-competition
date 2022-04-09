@@ -69,16 +69,25 @@ public final class Constants {
         }
     }
 
+    // West Valley
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-//            new LimelightCalibrationPoint(-1.0, 0.52, -0.55, 3.20),
-//            new LimelightCalibrationPoint(-2.0, 0.53, -0.55, 3.20),
-            new LimelightCalibrationPoint(-1.33, 0.63, -0.63, 3.20),
-            new LimelightCalibrationPoint(-3.75, 0.63, -0.63, 3.20),
-            new LimelightCalibrationPoint(-5.2, 0.67, -0.67, 3.20),
-            new LimelightCalibrationPoint(-5.9, 0.68, -0.8, 3.20),
-            new LimelightCalibrationPoint(-7.0, 0.69, -0.8, 3.20),
-            new LimelightCalibrationPoint(-8.0, 0.70, -0.8, 3.20),
+            new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
+            new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
+            new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
+            new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
     };
+
+    // broken shooter motor
+//    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
+////            new LimelightCalibrationPoint(-1.0, 0.52, -0.55, 3.20),
+////            new LimelightCalibrationPoint(-2.0, 0.53, -0.55, 3.20),
+//            new LimelightCalibrationPoint(-1.33, 0.63, -0.63, 3.20),
+//            new LimelightCalibrationPoint(-3.75, 0.63, -0.63, 3.20),
+//            new LimelightCalibrationPoint(-5.2, 0.67, -0.67, 3.20),
+//            new LimelightCalibrationPoint(-5.9, 0.68, -0.8, 3.20),
+//            new LimelightCalibrationPoint(-7.0, 0.69, -0.8, 3.20),
+//            new LimelightCalibrationPoint(-8.0, 0.70, -0.8, 3.20),
+//    };
 
 // 4 psi
 //    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
@@ -87,14 +96,6 @@ public final class Constants {
 //            new LimelightCalibrationPoint(-3.0, 0.55, -0.55, 5.20),
 //            new LimelightCalibrationPoint(-4.75, 0.57, -0.57, 5.20),
 //            new LimelightCalibrationPoint(-6.9, 0.65, -0.55, 5.20)
-//    };
-
-// West Valley
-//    public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-//        new LimelightCalibrationPoint(1.9, 0.5, -0.55, 4.20),
-//        new LimelightCalibrationPoint(-0.9, 0.55, -0.55, 4.20),
-//        new LimelightCalibrationPoint(-5.2, 0.6, -0.55, 5.20),
-//        new LimelightCalibrationPoint(-7.7, 0.725, -0.625, 4.20)
 //    };
 
     // ports for controllers
