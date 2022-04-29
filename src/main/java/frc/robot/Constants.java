@@ -72,8 +72,8 @@ public final class Constants {
 
     // static
     public static final LimelightCalibrationPoint[] LIMELIGHT_CALIBRATION_POINTS = {
-            new LimelightCalibrationPoint(0.0, 0.62, -0.8, 4.2),
-            new LimelightCalibrationPoint(-7.0, 0.62, -0.8, 4.2)
+            new LimelightCalibrationPoint(0.0, 0.66, -0.66, 4.2),
+            new LimelightCalibrationPoint(-7.0, 0.66, -0.66, 4.2)
     };
 
 //    // West Valley

@@ -89,7 +89,7 @@ public class RobotContainer
         m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
 
         // autonomous
-        Constants.AutonomousPath.setAutonomousToId(3);
+        Constants.AutonomousPath.setAutonomousToId(0);
         SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
         KochanekBartelsSpline path = Constants.AutonomousPath.load();
         if (path != null) {
