@@ -60,17 +60,17 @@ public class Robot extends A05Robot
         CommandScheduler.getInstance().run();
 
         // run the constant updaters
-        ShooterSubsystem.getInstance().updateShooterConstants();
-        CollectorSubsystem.getInstance().updateCollectorPower();
-
-        LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
-        limelightSubsystem.printXY();
-        limelightSubsystem.printCanShoot();
-        limelightSubsystem.printCanShootBool();
-        limelightSubsystem.printShooterPowers();
-        limelightSubsystem.printLimelightBump();
-
-        Constants.printIDs();
+//        ShooterSubsystem.getInstance().updateShooterConstants();
+//        CollectorSubsystem.getInstance().updateCollectorPower();
+//
+//        LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
+//        limelightSubsystem.printXY();
+//        limelightSubsystem.printCanShoot();
+//        limelightSubsystem.printCanShootBool();
+//        limelightSubsystem.printShooterPowers();
+//        limelightSubsystem.printLimelightBump();
+//
+//        Constants.printIDs();
     }
     
     

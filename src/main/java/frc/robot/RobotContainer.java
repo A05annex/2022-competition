@@ -111,9 +111,11 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         // Shooting bindings
-        m_xboxB.whenPressed(new LimelightShootCommand());
-        m_xboxA.whenPressed(new LimelightDoubleShootCommand());
-        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
+//        m_xboxB.whenPressed(new LimelightShootCommand());
+//        m_xboxA.whenPressed(new LimelightDoubleShootCommand());
+//        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
+
+        m_xboxA.whenHeld(new TestMotorsCommand());
 
         // Other bindings for the drive controller
         m_xboxX.whenPressed(new CollectorJerkCommand());

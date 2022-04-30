@@ -5,6 +5,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +48,13 @@ public final class Constants {
                 SHOOTER_FRONT = 13,
                 SHOOTER_REAR = 14;
     }
+
+    public static final int[] MOTORS_TO_TEST = {
+//                10, // lift left
+//                11, // lift right
+                13, // shooter front
+                14 // shooter rear
+    };
 
     public static final class CalibrationOffset {
         public static final double
