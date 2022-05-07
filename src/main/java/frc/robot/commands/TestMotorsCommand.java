@@ -4,21 +4,30 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.TestMotorsSubsystem;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 
 public class TestMotorsCommand extends CommandBase {
 
-    // test speed
-    public static double TEST_SPEED = 0.50;
+    // test speed & time
+    public static final double TEST_SPEED = 0.50;
+    public static final int TEST_TIME = 50; // in 20 ms increments
     // current motor being tested
-    private TalonSRX currentMotor;
+    private String currentMotorName;
+    // hashmap for motor list
+    private final HashMap<String, TalonSRX> motorList = TestMotorsSubsystem.getInstance().getMotorList();
     // iterator that iterates through motors to test
-    private Iterator<TalonSRX> motorItor = TestMotorsSubsystem.getInstance().getMotorList().iterator();
-    // iterator that iterates through motors to test
+    private Iterator<String> motorItor;
+
+    private boolean isFinished;
+
+    private int currentTime;
 
     public TestMotorsCommand() {
 
@@ -26,19 +35,32 @@ public class TestMotorsCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        currentMotor = motorItor.next();
+        motorItor = motorList.keySet().iterator();
+        currentMotorName = motorItor.next();
+        isFinished = false;
+        currentTime = 0;
     }
 
     @Override
     public void execute() {
-        testMotorVelocity(currentMotor, 0.0, "Current");
-        // TODO: Implement different names
+        currentTime++;
+        if (currentTime >= TEST_TIME) {
+            currentTime = 0;
+            if (motorItor.hasNext()) {
+                currentMotorName = motorItor.next();
+            } else {
+                isFinished = true;
+            }
+        }
+        if (!isFinished) {
+            testMotorVelocity(motorList.get(currentMotorName), 0.0, currentMotorName);
+        }
+        // TODO: Implement max speed
     }
 
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return isFinished;
     }
 
     @Override

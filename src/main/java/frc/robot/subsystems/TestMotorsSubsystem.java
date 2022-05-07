@@ -9,6 +9,8 @@ import frc.robot.Constants;
 
 import java.lang.invoke.ConstantBootstraps;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 public class TestMotorsSubsystem extends SubsystemBase {
     /**
@@ -31,7 +33,7 @@ public class TestMotorsSubsystem extends SubsystemBase {
         return INSTANCE;
     }
 
-    private ArrayList<TalonSRX> motorList = new ArrayList<TalonSRX>();
+    private final HashMap<String, TalonSRX> motorList = new HashMap<>();
 
     /**
      * Creates a new instance of this TestMotorsSubsystem. This constructor
@@ -40,16 +42,20 @@ public class TestMotorsSubsystem extends SubsystemBase {
      */
     private TestMotorsSubsystem() {
         // add and instantiates all motors from MOTORS_TO_TEST to motorList
-        for (int port : Constants.MOTORS_TO_TEST) {
+
+        final HashMap<String, Integer> motorsToTest = Constants.getMotorsToTest();
+
+        for (String key : motorsToTest.keySet()) {
+            int port = motorsToTest.get(key);
             TalonSRX motor = new TalonSRX(port);
             motor.configFactoryDefault();
             motor.setNeutralMode(NeutralMode.Coast);
             motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-            motorList.add(motor);
+            motorList.put(key, motor);
         }
     }
 
-    public ArrayList<TalonSRX> getMotorList() {
+    public HashMap<String, TalonSRX> getMotorList() {
         return motorList;
     }
 }

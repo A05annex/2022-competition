@@ -5,15 +5,15 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
+
+import java.util.HashMap;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -49,12 +49,22 @@ public final class Constants {
                 SHOOTER_REAR = 14;
     }
 
-    public static final int[] MOTORS_TO_TEST = {
-//                10, // lift left
-//                11, // lift right
-                13, // shooter front
-                14 // shooter rear
-    };
+
+//    public static final int[] MOTORS_TO_TEST = {
+//
+////                10, // lift left
+////                11, // lift right
+//                13, // shooter front
+//                14 // shooter rear
+//    };
+    // TODO: Make this a data class to store max velocity
+    public static HashMap<String, Integer> getMotorsToTest() {
+        final HashMap<String, Integer> MOTORS_TO_TEST = new HashMap<>();
+
+        MOTORS_TO_TEST.put("Front Shooter", 13);
+        MOTORS_TO_TEST.put("Rear Shooter", 14);
+        return MOTORS_TO_TEST;
+    }
 
     public static final class CalibrationOffset {
         public static final double
