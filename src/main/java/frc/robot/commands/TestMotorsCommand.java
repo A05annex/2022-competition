@@ -17,7 +17,7 @@ public class TestMotorsCommand extends CommandBase {
 
     // test speed & time
     public static final double TEST_SPEED = 0.50;
-    public static final int TEST_TIME = 50; // in 20 ms increments
+    public static final int TEST_TIME = 100; // in 20 ms increments
     // current motor being tested
     private String currentMotorName;
     // hashmap for motor list
@@ -43,9 +43,11 @@ public class TestMotorsCommand extends CommandBase {
 
     @Override
     public void execute() {
+        printTelemetry();
         currentTime++;
         if (currentTime >= TEST_TIME) {
             currentTime = 0;
+            motorList.get(currentMotorName).set(ControlMode.PercentOutput, 0.0);
             if (motorItor.hasNext()) {
                 currentMotorName = motorItor.next();
             } else {
@@ -70,12 +72,16 @@ public class TestMotorsCommand extends CommandBase {
 
 //    public static double REAR_SHOOTER_VELOCITY = 17777.0;
     // verify that motors are spinning right
-    public static void testMotorVelocity(TalonSRX motor, double maxSpeed, String name) {
+    private void testMotorVelocity(TalonSRX motor, double maxSpeed, String name) {
         motor.set(ControlMode.PercentOutput, TEST_SPEED);
         double velocity = Math.abs(motor.getSelectedSensorVelocity());
         double percentError = velocity / maxSpeed;
         SmartDashboard.putNumber(name, velocity);
         SmartDashboard.putNumber(name + " Velocity", percentError);
     }
-
+    private void printTelemetry() {
+        SmartDashboard.putNumber("Time", currentTime);
+        SmartDashboard.putString("Current Motor", currentMotorName);
+        SmartDashboard.putBoolean("Is Finished?!?!?", isFinished);
+    }
 }

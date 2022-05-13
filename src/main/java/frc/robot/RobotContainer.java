@@ -115,7 +115,7 @@ public class RobotContainer
 //        m_xboxA.whenPressed(new LimelightDoubleShootCommand());
 //        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
 
-        m_xboxA.whenHeld(new TestMotorsCommand());
+        m_xboxA.whenPressed(new TestMotorsCommand());
 
         // Other bindings for the drive controller
         m_xboxX.whenPressed(new CollectorJerkCommand());
