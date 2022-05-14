@@ -58,12 +58,27 @@ public final class Constants {
 //                14 // shooter rear
 //    };
     // TODO: Make this a data class to store max velocity
-    public static HashMap<String, Integer> getMotorsToTest() {
-        final HashMap<String, Integer> MOTORS_TO_TEST = new HashMap<>();
+//    public static HashMap<String, Integer> getMotorsToTest() {
+//        final HashMap<String, Integer> MOTORS_TO_TEST = new HashMap<>();
+//
+//        MOTORS_TO_TEST.put("Front Shooter", 13);
+//        MOTORS_TO_TEST.put("Rear Shooter", 14);
+//        return MOTORS_TO_TEST;
+//    }
 
-        MOTORS_TO_TEST.put("Front Shooter", 13);
-        MOTORS_TO_TEST.put("Rear Shooter", 14);
-        return MOTORS_TO_TEST;
+    public enum MotorsToTest {
+        FRONT_SHOOTER("Front Shooter", 13),
+        REAR_SHOOTER("Rear Shooter", 14);
+
+        private final String name;
+        private final int port;
+
+        MotorsToTest(String name, int port) {
+            this.name = name;
+            this.port = port;
+        }
+
+        //TODO: json file interaction
     }
 
     public static final class CalibrationOffset {

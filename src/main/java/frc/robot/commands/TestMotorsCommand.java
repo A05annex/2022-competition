@@ -78,6 +78,7 @@ public class TestMotorsCommand extends CommandBase {
         double percentError = velocity / maxSpeed;
         SmartDashboard.putNumber(name, velocity);
         SmartDashboard.putNumber(name + " Velocity", percentError);
+        SmartDashboard.putNumber(name + " Current", motor.getStatorCurrent());
     }
     private void printTelemetry() {
         SmartDashboard.putNumber("Time", currentTime);
