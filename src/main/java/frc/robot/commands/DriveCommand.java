@@ -65,13 +65,17 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        // if pressing boost button, set gain to boost gain
-        double gain = DRIVE_SPEED_GAIN;
-        if (m_xbox.getRightTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
-            gain = DRIVE_BOOST_GAIN;
-        } else if (m_xbox.getLeftTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
-            gain = DRIVE_SLOW_GAIN;
-        }
+//        // if pressing boost button, set gain to boost gain
+//        double gain = DRIVE_SPEED_GAIN;
+//        if (m_xbox.getRightTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
+//            gain = DRIVE_BOOST_GAIN;
+//        } else if (m_xbox.getLeftTriggerAxis() >= BOOST_TRIGGER_THRESHOLD) {
+//            gain = DRIVE_SLOW_GAIN;
+//        }
+        // kid mode, set gain to permanent slow (disable boost button)
+        double gain = DRIVE_SLOW_GAIN;
+        // put gain on dashboard
+        Constants.updateConstant("Gain", DRIVE_SLOW_GAIN);
 
         // get stick values
         // left stick Y for forward/backward speed
