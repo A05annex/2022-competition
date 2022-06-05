@@ -50,7 +50,7 @@ public final class Constants {
         public static final double
                 // 2/21 calibration constants: post spin fix
                 RF = 2.764,
-                RR = 3.559,
+                RR = 4.020,
                 LR = 4.386,
                 LF = 4.312;
     }
