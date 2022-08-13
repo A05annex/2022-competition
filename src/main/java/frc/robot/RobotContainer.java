@@ -21,6 +21,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import org.opencv.core.KeyPoint;
 
 
 /**
@@ -48,6 +49,11 @@ public class RobotContainer
 
     // declare NavX, used for resetting initial heading
     NavX m_navx = NavX.getInstance();
+
+    // grip vision pipeline things and stuff
+    KeyPoint[] blobPoints = null;
+    Object blobPointsLock = new Object();
+    //TODO: make it work
 
     // controller declarations
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
@@ -134,5 +140,18 @@ public class RobotContainer
     {
         // An ExampleCommand will run in autonomous
         return m_autoCommand;
+    }
+
+    private void initGripPipeline()
+    {
+        visionThread = new VisionThread(camera, new MyVisionPipeline(), pipeline -> {
+            if (!pipeline.filterContoursOutput().isEmpty()) {
+                Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+                synchronized (imgLock) {
+                    centerX = r.x + (r.width / 2);
+                }
+            }
+        });
+        visionThread.start();
     }
 }

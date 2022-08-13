@@ -135,7 +135,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     /**
-     * Should calculate the distance to the center of the target. Not working currrently, since the target is curved.
+     * Should calculate the distance to the center of the target. Not working currently, since the target is curved.
      * @return (double) The distance to the target in meters.
      */
     public double distanceToTarget() {
