@@ -5,6 +5,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.vision.VisionRunner;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousPathCommand;
+import frc.robot.GripPipeline;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +59,8 @@ public class RobotContainer
     // grip vision pipeline things and stuff
     KeyPoint[] blobPoints = null;
     Object blobPointsLock = new Object();
+    VisionThread visionThread;
+    UsbCamera camera;
     //TODO: make it work
 
     // controller declarations
@@ -144,12 +152,10 @@ public class RobotContainer
 
     private void initGripPipeline()
     {
-        visionThread = new VisionThread(camera, new MyVisionPipeline(), pipeline -> {
-            if (!pipeline.filterContoursOutput().isEmpty()) {
-                Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-                synchronized (imgLock) {
-                    centerX = r.x + (r.width / 2);
-                }
+        visionThread = new VisionThread(camera, (VisionPipeline) (new GripPipeline()), pipeline -> {
+            KeyPoint[] blobArray = ((GripPipeline) pipeline).findBlobsOutput().toArray();
+            synchronized (blobPointsLock) {
+
             }
         });
         visionThread.start();
