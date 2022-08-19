@@ -39,7 +39,9 @@ public class Robot extends A05Robot
         robotContainer = new RobotContainer();
 
         // Start logitech camera
-        CameraServer.startAutomaticCapture();
+        // do this in the grip pipeline instead
+//        CameraServer.startAutomaticCapture();
+        robotContainer.initGripPipeline();
     }
     
     
@@ -60,15 +62,17 @@ public class Robot extends A05Robot
         CommandScheduler.getInstance().run();
 
         // run the constant updaters
-        ShooterSubsystem.getInstance().updateShooterConstants();
-        CollectorSubsystem.getInstance().updateCollectorPower();
+//        ShooterSubsystem.getInstance().updateShooterConstants();
+//        CollectorSubsystem.getInstance().updateCollectorPower();
+//
+//        LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
+//        limelightSubsystem.printXY();
+//        limelightSubsystem.printCanShoot();
+//        limelightSubsystem.printCanShootBool();
+//        limelightSubsystem.printShooterPowers();
+//        limelightSubsystem.printLimelightBump();
 
-        LimelightSubsystem limelightSubsystem = LimelightSubsystem.getInstance();
-        limelightSubsystem.printXY();
-        limelightSubsystem.printCanShoot();
-        limelightSubsystem.printCanShootBool();
-        limelightSubsystem.printShooterPowers();
-        limelightSubsystem.printLimelightBump();
+        robotContainer.printGripPipeline();
     }
     
     
@@ -94,7 +98,7 @@ public class Robot extends A05Robot
         }
 
         // set to shooter pipeline
-        LimelightSubsystem.getInstance().setPipeline(LimelightSubsystem.Pipelines.SHOOTER);
+//        LimelightSubsystem.getInstance().setPipeline(LimelightSubsystem.Pipelines.SHOOTER);
     }
     
     

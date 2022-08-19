@@ -19,15 +19,16 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousPathCommand;
 import frc.robot.GripPipeline;
-import frc.robot.commands.DriveCommand;
+//import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CollectorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
-import frc.robot.commands.*;
+//import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import org.opencv.core.KeyPoint;
+import org.opencv.core.MatOfKeyPoint;
 
 
 /**
@@ -39,29 +40,28 @@ import org.opencv.core.KeyPoint;
 public class RobotContainer
 {
     // subsystem declarations (should all be instances)
-    DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
-    ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
-    CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
-    FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
-    LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
-    LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
+//    DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
+//    ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
+//    CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
+//    FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
+//    LiftSubsystem m_liftSubsystem = LiftSubsystem.getInstance();
+//    LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
 
     // command declarations
-    DriveCommand m_driveCommand;
-    CollectorHoldCommand m_collectorCommand;
-    FeederCommand m_feederCommand;
-    LiftStickCommand m_liftStickCommand;
+//    DriveCommand m_driveCommand;
+//    CollectorHoldCommand m_collectorCommand;
+//    FeederCommand m_feederCommand;
+//    LiftStickCommand m_liftStickCommand;
     AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
     NavX m_navx = NavX.getInstance();
 
     // grip vision pipeline things and stuff
-    KeyPoint[] blobPoints = null;
-    Object blobPointsLock = new Object();
+    KeyPoint[] blobArray = null;
+    final Object blobPointsLock = new Object();
     VisionThread visionThread;
     UsbCamera camera;
-    //TODO: make it work
 
     // controller declarations
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
@@ -91,25 +91,25 @@ public class RobotContainer
     {
         // commands
         // uses both sticks, LB for limelight targeting, and triggers for boost/slow
-        m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper);
-        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper, m_xboxStart);
-        m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
-        m_liftStickCommand = new LiftStickCommand(m_hangXbox); // uses both sticks
+//        m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper);
+//        m_collectorCommand = new CollectorHoldCommand(m_xboxRightBumper, m_xboxStart);
+//        m_feederCommand = new FeederCommand(m_xboxLeftStickPress, m_xboxRightStickPress);
+//        m_liftStickCommand = new LiftStickCommand(m_hangXbox); // uses both sticks
 
         // set default commands
-        m_driveSubsystem.setDefaultCommand(m_driveCommand);
-        m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
-        m_feederSubsystem.setDefaultCommand(m_feederCommand);
-        m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
+//        m_driveSubsystem.setDefaultCommand(m_driveCommand);
+//        m_collectorSubsystem.setDefaultCommand(m_collectorCommand);
+//        m_feederSubsystem.setDefaultCommand(m_feederCommand);
+//        m_liftSubsystem.setDefaultCommand(m_liftStickCommand);
 
         // autonomous
-        Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
-        SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
-        KochanekBartelsSpline path = Constants.AutonomousPath.load();
-        if (path != null) {
-            m_autoCommand = new AutonomousPathCommand(path, m_driveSubsystem,
-                    m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
-        }
+//        Constants.AutonomousPath.setAutonomousToId(Constants.readAutoID());
+//        SmartDashboard.putString("autonomous", Constants.AutonomousPath.getName());
+//        KochanekBartelsSpline path = Constants.AutonomousPath.load();
+//        if (path != null) {
+//            m_autoCommand = new AutonomousPathCommand(path, m_driveSubsystem,
+//                    m_collectorSubsystem, m_feederSubsystem, m_liftSubsystem);
+//        }
 
         // Configure the button bindings
         configureButtonBindings();
@@ -124,18 +124,18 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        // Shooting bindings
-        m_xboxB.whenPressed(new LimelightShootCommand());
-        m_xboxA.whenPressed(new LimelightDoubleShootCommand());
-        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
-
-        // Other bindings for the drive controller
-        m_xboxX.whenPressed(new CollectorJerkCommand());
-        m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
-
-        // Limelight bump controls
-        m_hangY.whenPressed(new InstantCommand(m_limelightSubsystem::bumpUpLimelight));
-        m_hangA.whenPressed(new InstantCommand(m_limelightSubsystem::bumpDownLimelight));
+//        // Shooting bindings
+//        m_xboxB.whenPressed(new LimelightShootCommand());
+//        m_xboxA.whenPressed(new LimelightDoubleShootCommand());
+//        m_xboxY.whenPressed(new ShooterSetSpeedCommand());
+//
+//        // Other bindings for the drive controller
+//        m_xboxX.whenPressed(new CollectorJerkCommand());
+//        m_xboxBack.whenPressed(new InstantCommand(m_navx::initializeHeadingAndNav)); // Reset the NavX field relativity
+//
+//        // Limelight bump controls
+//        m_hangY.whenPressed(new InstantCommand(m_limelightSubsystem::bumpUpLimelight));
+//        m_hangA.whenPressed(new InstantCommand(m_limelightSubsystem::bumpDownLimelight));
     }
     
 
@@ -150,14 +150,32 @@ public class RobotContainer
         return m_autoCommand;
     }
 
-    private void initGripPipeline()
+    public void initGripPipeline()
     {
+        camera = CameraServer.startAutomaticCapture();
         visionThread = new VisionThread(camera, (VisionPipeline) (new GripPipeline()), pipeline -> {
-            KeyPoint[] blobArray = ((GripPipeline) pipeline).findBlobsOutput().toArray();
+            MatOfKeyPoint blobPoints = ((GripPipeline) pipeline).findBlobsOutput();
             synchronized (blobPointsLock) {
-
+                blobArray = blobPoints.toArray();
             }
         });
         visionThread.start();
+    }
+
+    public void printGripPipeline() {
+        synchronized (blobPointsLock) {
+            if (blobArray == null) {
+                System.out.println("null");
+            } else {
+                System.out.println("Array Length: " + blobArray.length);
+                for (KeyPoint keyPoint : blobArray) {
+                    double x = keyPoint.pt.x;
+                    double y = keyPoint.pt.y;
+                    System.out.println("X: " + x);
+                    System.out.println("Y: " + y);
+                }
+                System.out.println();
+            }
+        }
     }
 }
