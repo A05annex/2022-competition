@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
+import org.a05annex.frc.A05Constants;
 import org.a05annex.frc.A05Robot;
 
 
@@ -34,9 +35,14 @@ public class Robot extends A05Robot
     @Override
     public void robotInit()
     {
+        Constants.setDriveGeometry(Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH);
+        Constants.setDriveCalibration(2.764,3.559,4.312,4.386);
+        Constants.setDriveOrientationkp(Constants.DRIVE_ORIENTATION_kP);
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
+
+        setRobotContainer(robotContainer);
 
         // Start logitech camera
         CameraServer.startAutomaticCapture();

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package org.a05annex.frc.subsytems;
 
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.RelativeEncoder;
@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController;
 import com.ctre.phoenix.sensors.CANCoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.AngleUnit;

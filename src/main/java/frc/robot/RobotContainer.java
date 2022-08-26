@@ -5,19 +5,19 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AutonomousPathCommand;
+import org.a05annex.frc.commands.AutonomousPathCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CollectorSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
+import org.a05annex.frc.subsytems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import org.a05annex.frc.A05RobotContainer;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -29,7 +29,7 @@ import frc.robot.subsystems.*;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer
+public class RobotContainer extends A05RobotContainer
 {
     // subsystem declarations (should all be instances)
     DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
@@ -47,7 +47,7 @@ public class RobotContainer
     AutonomousPathCommand m_autoCommand;
 
     // declare NavX, used for resetting initial heading
-    NavX m_navx = NavX.getInstance();
+    //NavX m_navx = NavX.getInstance();
 
     // controller declarations
     XboxController m_xbox = new XboxController(Constants.XBOX_PORT);
@@ -75,6 +75,7 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
+        super();
         // commands
         // uses both sticks, LB for limelight targeting, and triggers for boost/slow
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper);

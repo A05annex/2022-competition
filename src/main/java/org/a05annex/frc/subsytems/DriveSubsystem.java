@@ -1,9 +1,9 @@
-package frc.robot.subsystems;
+package org.a05annex.frc.subsytems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.NavX;
+import org.a05annex.frc.A05Constants;
+import org.a05annex.frc.NavX;
 import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.Utl;
@@ -42,9 +42,9 @@ public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
 
     // the drive geometry
     private final double LENGTH_OVER_DIAGONAL =
-            Constants.DRIVE_LENGTH / Constants.DRIVE_DIAGONAL;
+            A05Constants.getDriveLength() / A05Constants.getDriveDiagonal();
     private final double WIDTH_OVER_DIAGONAL =
-            Constants.DRIVE_WIDTH / Constants.DRIVE_DIAGONAL;
+            A05Constants.getDriveWidth() / A05Constants.getDriveDiagonal();
 
     // keep track of last angles
     private final AngleD m_RF_lastRadians = new AngleD(AngleD.ZERO);
@@ -71,17 +71,17 @@ public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
      */
     private DriveSubsystem() {
         // initialize drive modules
-        m_rf = Mk4NeoModule.factory(Constants.CAN_Devices.RF_DRIVE, Constants.CAN_Devices.RF_DIRECTION,
-                Constants.CAN_Devices.RF_CALIBRATION, Constants.CalibrationOffset.RF);
+        m_rf = Mk4NeoModule.factory(A05Constants.A05CAN_Devices.RF_DRIVE, A05Constants.A05CAN_Devices.RF_DIRECTION,
+                A05Constants.A05CAN_Devices.RF_CALIBRATION, A05Constants.CalibrationOffset.RF);
 
-        m_rr = Mk4NeoModule.factory(Constants.CAN_Devices.RR_DRIVE, Constants.CAN_Devices.RR_DIRECTION,
-                Constants.CAN_Devices.RR_CALIBRATION, Constants.CalibrationOffset.RR);
+        m_rr = Mk4NeoModule.factory(A05Constants.A05CAN_Devices.RR_DRIVE, A05Constants.A05CAN_Devices.RR_DIRECTION,
+                A05Constants.A05CAN_Devices.RR_CALIBRATION, A05Constants.CalibrationOffset.RR);
 
-        m_lf = Mk4NeoModule.factory(Constants.CAN_Devices.LF_DRIVE, Constants.CAN_Devices.LF_DIRECTION,
-                Constants.CAN_Devices.LF_CALIBRATION, Constants.CalibrationOffset.LF);
+        m_lf = Mk4NeoModule.factory(A05Constants.A05CAN_Devices.LF_DRIVE, A05Constants.A05CAN_Devices.LF_DIRECTION,
+                A05Constants.A05CAN_Devices.LF_CALIBRATION, A05Constants.CalibrationOffset.LF);
 
-        m_lr = Mk4NeoModule.factory(Constants.CAN_Devices.LR_DRIVE, Constants.CAN_Devices.LR_DIRECTION,
-                Constants.CAN_Devices.LR_CALIBRATION, Constants.CalibrationOffset.LR);
+        m_lr = Mk4NeoModule.factory(A05Constants.A05CAN_Devices.LR_DRIVE, A05Constants.A05CAN_Devices.LR_DIRECTION,
+                A05Constants.A05CAN_Devices.LR_CALIBRATION, A05Constants.CalibrationOffset.LR);
     }
 
     // getter methods for modules
@@ -292,13 +292,13 @@ public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
      * @param targetHeading (AngleConstantD) The desired chassis heading on the field.
      */
     public void setHeading(AngleConstantD targetHeading) {
-        m_RF_lastRadians.atan2(Constants.DRIVE_LENGTH, -Constants.DRIVE_WIDTH);
-        m_LF_lastRadians.atan2(Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH);
-        m_LR_lastRadians.atan2(-Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH);
-        m_RR_lastRadians.atan2(-Constants.DRIVE_LENGTH, -Constants.DRIVE_WIDTH);
+        m_RF_lastRadians.atan2(A05Constants.getDriveLength(), -A05Constants.getDriveWidth());
+        m_LF_lastRadians.atan2(A05Constants.getDriveLength(), A05Constants.getDriveWidth());
+        m_LR_lastRadians.atan2(-A05Constants.getDriveLength(), A05Constants.getDriveWidth());
+        m_RR_lastRadians.atan2(-A05Constants.getDriveLength(), -A05Constants.getDriveWidth());
 
         double deltaTics = new AngleD(targetHeading).subtract(m_navx.getHeading()).getRadians()
-                * Constants.DRIVE_POS_TICS_PER_RADIAN;
+                * A05Constants.getDrivePosTicsPerRadian();
 
         m_rf.setDirectionAndDistance(m_RF_lastRadians, deltaTics);
         m_lf.setDirectionAndDistance(m_LF_lastRadians, deltaTics);
@@ -328,7 +328,7 @@ public class DriveSubsystem extends SubsystemBase implements ISwerveDrive {
 
         // the maximum distance we could travel in this interval at max speed
         long now = System.currentTimeMillis();
-        double maxDistanceInInterval = Constants.MAX_METERS_PER_SEC * (double) (now - m_lastTime) / 1000.0;
+        double maxDistanceInInterval = A05Constants.getMaxMetersPerSec() * (double) (now - m_lastTime) / 1000.0;
 
         // compute the distance in field X and Y and update the field position
         double sinHeading = aveHeading.sin();

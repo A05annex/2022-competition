@@ -1,12 +1,20 @@
 package org.a05annex.frc;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public abstract class A05Robot extends TimedRobot {
 
+    private A05RobotContainer a05RobotContainer;
+
     Object[] lastLabviewTelemetry = {null, null, null, null, null, null, null, null, null, null};
+
+    protected void setRobotContainer(A05RobotContainer container) {
+        a05RobotContainer = container;
+    }
 
     /**
      * Update telemetry feedback for a real number value. If the value has not changed, no update is sent

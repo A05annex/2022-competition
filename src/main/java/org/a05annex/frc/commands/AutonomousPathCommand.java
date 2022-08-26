@@ -1,12 +1,12 @@
-package frc.robot.commands;
+package org.a05annex.frc.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants;
-import frc.robot.NavX;
-import frc.robot.subsystems.ISwerveDrive;
+import org.a05annex.frc.A05Constants;
+import org.a05annex.frc.NavX;
+import org.a05annex.frc.subsytems.ISwerveDrive;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,9 +72,9 @@ public class AutonomousPathCommand extends CommandBase {
         pathPoint = pathFollower.getPointAt(0.0);
         if (pathPoint != null) {
             NavX.getInstance().initializeHeadingAndNav(pathPoint.fieldHeading);
-            double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
-            double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
-            double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC);
+            double forward = pathPoint.speedForward / A05Constants.getMaxMetersPerSec();
+            double strafe = pathPoint.speedStrafe / A05Constants.getMaxMetersPerSec();
+            double rotation = (pathPoint.speedRotation / A05Constants.getMaxRadiansPerSec());
             swerveDrive.prepareForDriveComponents(forward, strafe, rotation);
             startTime = System.currentTimeMillis();
             if ((null != pathPoint.action) && (null != pathPoint.action.command) &&
@@ -160,8 +160,8 @@ public class AutonomousPathCommand extends CommandBase {
                     }
                 }
 
-                double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
-                double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
+                double forward = pathPoint.speedForward / A05Constants.getMaxMetersPerSec();
+                double strafe = pathPoint.speedStrafe / A05Constants.getMaxMetersPerSec();
                 // The expected heading is included in the PathPoint. The path point is the instantaneous
                 // speed and position that we want to be at when we go through the path point. So, we are
                 // actually telling the swerve drive what to do to get from the last control point to this
@@ -170,8 +170,8 @@ public class AutonomousPathCommand extends CommandBase {
                 //try and keep us on path.
 //                double errorRotation = 0.0;  // when calibrating rotation rate.
                 double errorRotation = (lastPathPoint.fieldHeading.getRadians() -
-                        NavX.getInstance().getHeading().getRadians()) * Constants.DRIVE_ORIENTATION_kP;
-                double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC) + errorRotation;
+                        NavX.getInstance().getHeading().getRadians()) * A05Constants.getDriveOrientationkp();
+                double rotation = (pathPoint.speedRotation / A05Constants.getMaxRadiansPerSec()) + errorRotation;
                 swerveDrive.swerveDriveComponents(forward, strafe, rotation);
                 NavX.getInstance().setExpectedHeadingToCurrent();
 
@@ -212,9 +212,9 @@ public class AutonomousPathCommand extends CommandBase {
                 swerveDrive.setHeading(pathPoint.fieldHeading);
                 try {
                     Thread.sleep(15);
-                    double forward = pathPoint.speedForward / Constants.MAX_METERS_PER_SEC;
-                    double strafe = pathPoint.speedStrafe / Constants.MAX_METERS_PER_SEC;
-                    double rotation = (pathPoint.speedRotation / Constants.MAX_RADIANS_PER_SEC);
+                    double forward = pathPoint.speedForward / A05Constants.getMaxMetersPerSec();
+                    double strafe = pathPoint.speedStrafe / A05Constants.getMaxMetersPerSec();
+                    double rotation = (pathPoint.speedRotation / A05Constants.getMaxRadiansPerSec());
                     swerveDrive.prepareForDriveComponents(forward, strafe, rotation);
                 } catch (InterruptedException e) {
                     return isFinished;

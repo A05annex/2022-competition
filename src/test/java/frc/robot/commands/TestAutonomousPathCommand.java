@@ -1,12 +1,7 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.NavX;
 import frc.robot.subsystems.DummySwerveDriveSubsystem;
-import org.a05annex.util.AngleConstantD;
-import org.a05annex.util.AngleD;
+import org.a05annex.frc.commands.AutonomousPathCommand;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +13,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** This is a test of the {@link frc.robot.commands.AutonomousPathCommand} that uses a test path
+/** This is a test of the {@link AutonomousPathCommand} that uses a test path
  * with both scheduled commands and stop-and-run commands. The test path is a 5 control point path. Stop-and-run
  * commands happen at the 1st, 3rd, and 5th (last) control points, scheduled commands happens at 2
  * locations on the path.

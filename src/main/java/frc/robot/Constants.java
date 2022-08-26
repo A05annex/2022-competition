@@ -8,7 +8,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Mk4NeoModule;
+import org.a05annex.frc.A05Constants;
+import org.a05annex.frc.subsytems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
@@ -20,23 +21,10 @@ import org.a05annex.util.geo2d.KochanekBartelsSpline;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public final class Constants extends A05Constants {
 
-    public static final class CAN_Devices {
+    public static final class CAN_Devices extends A05CAN_Devices {
         public static final int
-                // swerve motors and encoders
-                RF_DRIVE = 1,
-                RF_DIRECTION = 2,
-                RF_CALIBRATION = 20,
-                RR_DRIVE = 3,
-                RR_DIRECTION = 4,
-                RR_CALIBRATION = 21,
-                LR_DRIVE = 5,
-                LR_DIRECTION = 6,
-                LR_CALIBRATION = 22,
-                LF_DRIVE = 7,
-                LF_DIRECTION = 8,
-                LF_CALIBRATION = 23,
                 // other motors
                 FEEDER = 9,
                 LIFT_LEFT = 10,
@@ -54,6 +42,7 @@ public final class Constants {
                 LR = 4.386,
                 LF = 4.312;
     }
+
 
     public static final class LimelightCalibrationPoint {
         public final double ty;
@@ -94,21 +83,6 @@ public final class Constants {
     // corners of a 21.5"(0.5461m) square.
     public static final double DRIVE_LENGTH = 0.5969;
     public static final double DRIVE_WIDTH = 0.5969;
-    public static final double DRIVE_DIAGONAL = Utl.length(DRIVE_LENGTH, DRIVE_WIDTH);
-
-    // drive encoder tics per radian of robot rotation when rotation is controlled by position rather than speed.
-    public static final double DRIVE_POS_TICS_PER_RADIAN = 10.385;
-    // See the Mk4NeoModule for how this speed is initially estimated.
-//    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC * (190.0/197.0); // tested
-    public static final double MAX_METERS_PER_SEC = Mk4NeoModule.MAX_METERS_PER_SEC;
-    //  The maximum spin of the robot when all that is happening is spin. Since the robot drive centers are
-    //  square, att wheels are aligned so their axis passes through the center of that square, and all wheels
-    // follow the same circular path at a radius of DRIVE_DIAGONAL/2.0 at MAX_METERS_PER_SEC. So this is
-    // computed from DRIVE_DIAGONAL and MAX_METERS_PER_SEC:
-    //     Max [radians/sec] = max speed [meters/sec] / (PI * radius) [meters/radian]
-    //     Max [radians/sec] = MAX_METERS_PER_SEC / (Math.PI * DRIVE_DIAGONAL * 0.5)
-    public static final double MAX_RADIANS_PER_SEC = (377.0/360.0) * // tested
-            ((MAX_METERS_PER_SEC * 2 * Math.PI) / (Math.PI * DRIVE_DIAGONAL));
 
     // kP for keeping drive at the same orientation
     public static double DRIVE_ORIENTATION_kP = 0.3;
@@ -233,4 +207,5 @@ public final class Constants {
         SmartDashboard.putNumber(key, value);
         return value;
     }
+
 }

@@ -1,10 +1,11 @@
-package frc.robot.subsystems;
+package org.a05annex.frc.subsystems;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import org.a05annex.frc.subsytems.Mk4NeoModule;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.AngleUnit;
 import org.junit.jupiter.api.DisplayName;
