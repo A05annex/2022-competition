@@ -314,7 +314,8 @@ public class TestMk4NeoModule {
         when(dm.driveEncoder.getPosition()).thenReturn(driveEncStartPosition + deltaTics);
 
         assertEquals(spinEncPosition, dm.driveModule.getDirectionPosition());
-        assertEquals(driveEncStartPosition + deltaTics, dm.driveModule.getDriveEncoderPosition());//        assertEquals(driveEncVelocity, dm.driveModule.getDriveEncoderVelocity());
+        assertEquals(driveEncStartPosition + deltaTics, dm.driveModule.getDriveEncoderPosition());
+        //        assertEquals(driveEncVelocity, dm.driveModule.getDriveEncoderVelocity());
     }
 
     /**
