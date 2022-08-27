@@ -2,7 +2,7 @@ package frc.robot.commands.unused;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
-import org.a05annex.frc.subsytems.DriveSubsystem;
+import org.a05annex.frc.subsystems.DriveSubsystem;
 
 
 public class AutoDoubleShootCommand extends CommandBase {

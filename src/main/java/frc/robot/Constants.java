@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.a05annex.frc.A05Constants;
-import org.a05annex.frc.subsytems.Mk4NeoModule;
-import org.a05annex.util.Utl;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 
 /**
@@ -33,16 +31,6 @@ public final class Constants extends A05Constants {
                 SHOOTER_FRONT = 13,
                 SHOOTER_REAR = 14;
     }
-
-    public static final class CalibrationOffset {
-        public static final double
-                // 2/21 calibration constants: post spin fix
-                RF = 2.764,
-                RR = 3.559,
-                LR = 4.386,
-                LF = 4.312;
-    }
-
 
     public static final class LimelightCalibrationPoint {
         public final double ty;

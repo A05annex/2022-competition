@@ -1,4 +1,4 @@
-package org.a05annex.frc.subsytems;
+package org.a05annex.frc.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

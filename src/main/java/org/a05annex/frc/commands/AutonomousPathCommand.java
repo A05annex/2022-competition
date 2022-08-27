@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import org.a05annex.frc.A05Constants;
 import org.a05annex.frc.NavX;
-import org.a05annex.frc.subsytems.ISwerveDrive;
+import org.a05annex.frc.subsystems.ISwerveDrive;
 import org.a05annex.util.geo2d.KochanekBartelsSpline;
 import org.jetbrains.annotations.NotNull;
 

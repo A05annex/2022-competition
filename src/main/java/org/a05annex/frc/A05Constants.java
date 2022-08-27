@@ -1,7 +1,6 @@
 package org.a05annex.frc;
 
-import frc.robot.Constants;
-import org.a05annex.frc.subsytems.Mk4NeoModule;
+import org.a05annex.frc.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 
 public abstract class A05Constants {

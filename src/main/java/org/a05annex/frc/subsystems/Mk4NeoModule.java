@@ -1,4 +1,4 @@
-package org.a05annex.frc.subsytems;
+package org.a05annex.frc.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.RelativeEncoder;

@@ -5,9 +5,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.ctre.phoenix.sensors.CANCoder;
 
-import org.a05annex.frc.subsytems.Mk4NeoModule;
 import org.a05annex.util.AngleD;
 import org.a05annex.util.AngleUnit;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
@@ -27,14 +27,17 @@ public class TestMk4NeoModule {
 
     /**
      * This is a class that creates an initialized drive module using mocked motor controllers, motor encoders,
-     * motor PID and analog encoder.
+     * motor PID and analog encoder. The mocked module uses the actual module code, but mocks the controllers and
+     * encoders, so we can input sensor (encoder) values and commands we want to respond to and verify the module
+     * sends the correct (expected) commands to the controllers.
      */
     private class InitializedMk4NeoModule {
-        // basic code representations for physical hardware
+        // mocked representations for physical hardware
         final CANSparkMax driveMotor = mock(CANSparkMax.class);
         final CANSparkMax spinMotor = mock(CANSparkMax.class);
         final CANCoder analogEncoder = mock(CANCoder.class);
-        // derived representations of components embedded in the physical hardware
+        // mocked derived representations of components embedded in the physical hardware (i.e. the
+        // PID controllers and encoders embedded in the neo motor and spark controller pair)
         final RelativeEncoder driveEncoder = mock(RelativeEncoder.class);
         final SparkMaxPIDController drivePID = mock(SparkMaxPIDController.class);
         final RelativeEncoder spinEncoder = mock(RelativeEncoder.class);
@@ -42,15 +45,15 @@ public class TestMk4NeoModule {
         final Mk4NeoModule driveModule;
 
         /**
-         * Instantiate, initialize, and verify initialization called everything as expected. Reset all of the mock
+         * Instantiate, initialize, and verify initialization called everything as expected. Reset all the mock
          * objects that were touched in initialization before exiting this instantiation.
          */
         public InitializedMk4NeoModule() {
-            when(analogEncoder.getAbsolutePosition()).thenReturn(Math.PI/2.0);
+            when(analogEncoder.getAbsolutePosition()).thenReturn(Math.PI / 2.0);
             driveModule = new Mk4NeoModule(driveMotor, driveEncoder, drivePID,
                     spinMotor, spinEncoder, spinPID,
-                    analogEncoder, -(Math.PI/2.0));
-            assertEquals(Math.PI/2.0, driveModule.getCalibrationPosition());
+                    analogEncoder, -(Math.PI / 2.0));
+            assertEquals(Math.PI / 2.0, driveModule.getCalibrationPosition());
             // In this test example, the wheel is facing directly backwards, so the position should be set to
             // half a direction revolution.
             verifyPid(drivePID, Mk4NeoModule.DRIVE_kFF, Mk4NeoModule.DRIVE_kP,
@@ -62,43 +65,47 @@ public class TestMk4NeoModule {
         }
     }
 
-    /**
-     *
-     * @param pid
-     * @param kFF
-     * @param kP
-     * @param kI
-     * @param kIZone
+    /** This method verifies that the PID motor controller constants were set as expected.
+     * @param pid (SparkMaxPIDController, not null) The mocked PID motor controller.
+     * @param kFF (double, readonly) The expected forward multiplier.
+     * @param kP (double, readonly) The expected proportional multiplier.
+     * @param kI (double, readonly) The expected integral multiplier.
+     * @param kIZone (double, readonly) The expected integral zone.
      */
-    private void verifyPid(SparkMaxPIDController pid, double kFF, double kP, double kI, double kIZone) {
+    private void verifyPid(@NotNull SparkMaxPIDController pid, final double kFF, final double kP,
+                           final double kI, final double kIZone) {
         verify(pid, times(1)).setFF(kFF);
         verify(pid, times(1)).setP(kP);
         verify(pid, times(1)).setI(kI);
-        verify(pid, times(1)).setD(0.0);
+        verify(pid, times(1)).setD(0.0); // we are not using D, this is always 0.0
         verify(pid, times(1)).setIZone(kIZone);
-        verify(pid, times(1)).setOutputRange(-1.0, 1.0);
+        verify(pid, times(1)).setOutputRange(-1.0, 1.0); // the range clipping is always -1 <= output <= 1
     }
 
     /**
+     * This method verifies what we think we programmed a module to do is what it actually does.
+     * </p><p>
      * The deal here is that we are setting a direction and speed for the module, but the actual direction
      * may be reversed 180, or the module may have gone over the 180 degree spin boundary, so the actual
-     * may not be what was really set, but something that gives the same result.
+     * may not be what was really set, but something that gives the same result. So we are providing the
+     * orientation and speed we are asking for - and the orientation and speed we expect from the module, so
+     * we can verify it is going to the expected closest orientation and running in the correct direction.
      *
-     * @param dm
-     * @param radians
-     * @param speed
-     * @param actualRadians
-     * @param actualSpeed
+     * @param dm (InitializedMk4NeoModule, not null) The mock motor controller.
+     * @param radians (double, readonly) The requested direction.
+     * @param speed (double, readonly) The requested speed.
+     * @param actualRadians (double, readonly) The expected actual direction.
+     * @param actualSpeed (double, readonly) The expected actual speed.
      */
-    private void verifyDirectionAndSpeed(InitializedMk4NeoModule dm, double radians, double speed,
+    private void verifyDirectionAndSpeed(@NotNull InitializedMk4NeoModule dm, double radians, double speed,
                                          double actualRadians, double actualSpeed) {
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, radians), speed);
         verify(dm.spinPID, times(1)).setReference(
-                AdditionalMatchers.eq(actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER,.00001),
+                AdditionalMatchers.eq(actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER, .00001),
                 ArgumentMatchers.eq(CANSparkMax.ControlType.kPosition));
         verify(dm.drivePID, times(1)).setReference(actualSpeed * Mk4NeoModule.MAX_DRIVE_RPM,
                 CANSparkMax.ControlType.kVelocity);
-        // make encoder readings slightly different than what was actually set so that when we get these
+        // make encoder readings slightly different from what was actually set so that when we get these
         // things we know we are really getting them from the encoder.
         double spinEncPosition = (actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER) + .001;
         when(dm.spinEncoder.getPosition()).thenReturn(spinEncPosition);
@@ -161,7 +168,7 @@ public class TestMk4NeoModule {
     void test_set_10_1() {
         // Should spin positively
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(10.0), 1.0,Math.toRadians(10.0), 1.0);
+        verifyDirectionAndSpeed(dm, Math.toRadians(10.0), 1.0, Math.toRadians(10.0), 1.0);
     }
 
 //    /**
@@ -180,14 +187,14 @@ public class TestMk4NeoModule {
 //    }
 
     /**
-     * Test a close to, but less than, 90 degree clockwise, half speed. Spin should be clockwise and spped forward
+     * Test a close to, but less than, 90 degree clockwise, half speed. Spin should be clockwise and speed forward
      */
     @Test
     @DisplayName("Test setRadiansAndSpeed(Math.toRadians(80.0),0.5)")
     void test_set_80_1() {
         // Should spin positively
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(80.0), 0.5,Math.toRadians(80.0), 0.5);
+        verifyDirectionAndSpeed(dm, Math.toRadians(80.0), 0.5, Math.toRadians(80.0), 0.5);
     }
 
     /**
@@ -199,7 +206,7 @@ public class TestMk4NeoModule {
     void test_set_100_1() {
         // Should spin negatively and go backwards
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(100.0), 0.25,Math.toRadians(-80.0), -0.25);
+        verifyDirectionAndSpeed(dm, Math.toRadians(100.0), 0.25, Math.toRadians(-80.0), -0.25);
     }
 
     /**
@@ -210,7 +217,7 @@ public class TestMk4NeoModule {
     void test_set_neg_10_1() {
         // Should spin negatively
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(-10.0), 1.0,Math.toRadians(-10.0), 1.0);
+        verifyDirectionAndSpeed(dm, Math.toRadians(-10.0), 1.0, Math.toRadians(-10.0), 1.0);
     }
 
     @Test
@@ -218,7 +225,7 @@ public class TestMk4NeoModule {
     void test_set_neg_80_1() {
         // Should spin negatively
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(-80.0), 0.5,Math.toRadians(-80.0), 0.5);
+        verifyDirectionAndSpeed(dm, Math.toRadians(-80.0), 0.5, Math.toRadians(-80.0), 0.5);
     }
 
     @Test
@@ -226,33 +233,33 @@ public class TestMk4NeoModule {
     void test_set_neg_100_1() {
         // Should spin positively and go backwards
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndSpeed(dm,Math.toRadians(-100.0), 0.25,Math.toRadians(80.0), -0.25);
+        verifyDirectionAndSpeed(dm, Math.toRadians(-100.0), 0.25, Math.toRadians(80.0), -0.25);
     }
 
     @Test
     @DisplayName("Test 180 boundary clockwise")
     void test_180_boundary_clockwise() {
-        // Should spin positively and keep spinning positively at the 180 boundary - kind of a pain because we
+        // Should spin positively and keep spinning positively at the 180 boundary - really a pain because we
         // need 2 less than 90 degree steps to get the front of the wheel there.
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.DEGREES, 85.0), 1.0);
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.DEGREES, 170.0), 1.0);
         // This is the 180 boundary cross
-        reset(dm.spinPID,dm.drivePID);
-        verifyDirectionAndSpeed(dm,Math.toRadians(-170.0), 0.35,Math.toRadians(190.0), 0.35);
+        reset(dm.spinPID, dm.drivePID);
+        verifyDirectionAndSpeed(dm, Math.toRadians(-170.0), 0.35, Math.toRadians(190.0), 0.35);
     }
 
     @Test
     @DisplayName("Test 180 boundary counter clockwise")
     void test_180_boundary_counter_clockwise() {
-        // Should spin negatively and keep spinning negatively at the 180 boundary - kind of a pain because we
+        // Should spin negatively and keep spinning negatively at the 180 boundary - really a pain because we
         // need 2 less than -90 steps to get the front of the wheel there.
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.DEGREES, -85.0), 1.0);
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.DEGREES, -170.0), 1.0);
         // This is the 180 boundary cross
-        reset(dm.spinPID,dm.drivePID);
-        verifyDirectionAndSpeed(dm,Math.toRadians(170.0), 0.35,Math.toRadians(-190.0), 0.35);
+        reset(dm.spinPID, dm.drivePID);
+        verifyDirectionAndSpeed(dm, Math.toRadians(170.0), 0.35, Math.toRadians(-190.0), 0.35);
     }
 
     /**
@@ -267,23 +274,23 @@ public class TestMk4NeoModule {
         // Go forward 2 steps
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
         dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, 0.0), 1.0);
-        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS,0.0), 1.0);
-        verify(dm.spinPID, times(2)).setReference( 0.0, CANSparkMax.ControlType.kPosition);
-        verify(dm.drivePID, times(2)).setReference(1.0 * Mk4NeoModule.MAX_DRIVE_RPM,
+        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, 0.0), 1.0);
+        verify(dm.spinPID, times(2)).setReference(0.0, CANSparkMax.ControlType.kPosition);
+        verify(dm.drivePID, times(2)).setReference(Mk4NeoModule.MAX_DRIVE_RPM,
                 CANSparkMax.ControlType.kVelocity);
         // Go backwards (180 degrees) 2 steps - should be no spin and negative speed
-        reset(dm.spinPID,dm.drivePID);
-        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS,Math.PI), 1.0);
-        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS,Math.PI), 1.0);
-        verify(dm.spinPID, times(2)).setReference( 0.0, CANSparkMax.ControlType.kPosition);
+        reset(dm.spinPID, dm.drivePID);
+        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, Math.PI), 1.0);
+        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, Math.PI), 1.0);
+        verify(dm.spinPID, times(2)).setReference(0.0, CANSparkMax.ControlType.kPosition);
         verify(dm.drivePID, times(2)).setReference(-1.0 * Mk4NeoModule.MAX_DRIVE_RPM,
                 CANSparkMax.ControlType.kVelocity);
         // Go forwards again steps - should be no spin and positive speed
-        reset(dm.spinPID,dm.drivePID);
-        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS,0.0), 1.0);
-        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS,0.0), 1.0);
-        verify(dm.spinPID, times(2)).setReference( 0.0, CANSparkMax.ControlType.kPosition);
-        verify(dm.drivePID, times(2)).setReference(1.0 * Mk4NeoModule.MAX_DRIVE_RPM,
+        reset(dm.spinPID, dm.drivePID);
+        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, 0.0), 1.0);
+        dm.driveModule.setDirectionAndSpeed(new AngleD(AngleUnit.RADIANS, 0.0), 1.0);
+        verify(dm.spinPID, times(2)).setReference(0.0, CANSparkMax.ControlType.kPosition);
+        verify(dm.drivePID, times(2)).setReference(Mk4NeoModule.MAX_DRIVE_RPM,
                 CANSparkMax.ControlType.kVelocity);
     }
 
@@ -295,12 +302,12 @@ public class TestMk4NeoModule {
         dm.driveModule.setDirectionAndDistance(new AngleD(AngleUnit.RADIANS, radians), deltaTics);
         // Test the angle set
         verify(dm.spinPID, times(1)).setReference(
-                AdditionalMatchers.eq(actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER,.00001),
+                AdditionalMatchers.eq(actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER, .00001),
                 ArgumentMatchers.eq(CANSparkMax.ControlType.kPosition));
         // test the last call to setReference is for the correct target position, and is asking for position
         // (not speed).
         verify(dm.drivePID).setReference(driveEncStartPosition + deltaTics, CANSparkMax.ControlType.kPosition);
-        // make encoder readings slightly different than what was actually set so that when we get these
+        // make encoder readings slightly different from what was actually set so that when we get these
         // things we know we are really getting them from the encoder.
         double spinEncPosition = (actualRadians * Mk4NeoModule.RADIANS_TO_SPIN_ENCODER) + .001;
         when(dm.spinEncoder.getPosition()).thenReturn(spinEncPosition);
@@ -309,6 +316,7 @@ public class TestMk4NeoModule {
         assertEquals(spinEncPosition, dm.driveModule.getDirectionPosition());
         assertEquals(driveEncStartPosition + deltaTics, dm.driveModule.getDriveEncoderPosition());//        assertEquals(driveEncVelocity, dm.driveModule.getDriveEncoderVelocity());
     }
+
     /**
      * Test a basic targeting spin.
      */
@@ -317,6 +325,6 @@ public class TestMk4NeoModule {
     void test_set_direction_distance_10_20() {
         // Should spin positively
         InitializedMk4NeoModule dm = new InitializedMk4NeoModule();
-        verifyDirectionAndDistance(dm,Math.toRadians(10.0), 10.0,Math.toRadians(10.0));
+        verifyDirectionAndDistance(dm, Math.toRadians(10.0), 10.0, Math.toRadians(10.0));
     }
 }

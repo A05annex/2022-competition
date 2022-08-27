@@ -6,12 +6,12 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.*;
-import org.a05annex.frc.A05Constants;
+import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import org.a05annex.frc.A05Robot;
 
 
@@ -35,6 +35,7 @@ public class Robot extends A05Robot
     @Override
     public void robotInit()
     {
+        // Set the drive constants that are specific to this swerve geometry.
         Constants.setDriveGeometry(Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH);
         Constants.setDriveCalibration(2.764,3.559,4.312,4.386);
         Constants.setDriveOrientationkp(Constants.DRIVE_ORIENTATION_kP);

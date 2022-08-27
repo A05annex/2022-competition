@@ -1,4 +1,4 @@
-package org.a05annex.frc.subsytems;
+package org.a05annex.frc.subsystems;
 
 import org.a05annex.util.AngleConstantD;
 import org.a05annex.util.AngleD;
