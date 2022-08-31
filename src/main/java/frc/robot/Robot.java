@@ -44,9 +44,6 @@ public class Robot extends A05Robot
         robotContainer = new RobotContainer();
 
         setRobotContainer(robotContainer);
-
-        // Start logitech camera
-        CameraServer.startAutomaticCapture();
     }
     
     
@@ -60,12 +57,7 @@ public class Robot extends A05Robot
     @Override
     public void robotPeriodic()
     {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
-        CommandScheduler.getInstance().run();
-
+        super.robotPeriodic();
         // run the constant updaters
         ShooterSubsystem.getInstance().updateShooterConstants();
         CollectorSubsystem.getInstance().updateCollectorPower();

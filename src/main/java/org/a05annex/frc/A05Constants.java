@@ -1,5 +1,6 @@
 package org.a05annex.frc;
 
+import edu.wpi.first.wpilibj.XboxController;
 import org.a05annex.frc.subsystems.Mk4NeoModule;
 import org.a05annex.util.Utl;
 
@@ -22,9 +23,14 @@ public abstract class A05Constants {
                 LF_CALIBRATION = 23;
     }
 
+    private static boolean HAS_LIMELIGHT, HAS_USB_CAMERA;
+
     public static final class CalibrationOffset {
         public static double RF, RR, LF, LR;
     }
+
+    private static XboxController.Axis INCREASE_GAIN_AXIS = XboxController.Axis.kRightTrigger,
+            DECREASE_GAIN_AXIS = XboxController.Axis.kLeftTrigger;
 
     private static double DRIVE_LENGTH, DRIVE_WIDTH, DRIVE_DIAGONAL;
 
@@ -40,9 +46,9 @@ public abstract class A05Constants {
     private static double MAX_RADIANS_PER_SEC;
 
     // drive encoder tics per radian of robot rotation when rotation is controlled by position rather than speed.
-    public static double DRIVE_POS_TICS_PER_RADIAN;
+    private static double DRIVE_POS_TICS_PER_RADIAN;
 
-    public static double DRIVE_ORIENTATION_kP;
+    private static double DRIVE_ORIENTATION_kP;
 
     public static double getDriveLength() {
         return DRIVE_LENGTH;
@@ -72,6 +78,19 @@ public abstract class A05Constants {
         return DRIVE_ORIENTATION_kP;
     }
 
+    public static XboxController.Axis getIncreaseGainAxis() {
+        return INCREASE_GAIN_AXIS;
+    }
+
+    public static XboxController.Axis getDecreaseGainAxis() {
+        return DECREASE_GAIN_AXIS;
+    }
+
+    public static void setGainAxis(XboxController.Axis increaseGain, XboxController.Axis decreaseGain) {
+        INCREASE_GAIN_AXIS = increaseGain;
+        DECREASE_GAIN_AXIS = decreaseGain;
+    }
+
     public static void setDriveGeometry(double length, double width) {
         DRIVE_LENGTH = length;
         DRIVE_WIDTH = width;
@@ -90,5 +109,18 @@ public abstract class A05Constants {
         CalibrationOffset.RR = rr;
         CalibrationOffset.LF = lf;
         CalibrationOffset.LR = lr;
+    }
+
+    public static void setCameras(boolean hasUSB, boolean hasLimelight) {
+        HAS_USB_CAMERA = hasUSB;
+        HAS_LIMELIGHT = hasLimelight;
+    }
+
+    public static boolean hasUsbCamera() {
+        return HAS_USB_CAMERA;
+    }
+
+    public static boolean hasLimelight() {
+        return HAS_LIMELIGHT;
     }
 }

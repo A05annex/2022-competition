@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +33,6 @@ import frc.robot.subsystems.*;
 public class RobotContainer extends A05RobotContainer
 {
     // subsystem declarations (should all be instances)
-    DriveSubsystem m_driveSubsystem = DriveSubsystem.getInstance();
     ShooterSubsystem m_shooterSubsystem = ShooterSubsystem.getInstance();
     CollectorSubsystem m_collectorSubsystem = CollectorSubsystem.getInstance();
     FeederSubsystem m_feederSubsystem = FeederSubsystem.getInstance();
@@ -40,7 +40,6 @@ public class RobotContainer extends A05RobotContainer
     LimelightSubsystem m_limelightSubsystem = LimelightSubsystem.getInstance();
 
     // command declarations
-    DriveCommand m_driveCommand;
     CollectorHoldCommand m_collectorCommand;
     FeederCommand m_feederCommand;
     LiftStickCommand m_liftStickCommand;
@@ -100,6 +99,9 @@ public class RobotContainer extends A05RobotContainer
 
         // Configure the button bindings
         configureButtonBindings();
+
+        // Start logitech camera
+        CameraServer.startAutomaticCapture();
     }
     
     
