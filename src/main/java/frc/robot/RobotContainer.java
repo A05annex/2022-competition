@@ -75,6 +75,10 @@ public class RobotContainer extends A05RobotContainer
     public RobotContainer()
     {
         super();
+        // finish swerve drive initialization for this specific robt.
+        m_driveSubsystem.setDriveGeometry(Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH,
+                Constants.CalibrationOffset.RF, Constants.CalibrationOffset.RR,
+                Constants.CalibrationOffset.LF, Constants.CalibrationOffset.LR);
         // commands
         // uses both sticks, LB for limelight targeting, and triggers for boost/slow
         m_driveCommand = new DriveCommand(m_xbox, m_xboxLeftBumper);

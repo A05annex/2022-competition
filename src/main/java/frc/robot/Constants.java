@@ -22,7 +22,7 @@ import org.a05annex.util.geo2d.KochanekBartelsSpline;
  */
 public final class Constants extends A05Constants {
 
-    public static final class CAN_Devices extends A05CAN_Devices {
+    public static final class CAN_Devices {
         public static final int
                 // other motors
                 FEEDER = 9,
@@ -31,6 +31,15 @@ public final class Constants extends A05Constants {
                 COLLECTOR = 12,
                 SHOOTER_FRONT = 13,
                 SHOOTER_REAR = 14;
+    }
+
+    public static final class CalibrationOffset {
+        public static final double
+                // 2/21 calibration constants: post spin fix
+                RF = 2.764,
+                RR = 3.559,
+                LR = 4.386,
+                LF = 4.312;
     }
 
     public static final class LimelightCalibrationPoint {

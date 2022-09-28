@@ -42,6 +42,31 @@ public class DummySwerveDriveSubsystem extends SubsystemBase implements ISwerveD
     }
 
     @Override
+    public void setDriveGeometry(double v, double v1, double v2, double v3, double v4, double v5) {
+
+    }
+
+    @Override
+    public double getDriveLength() {
+        return 0;
+    }
+
+    @Override
+    public double getDriveWidth() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxMetersPerSec() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxRadiansPerSec() {
+        return 0;
+    }
+
+    @Override
     public void setFieldPosition(double fieldX, double fieldY, AngleD heading) {
         System.out.printf("setFieldPosition:                      %10.3f %10.3f %10.3f%n",
                 fieldX, fieldY, heading);

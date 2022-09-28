@@ -36,6 +36,8 @@ public class TestAutonomousPathCommand {
         KochanekBartelsSpline path = new KochanekBartelsSpline();
         assertTrue(path.loadPath(testPathName));
 
+        DummySwerveDriveSubsystem.getInstance().setDriveGeometry(0.6, 0.6,
+                Math.PI, Math.PI, Math.PI, Math.PI);
         AutonomousPathCommand autonomousPathCommend = new AutonomousPathCommand(
                 path,DummySwerveDriveSubsystem.getInstance());
         autonomousPathCommend.initialize();

@@ -36,8 +36,6 @@ public class Robot extends A05Robot
     public void robotInit()
     {
         // Set the drive constants that are specific to this swerve geometry.
-        Constants.setDriveGeometry(Constants.DRIVE_LENGTH, Constants.DRIVE_WIDTH);
-        Constants.setDriveCalibration(2.764,3.559,4.312,4.386);
         Constants.setDriveOrientationkp(Constants.DRIVE_ORIENTATION_kP);
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
