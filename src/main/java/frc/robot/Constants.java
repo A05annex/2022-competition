@@ -36,10 +36,15 @@ public final class Constants extends A05Constants {
     public static final class CalibrationOffset {
         public static final double
                 // 2/21 calibration constants: post spin fix
-                RF = 2.764,
-                RR = 3.559,
-                LR = 4.386,
-                LF = 4.312;
+//                RF = 2.764,
+//                RR = 3.559,
+//                LR = 4.386,
+//                LF = 4.312;
+                // Programming base
+                  RF = 0.785,
+                  RR = 0.357,
+                  LR = 2.519,
+                  LF = 0.563;
     }
 
     public static final class LimelightCalibrationPoint {
